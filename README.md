@@ -31,11 +31,18 @@ After deployment:
 4. Submit the sitemap
 5. Request indexing for the homepage and flagship calculator
 
-## Roadmap
+## Current tool pages
 
-Next calculator pages:
+- Timesheet Calculator With Lunch
 - Biweekly Timesheet Calculator
 - Timesheet Template
 - Decimal Hours Calculator
 - Work Hours Calculator
+
+## Next roadmap
+
+- Weekly Timesheet Calculator
+- Hours & Minutes Calculator
+- Billable Hours Calculator
+- PTO Accrual Calculator
 - Weekly Timesheet Calculator
