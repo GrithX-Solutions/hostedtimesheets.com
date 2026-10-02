@@ -1,0 +1,20 @@
+# Hosted Timesheets
+
+> Free browser-based timesheet, work-hours, overtime, pay, PTO and billable-hours calculators. No signup. Calculations run in the browser.
+
+## Core tools
+- https://hostedtimesheets.com/work-hours-calculator/
+- https://hostedtimesheets.com/timesheet-calculator-with-lunch/
+- https://hostedtimesheets.com/time-card-calculator/
+- https://hostedtimesheets.com/overtime-calculator/
+- https://hostedtimesheets.com/pto-accrual-calculator/
+- https://hostedtimesheets.com/salary-to-hourly-calculator/
+- https://hostedtimesheets.com/hourly-wage-calculator/
+- https://hostedtimesheets.com/elapsed-time-calculator/
+- https://hostedtimesheets.com/billable-hours-calculator/
+
+## Identity
+- https://hostedtimesheets.com/about/
+
+## Scope
+Calculation/reference tools only; not payroll processing, tax or legal advice.
