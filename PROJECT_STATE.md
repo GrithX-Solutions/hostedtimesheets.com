@@ -1,6 +1,6 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-03T16:45:44+05:00
+Last verified: 2026-10-03T16:47:00+05:00
 
 ## Objective
 
@@ -24,7 +24,7 @@ Complete a sitewide content re-audit against CONTENT-STANDARDS.md, then remediat
 
 ## Last completed task
 
-Manual review, calculation-display defect remediation, CI, merge, controlled HTML+JS production deployment and live-response verification of /pto-accrual-calculator/.
+Initial /pto-accrual-calculator/ audit and production release completed; follow-up verification found one decimal pay-period formula-display mismatch and three FAQ schema/visible text mismatches. Hotfix is prepared on latest main.
 
 ## Tests / evidence
 
@@ -54,6 +54,7 @@ Manual review, calculation-display defect remediation, CI, merge, controlled HTM
 - Overtime production origin exactly matches GitHub main; public HTTPS returned 200 with correct title, canonical, dateModified, DOL regular-rate source, effective-rate formula, IRS qualified-overtime tax boundary and FAQ schema/visible parity.
 - PTO Accrual Content Quality CI: PASS — run #34.
 - PTO production HTML + JS exactly match GitHub main; public page and JS asset both returned HTTP 200; served JS contains the fixed-mode formula-display correction and matches the deployed asset byte-for-byte.
+- PTO follow-up hotfix validation: JS syntax PASS; 1.5 pay periods × 4.50 displays 1.50 periods and 6.75 earned; FAQ schema/visible parity 7/7 exact PASS.
 
 ## Affected pages / calculators
 
@@ -64,7 +65,7 @@ Manual review, calculation-display defect remediation, CI, merge, controlled HTM
 - /salary-increase-calculator/ — repository + production HTML/JS verified; rendered browser proofread blocked by environment policy.
 - /overtime-calculator/ — repository + production content verified; rendered browser proofread blocked by environment policy.
 - /pto-accrual-calculator/ — repository + production HTML/JS verified; rendered browser proofread blocked by environment policy.
-- assets/js/pto-accrual.js — fixed-accrual formula-display defect fixed in branch.
+- assets/js/pto-accrual.js — fixed-accrual formula defect already released; follow-up decimal pay-period formula-display fix prepared.
 - CONTENT-AUDIT-2026-10-03.md updated.
 
 ## Deployment / indexing / content status
@@ -89,8 +90,8 @@ Manual review, calculation-display defect remediation, CI, merge, controlled HTM
 
 ## In progress
 
-Sitewide manual content re-audit and controlled production reconciliation continue page by page, prioritized by verified traffic opportunity, monetizable relevance and calculation risk.
+Follow-up accuracy hotfix for /pto-accrual-calculator/ on branch fix/pto-period-display-faq-parity-20261003.
 
 ## NEXT ACTION
 
-Manually audit /hourly-wage-calculator/ for the U.S. `hourly wage calculator` opportunity (18,100 monthly searches, SD 19, CPC about $1.94), including conversion math, semantic coverage, competitor gaps and cannibalization against salary-to-hourly and pay calculators.
+Pass CI for the PTO follow-up hotfix, merge and deploy the exact HTML + JavaScript changes with rollback preservation, verify production parity, then resume the queued /hourly-wage-calculator/ audit.
