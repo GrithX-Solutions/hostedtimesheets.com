@@ -1,6 +1,6 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-03T17:24:00+05:00
+Last verified: 2026-10-03T18:16:16+05:00
 
 ## Objective
 
@@ -23,11 +23,12 @@ Complete a sitewide content re-audit against CONTENT-STANDARDS.md, then remediat
 - Production content source for PTO accrual page/cache-bust: main commit 4d1cc063e9d31de8ce1f10cbfff668c26e01970a
 - Production content source for hourly wage page + JS: main commit de976055a430e4b9aa01fb2d1883d7f328ba009a
 - Production content source for salary-bonus page + JS: main commit 4b17394d84cba000c256f2b1da6abb61c0793eb7
+- Production content source for hours-and-minutes page + JS: main commit 4cbada58d14c5e3a6417c4647b9b6b43961f178a
 - Public sitemap: 32 URLs, all with lastmod 2026-10-03 in the current repository sitemap.
 
 ## Last completed task
 
-Manual review, edge-case remediation, CI, merge, controlled HTML+JS production deployment and live-response verification of /salary-calculator-with-bonus/.
+Search-intent/functionality remediation, CI, merge, controlled production deployment and live-response verification of /hours-and-minutes-calculator/.
 
 ## Tests / evidence
 
@@ -68,6 +69,9 @@ Manual review, edge-case remediation, CI, merge, controlled HTML+JS production d
 - Salary Bonus Content Quality CI: PASS — run #42; PR #47 merged at 4b17394d84cba000c256f2b1da6abb61c0793eb7.
 - Salary Bonus production HTML + JS exactly match GitHub main; public page and JS asset both returned HTTP 200.
 - Public salary-bonus JS SHA f36a63674dc93c3a36c98322d7cab97aeaeb192db7ed3c947639dfca119553cc matches the corrected origin asset; canonical/date/zero-base FAQ/schema/schedule labels/gross-only boundary all passed live checks.
+- Hours & Minutes Content Quality CI: PASS — run #44; PR #49 merged at 4cbada58d14c5e3a6417c4647b9b6b43961f178a.
+- Hours & Minutes production HTML + JS exactly match GitHub main; public page and JS asset both returned HTTP 200.
+- Public hours-minutes JS SHA c2902b21a9aa468095dc6770ad2f7d6ffdbe3b0fabb773ad6d82343399cb84e1 matches the corrected origin asset; add/subtract modes and signed-result content passed live checks.
 
 ## Affected pages / calculators
 
@@ -80,8 +84,8 @@ Manual review, edge-case remediation, CI, merge, controlled HTML+JS production d
 - /pto-accrual-calculator/ — repository + production HTML/JS verified; rendered browser proofread blocked by environment policy.
 - /hourly-wage-calculator/ — repository + production HTML/JS verified; rendered browser proofread blocked by environment policy.
 - /salary-calculator-with-bonus/ — repository + production HTML/JS verified; rendered browser proofread blocked by environment policy.
-- /hours-and-minutes-calculator/ — manual repository audit/remediation in progress.
-- assets/js/hours-minutes.js — add/subtract modes, signed results and 4-place decimal display remediated in branch.
+- /hours-and-minutes-calculator/ — repository + production HTML/JS verified; rendered browser proofread blocked by environment policy.
+- assets/js/hours-minutes.js — add/subtract modes, signed results and 4-place decimal display released.
 - assets/js/salary-bonus.js — zero-base N/A handling and 1–53 workweek validation released.
 - assets/js/hourly-wage.js — weeks/year and workdays/week validation aligned with visible HTML limits and released.
 - assets/js/pto-accrual.js — fixed-accrual and decimal pay-period formula-display defects released; PTO page uses a versioned asset URL to bypass stale edge cache.
@@ -104,13 +108,13 @@ Manual review, edge-case remediation, CI, merge, controlled HTML+JS production d
 ## Technical debt
 
 - README.md page inventory/roadmap is stale relative to the current 32-URL sitemap.
-- Main is ahead of the last full production reconciliation commit c2fb0f719c7922fc41aae1657cf1c07008c1dab8; 20 public HTML pages changed in that range. Nine pages — /timesheet-calculator-with-lunch/, /weekly-timesheet-calculator/, /biweekly-timesheet-calculator/, /work-hours-calculator/, /salary-increase-calculator/, /overtime-calculator/, /pto-accrual-calculator/, /hourly-wage-calculator/ and /salary-calculator-with-bonus/ — have now been individually brought forward and live-content-verified in this resumed audit; 11 changed public HTML pages still need controlled reconciliation.
+- Main is ahead of the last full production reconciliation commit c2fb0f719c7922fc41aae1657cf1c07008c1dab8; 20 public HTML pages changed in that range. Ten pages — /timesheet-calculator-with-lunch/, /weekly-timesheet-calculator/, /biweekly-timesheet-calculator/, /work-hours-calculator/, /salary-increase-calculator/, /overtime-calculator/, /pto-accrual-calculator/, /hourly-wage-calculator/, /salary-calculator-with-bonus/ and /hours-and-minutes-calculator/ — have now been individually brought forward and live-content-verified in this resumed audit; 10 changed public HTML pages still need controlled reconciliation.
 - Manual editorial/SERP verification remains incomplete for the rest of the public pages.
 
 ## In progress
 
-Manual review, search-intent remediation and calculator functionality expansion of /hours-and-minutes-calculator/ are complete in branch content/re-audit-hours-minutes-20261003; release verification remains.
+Traffic-first correction phase: repository/site gap inspection and P0 mobile performance root-cause analysis before the next flagship page implementation.
 
 ## NEXT ACTION
 
-Pass Content Quality CI for /hours-and-minutes-calculator/, merge the HTML + JavaScript remediation, deploy the exact tested artifacts with rollback preservation, and verify the public page plus JavaScript asset.
+Inspect the complete current repository/site architecture and current production performance path, identify the actual mobile LCP element/root cause and redirect/unused-JS contributors without changing files, then produce the requested gap analysis. If the evidence supports a safe fix, remediate mobile performance before implementing /clock-out-time-calculator/.

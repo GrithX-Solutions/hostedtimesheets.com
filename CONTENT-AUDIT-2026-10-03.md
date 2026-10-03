@@ -770,9 +770,17 @@ Accuracy/UX findings and remediation:
 - Expanded FAQ schema/visible FAQ to cover addition, signed subtraction and pay precision.
 - Updated title/meta/schema freshness to the add/subtract/convert intent.
 
-Remaining before VERIFIED:
+Release evidence:
 
-- Content Quality CI.
-- Merge and controlled HTML + JavaScript production deployment.
-- Live HTTP/canonical/schema/content/asset verification.
-- Rendered desktop/mobile proofread when an allowed browser path is available.
+- Content Quality CI: PASS — run #44.
+- Merge: PASS — PR #49 merged at `4cbada58d14c5e3a6417c4647b9b6b43961f178a`.
+- Controlled production HTML deployment: PASS — current-origin SHA guard used with rollback copy `/opt/hostedtimesheets/archive/hours-minutes-pre-4cbada5-20261003.html`.
+- Production JavaScript reached the exact merged GitHub state; a stale-source guard correctly blocked a redundant write after the asset changed concurrently.
+- Origin/GitHub parity: PASS — production HTML exactly matches merged GitHub (19,107 characters); production JavaScript exactly matches merged GitHub (2,461 characters).
+- Public HTTPS: PASS — calculator page HTTP 200; JavaScript asset HTTP 200.
+- Public JavaScript freshness: PASS — served JS SHA `c2902b21a9aa468095dc6770ad2f7d6ffdbe3b0fabb773ad6d82343399cb84e1` exactly matches the corrected origin asset.
+- Served HTML checks: PASS — updated title, canonical, dateModified, Add/Subtract modes and signed-subtraction FAQ are present.
+- Cloudflare/Rocket Loader may transform public HTML bytes, so public HTML SHA is not used as the origin-parity check.
+- Rendered desktop/mobile proofread: BLOCKED — available browser runtime blocks the live domain with ERR_BLOCKED_BY_ADMINISTRATOR.
+
+Status remains PARTIALLY VERIFIED because rendered visual QA is blocked; do not treat the page as fully VERIFIED yet.
