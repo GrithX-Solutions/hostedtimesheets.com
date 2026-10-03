@@ -535,9 +535,17 @@ Remediation in branch `content/re-audit-pto-accrual-20261003`:
 - Documented negative projected balances and added a schema-matched FAQ explaining that policy permission is a separate question.
 - Calculator remains arithmetic-only and does not determine eligibility, accrual rates, carryover, forfeiture, payout or jurisdiction-specific entitlement.
 
-Remaining before VERIFIED:
+Release evidence:
 
-- Content Quality CI.
-- Merge and controlled production deployment of HTML + JavaScript.
-- Live HTTP/canonical/schema/content/asset verification.
-- Rendered desktop/mobile proofread when an allowed browser path is available.
+- Content Quality CI: PASS — run #34.
+- Merge: PASS — PR #39 merged at 5ab40c66c91954700921fcefb768d3dc59e851a9.
+- Controlled production deployment: PASS — HTML and JavaScript were guarded by their current-origin SHA values and deployed in one transaction with rollback copies:
+  - `/opt/hostedtimesheets/archive/pto-accrual-pre-5ab40c6-20261003.html`
+  - `/opt/hostedtimesheets/archive/pto-accrual-js-pre-5ab40c6-20261003.js`
+- Origin/GitHub parity: PASS — production HTML exactly matches merged GitHub (24,165 characters); production JavaScript exactly matches merged GitHub (2,074 characters).
+- Public HTTPS: PASS — calculator page HTTP 200; JavaScript asset HTTP 200.
+- Served HTML contains the expected title, canonical, dateModified, fixed-accrual methodology, rounding explanation and schema/visible negative-balance FAQ.
+- Served JavaScript contains the fixed-mode formula-display correction and is byte-identical to the deployed/GitHub JavaScript.
+- Rendered desktop/mobile proofread: BLOCKED — available browser runtime blocks the live domain with ERR_BLOCKED_BY_ADMINISTRATOR.
+
+Status remains PARTIALLY VERIFIED because rendered visual QA is blocked; do not treat the page as fully VERIFIED yet.
