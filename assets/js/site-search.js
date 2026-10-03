@@ -6,6 +6,7 @@
 {t:"Timesheet Pay Calculator",u:"/timesheet-pay-calculator/",c:"Timesheets",i:"T",k:["timesheet pay","hours and pay","gross pay from hours"]},
 {t:"Timesheet Template",u:"/timesheet-template/",c:"Timesheets",i:"T",k:["free timesheet template","printable timesheet","csv timesheet"]},
 {t:"Work Hours Calculator",u:"/work-hours-calculator/",c:"Hours & Payroll",i:"H",k:["work hours","hours worked calculator","free work hours calculator","shift hours"]},
+{t:"Clock Out Time Calculator",u:"/clock-out-time-calculator/",c:"Hours & Payroll",i:"H",k:["clock out time calculator","what time should i clock out","what time do i clock out","clock out calculator","leave work time","8 hour shift with lunch"]},
 {t:"Hours & Minutes Calculator",u:"/hours-and-minutes-calculator/",c:"Hours & Payroll",i:"H",k:["hours minutes","add hours and minutes","time duration"]},
 {t:"Elapsed Time Calculator",u:"/elapsed-time-calculator/",c:"Hours & Payroll",i:"H",k:["elapsed time","time between two times","duration calculator"]},
 {t:"Decimal Hours Calculator",u:"/decimal-hours-calculator/",c:"Hours & Payroll",i:"H",k:["decimal hours","minutes to decimal","payroll decimal time"]},
