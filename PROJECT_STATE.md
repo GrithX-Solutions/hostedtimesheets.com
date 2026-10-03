@@ -1,6 +1,6 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-03T16:47:00+05:00
+Last verified: 2026-10-03T17:01:47+05:00
 
 ## Objective
 
@@ -19,12 +19,13 @@ Complete a sitewide content re-audit against CONTENT-STANDARDS.md, then remediat
 - Production content source for work-hours page: main commit edd62236e79d4e075a44d8087700546051921d58
 - Production content source for salary-increase page + JS: main commit 4764f055de1fd86a63800af69a0c47d91482d2a3
 - Production content source for overtime page: main commit 822b535a61500e6f2730147cac5463b9a376ed01
-- Production content source for PTO accrual page + JS: main commit 5ab40c66c91954700921fcefb768d3dc59e851a9
+- Production content source for PTO accrual JS hotfix: main commit 2de2e22b738be027e4b47f20abcebec25fa1d7c9
+- Production content source for PTO accrual page/cache-bust: main commit 4d1cc063e9d31de8ce1f10cbfff668c26e01970a
 - Public sitemap: 32 URLs, all with lastmod 2026-10-03 in the current repository sitemap.
 
 ## Last completed task
 
-Initial /pto-accrual-calculator/ audit and production release completed; follow-up verification found one decimal pay-period formula-display mismatch and three FAQ schema/visible text mismatches. Hotfix is prepared on latest main.
+PTO accrual follow-up accuracy hotfix and cache-delivery remediation completed: decimal pay-period formula display fixed, FAQ schema/visible parity corrected, and the page now loads a versioned corrected JavaScript asset.
 
 ## Tests / evidence
 
@@ -55,6 +56,10 @@ Initial /pto-accrual-calculator/ audit and production release completed; follow-
 - PTO Accrual Content Quality CI: PASS — run #34.
 - PTO production HTML + JS exactly match GitHub main; public page and JS asset both returned HTTP 200; served JS contains the fixed-mode formula-display correction and matches the deployed asset byte-for-byte.
 - PTO follow-up hotfix validation: JS syntax PASS; 1.5 pay periods × 4.50 displays 1.50 periods and 6.75 earned; FAQ schema/visible parity 7/7 exact PASS.
+- PTO follow-up Content Quality CI: PASS — run #36; PR #41 merged at 2de2e22b738be027e4b47f20abcebec25fa1d7c9.
+- PTO cache-delivery Content Quality CI: PASS — run #38; PR #43 merged at 4d1cc063e9d31de8ce1f10cbfff668c26e01970a.
+- PTO final origin HTML exactly matches 4d1cc063; public page returned HTTP 200 and references /assets/js/pto-accrual.js?v=2de2e22.
+- Versioned PTO JavaScript returned HTTP 200 with SHA d2c06af8f13acfa51450df4ee21f4686eb8faeea622f7cd7c8217c15858662df and contains the decimal pay-period display fix.
 
 ## Affected pages / calculators
 
@@ -65,7 +70,7 @@ Initial /pto-accrual-calculator/ audit and production release completed; follow-
 - /salary-increase-calculator/ — repository + production HTML/JS verified; rendered browser proofread blocked by environment policy.
 - /overtime-calculator/ — repository + production content verified; rendered browser proofread blocked by environment policy.
 - /pto-accrual-calculator/ — repository + production HTML/JS verified; rendered browser proofread blocked by environment policy.
-- assets/js/pto-accrual.js — fixed-accrual formula defect already released; follow-up decimal pay-period formula-display fix prepared.
+- assets/js/pto-accrual.js — fixed-accrual and decimal pay-period formula-display defects released; PTO page uses a versioned asset URL to bypass stale edge cache.
 - CONTENT-AUDIT-2026-10-03.md updated.
 
 ## Deployment / indexing / content status
@@ -90,8 +95,8 @@ Initial /pto-accrual-calculator/ audit and production release completed; follow-
 
 ## In progress
 
-Follow-up accuracy hotfix for /pto-accrual-calculator/ on branch fix/pto-period-display-faq-parity-20261003.
+Sitewide manual content re-audit and controlled production reconciliation continue page by page.
 
 ## NEXT ACTION
 
-Pass CI for the PTO follow-up hotfix, merge and deploy the exact HTML + JavaScript changes with rollback preservation, verify production parity, then resume the queued /hourly-wage-calculator/ audit.
+Manually audit /hourly-wage-calculator/ for the U.S. `hourly wage calculator` opportunity (18,100 monthly searches, SD 19, CPC about $1.94), including conversion math, semantic coverage, competitor gaps and cannibalization against salary-to-hourly and pay calculators.
