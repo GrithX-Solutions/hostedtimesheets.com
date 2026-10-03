@@ -52,7 +52,8 @@ Manual review, remediation, CI, merge, controlled production deployment and live
 - /weekly-timesheet-calculator/ — repository + production content verified; rendered browser proofread blocked by environment policy.
 - /biweekly-timesheet-calculator/ — repository + production content verified; rendered browser proofread blocked by environment policy.
 - /work-hours-calculator/ — repository + production content verified; rendered browser proofread blocked by environment policy.
-- assets/js/work-hours.js reviewed; not modified.
+- /salary-increase-calculator/ — manual repository audit/remediation in progress.
+- assets/js/salary-increase.js — zero-baseline percentage defect fixed in branch.
 - CONTENT-AUDIT-2026-10-03.md updated.
 
 ## Deployment / indexing / content status
@@ -77,8 +78,8 @@ Manual review, remediation, CI, merge, controlled production deployment and live
 
 ## In progress
 
-Sitewide manual content re-audit and controlled production reconciliation continue page by page, prioritized by verified traffic opportunity.
+Manual review/remediation of /salary-increase-calculator/ is complete in branch content/re-audit-salary-increase-20261003, including one calculation-accuracy fix; release verification remains.
 
 ## NEXT ACTION
 
-Manually audit /salary-increase-calculator/ for the U.S. `salary increase calculator` opportunity (33,100 monthly searches, SD 16, CPC $13.90), including semantic coverage, calculation accuracy, competitor gaps and cannibalization against other salary/pay tools.
+Pass Content Quality CI for /salary-increase-calculator/, merge the HTML + JavaScript accuracy fix, deploy the exact tested files with rollback preservation, and verify live calculator/content behavior.
