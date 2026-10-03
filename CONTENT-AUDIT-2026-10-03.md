@@ -549,3 +549,13 @@ Release evidence:
 - Rendered desktop/mobile proofread: BLOCKED — available browser runtime blocks the live domain with ERR_BLOCKED_BY_ADMINISTRATOR.
 
 Status remains PARTIALLY VERIFIED because rendered visual QA is blocked; do not treat the page as fully VERIFIED yet.
+
+Follow-up verification after the initial release:
+
+- FOUND: the pay-period arithmetic accepted a decimal numeric input such as 1.5 periods, but the formula line used `toFixed(0)` and could display `2 pay periods` while calculating 1.5 × the per-period amount.
+- FIXED: the formula display now preserves whole-number periods as integers and shows decimal period inputs to two decimal places. Example: 1.5 periods × 4.50 now displays `1.50 pay periods × 4.50 = 6.75 PTO hours earned`.
+- FOUND: three FAQ schema answers were not byte-for-byte equal to their visible FAQ answers (possessive punctuation and “divided by” versus `÷` wording).
+- FIXED: all 7 FAQ question/answer pairs now match exactly between visible HTML and FAQPage schema.
+- Validation: JavaScript syntax check PASS; decimal pay-period display test PASS; schema/visible FAQ parity 7/7 PASS.
+- These follow-up fixes do not change PTO entitlement, accrual policy, cap logic, or earned/balance arithmetic.
+
