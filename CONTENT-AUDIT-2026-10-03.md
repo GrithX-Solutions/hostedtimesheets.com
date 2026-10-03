@@ -318,3 +318,70 @@ Release evidence:
 - Rendered desktop/mobile proofread: BLOCKED — available browser runtime blocks the live domain with ERR_BLOCKED_BY_ADMINISTRATOR.
 
 Status remains PARTIALLY VERIFIED because rendered visual QA is blocked; do not treat the page as fully VERIFIED yet.
+
+
+### /salary-increase-calculator/ — repository review
+
+Status: PARTIALLY VERIFIED  
+Repository content score after remediation: **97/100**
+
+U.S. keyword evidence captured 2026-10-03 from Ubersuggest:
+
+- `salary increase calculator`: volume 33,100/month; CPC $13.90; SD 16; informational intent.
+- `salary increase calculator percentage`: volume 4,400/month; SD 48.
+- `percent salary increase calculator`: volume 3,600/month; CPC $5.70; SD 19.
+- `percentage salary increase calculator`: volume 2,900/month; CPC $5.63; SD 6.
+- `annual salary increase calculator`: volume 590/month; SD 17.
+- Current SERP includes multiple low-authority domains: Ubersuggest reports DA 5, DA 6, DA 10, DA 6, DA 2 and DA 1 pages among visible organic results for the primary query.
+
+Current competitor evidence:
+
+- SlickCalc's raise page: page authority 12, 0 backlinks/referring domains in the current Ubersuggest overview.
+- HourlyToAnnual raise-impact page: page authority 14, 0 backlinks/referring domains.
+- CoinCalc annual salary increase page: page authority 16, 0 backlinks/referring domains.
+- NorthStarNumbers pay-raise page: page authority 11, 0 backlinks/referring domains.
+- Current web competitors commonly support percentage raises, fixed-dollar raises, old→new comparisons, per-paycheck/monthly/hourly conversions, and in some cases after-tax or inflation modes.
+- HostedTimesheets stays deliberately gross-pay only and avoids jurisdiction-specific tax assumptions. It supports percentage mode, direct old-vs-new comparison, adjustable hours/week and weeks/year, monthly/biweekly/weekly impacts, hourly equivalents, common raise examples and a clear fixed-dollar workaround through compare mode.
+
+Score:
+
+- Search intent + semantic coverage: 20/20
+- Competitor information gain: 18/20
+- Skimmability + readability: 15/15
+- Native-English grammar, punctuation + active voice: 15/15
+- Methodology + calculation accuracy: 15/15
+- SEO, schema, internal links + trust/privacy: 14/15
+
+Accuracy finding and remediation:
+
+- FOUND: compare mode previously returned `0.00%` when current salary was 0 and new salary was greater than 0.
+- VERIFIED DEFECT: percentage change from a zero baseline has no finite denominator; returning 0% was mathematically wrong.
+- FIXED in `assets/js/salary-increase.js`: zero→positive now displays `N/A` for percentage change while preserving the dollar change. Zero→zero remains 0%.
+- Compare mode still correctly returns negative dollar/percentage changes when the new salary is lower than the current salary.
+- Percentage mode remains non-negative by design because this page models a raise; compare mode covers decreases.
+
+Boundary/example tests run against the corrected formula logic:
+
+- $60,000 + 5% → $63,000; +$3,000; $250/month; $115.38 biweekly; $57.69/week: PASS.
+- $50,000 + 10% → $55,000: PASS.
+- $60,000 → $66,000 → +10%: PASS.
+- $60,000 → $54,000 → -10%: PASS.
+- $0 → $1,000 → percentage N/A with +$1,000 dollar change: PASS.
+- $0 → $0 → 0%: PASS.
+- JavaScript binary floating-point artifacts are formatted to currency precision in the UI; tolerance-based numeric assertions pass.
+
+Content/methodology remediation in branch `content/re-audit-salary-increase-20261003`:
+
+- Added the hourly-equivalent formula.
+- Clarified that compare mode can represent salary decreases.
+- Documented the zero-baseline percentage behavior.
+- Clarified that monthly/biweekly/weekly changes use fixed 12/26/52 annual equivalents, while hourly equivalents use the editable hours/week and weeks/year inputs.
+- Added a transparent fixed-dollar raise workflow using compare mode instead of pretending a dedicated fixed-raise UI exists.
+- Calculator and content remain gross-pay arithmetic only; taxes, deductions, benefits, bonuses, inflation and cost-of-living adjustments are outside this URL's calculation scope.
+
+Remaining before VERIFIED:
+
+- Content Quality CI.
+- Merge and controlled production deployment.
+- Live HTTP/canonical/schema/content verification.
+- Rendered desktop/mobile proofread when an allowed browser path is available.
