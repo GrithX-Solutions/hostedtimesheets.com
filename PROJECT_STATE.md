@@ -1,6 +1,6 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-03T17:01:47+05:00
+Last verified: 2026-10-03T17:18:17+05:00
 
 ## Objective
 
@@ -21,11 +21,12 @@ Complete a sitewide content re-audit against CONTENT-STANDARDS.md, then remediat
 - Production content source for overtime page: main commit 822b535a61500e6f2730147cac5463b9a376ed01
 - Production content source for PTO accrual JS hotfix: main commit 2de2e22b738be027e4b47f20abcebec25fa1d7c9
 - Production content source for PTO accrual page/cache-bust: main commit 4d1cc063e9d31de8ce1f10cbfff668c26e01970a
+- Production content source for hourly wage page + JS: main commit de976055a430e4b9aa01fb2d1883d7f328ba009a
 - Public sitemap: 32 URLs, all with lastmod 2026-10-03 in the current repository sitemap.
 
 ## Last completed task
 
-PTO accrual follow-up accuracy hotfix and cache-delivery remediation completed: decimal pay-period formula display fixed, FAQ schema/visible parity corrected, and the page now loads a versioned corrected JavaScript asset.
+Manual review, input-validation remediation, CI, merge, controlled HTML+JS production deployment and live-response verification of /hourly-wage-calculator/.
 
 ## Tests / evidence
 
@@ -60,6 +61,9 @@ PTO accrual follow-up accuracy hotfix and cache-delivery remediation completed: 
 - PTO cache-delivery Content Quality CI: PASS — run #38; PR #43 merged at 4d1cc063e9d31de8ce1f10cbfff668c26e01970a.
 - PTO final origin HTML exactly matches 4d1cc063; public page returned HTTP 200 and references /assets/js/pto-accrual.js?v=2de2e22.
 - Versioned PTO JavaScript returned HTTP 200 with SHA d2c06af8f13acfa51450df4ee21f4686eb8faeea622f7cd7c8217c15858662df and contains the decimal pay-period display fix.
+- Hourly Wage Content Quality CI: PASS — run #40; PR #45 merged at de976055a430e4b9aa01fb2d1883d7f328ba009a.
+- Hourly Wage production HTML + JS exactly match GitHub main; public page and JS asset both returned HTTP 200.
+- Public hourly-wage JS SHA d08a5bfe68b587b0266ee2ab6d6b421853875086515a88638554d3890a19de4d matches the corrected origin asset; canonical/date/schema/regular-hours labels and overtime double-count guidance all passed live checks.
 
 ## Affected pages / calculators
 
@@ -70,8 +74,8 @@ PTO accrual follow-up accuracy hotfix and cache-delivery remediation completed: 
 - /salary-increase-calculator/ — repository + production HTML/JS verified; rendered browser proofread blocked by environment policy.
 - /overtime-calculator/ — repository + production content verified; rendered browser proofread blocked by environment policy.
 - /pto-accrual-calculator/ — repository + production HTML/JS verified; rendered browser proofread blocked by environment policy.
-- /hourly-wage-calculator/ — manual repository audit/remediation in progress.
-- assets/js/hourly-wage.js — input-limit validation aligned with HTML in branch.
+- /hourly-wage-calculator/ — repository + production HTML/JS verified; rendered browser proofread blocked by environment policy.
+- assets/js/hourly-wage.js — weeks/year and workdays/week validation aligned with visible HTML limits and released.
 - assets/js/pto-accrual.js — fixed-accrual and decimal pay-period formula-display defects released; PTO page uses a versioned asset URL to bypass stale edge cache.
 - CONTENT-AUDIT-2026-10-03.md updated.
 
@@ -92,13 +96,13 @@ PTO accrual follow-up accuracy hotfix and cache-delivery remediation completed: 
 ## Technical debt
 
 - README.md page inventory/roadmap is stale relative to the current 32-URL sitemap.
-- Main is ahead of the last full production reconciliation commit c2fb0f719c7922fc41aae1657cf1c07008c1dab8; 20 public HTML pages changed in that range. Seven pages — /timesheet-calculator-with-lunch/, /weekly-timesheet-calculator/, /biweekly-timesheet-calculator/, /work-hours-calculator/, /salary-increase-calculator/, /overtime-calculator/ and /pto-accrual-calculator/ — have now been individually brought forward and live-content-verified in this resumed audit; 13 changed public HTML pages still need controlled reconciliation.
+- Main is ahead of the last full production reconciliation commit c2fb0f719c7922fc41aae1657cf1c07008c1dab8; 20 public HTML pages changed in that range. Eight pages — /timesheet-calculator-with-lunch/, /weekly-timesheet-calculator/, /biweekly-timesheet-calculator/, /work-hours-calculator/, /salary-increase-calculator/, /overtime-calculator/, /pto-accrual-calculator/ and /hourly-wage-calculator/ — have now been individually brought forward and live-content-verified in this resumed audit; 12 changed public HTML pages still need controlled reconciliation.
 - Manual editorial/SERP verification remains incomplete for the rest of the public pages.
 
 ## In progress
 
-Manual review and input-validation remediation of /hourly-wage-calculator/ are complete in branch content/re-audit-hourly-wage-v2-20261003; release verification remains.
+Sitewide manual content re-audit and controlled production reconciliation continue page by page, prioritized by verified traffic opportunity, monetizable relevance and calculation risk.
 
 ## NEXT ACTION
 
-Pass Content Quality CI for /hourly-wage-calculator/, merge the HTML + JavaScript remediation, deploy the exact tested artifacts with rollback preservation, and verify the public page plus JavaScript asset.
+Manually audit /salary-calculator-with-bonus/ for the U.S. `salary calculator with bonus` opportunity (2,400 monthly searches, CPC $8.23, SD 6), including base-salary + bonus math, pay-frequency equivalents, semantic coverage, competitor gaps and cannibalization against salary-increase and salary-to-hourly calculators.
