@@ -549,3 +549,67 @@ Release evidence:
 - Rendered desktop/mobile proofread: BLOCKED — available browser runtime blocks the live domain with ERR_BLOCKED_BY_ADMINISTRATOR.
 
 Status remains PARTIALLY VERIFIED because rendered visual QA is blocked; do not treat the page as fully VERIFIED yet.
+
+
+### /hourly-wage-calculator/ — repository review
+
+Status: PARTIALLY VERIFIED  
+Repository content score after remediation: **95/100**
+
+U.S. keyword evidence captured 2026-10-03 from Ubersuggest:
+
+- `hourly wage calculator`: volume 18,100/month; CPC about $1.94; SD 19.
+- `hourly pay calculator`: volume 8,100/month; CPC about $2.23; SD 16.
+- `hourly to salary calculator`: volume 49,500/month; CPC $1.13; SD 56.
+- `hourly to annual salary calculator`: volume 3,600/month; CPC $0.88; SD 54.
+- The low-difficulty headline metrics do not mean the SERP is easy: the current `hourly wage calculator` result set is dominated by high-authority paycheck/tax and salary-conversion domains, with ADP, Calculator.net, Omni, SmartAsset, Indeed and Gusto near the top. A DA 14 tax-calculator domain also appears, but its page itself has substantial link equity.
+
+Intent/cannibalization finding:
+
+- The current `hourly wage calculator` SERP mixes gross hourly-to-salary conversion with paycheck/take-home-tax intent.
+- This URL remains scoped to gross hourly-wage conversion and optional overtime. It does not add tax withholding logic merely to chase the mixed SERP.
+- `/salary-to-hourly-calculator/` owns the reverse annual-salary-to-hourly intent.
+- `/overtime-calculator/` owns focused overtime classification/pay math.
+- `/biweekly-pay-calculator/` owns pay-period conversion rather than the full hourly-to-annual schedule model.
+
+Current competitor evidence:
+
+- MoreBusiness's wage-conversion page has page authority 45, 1,019 backlinks and 134 referring domains in the current Ubersuggest overview.
+- CalcXML's hourly-to-salary page has page authority 49, 1,589 backlinks and 262 referring domains.
+- Current web competitors such as AbraCalc, OfficeCalculator, WorkweekMath and other conversion tools commonly expose regular hours, overtime hours, weeks worked, pay-period equivalents and gross-pay formulas.
+- Tax/paycheck competitors add withholding, filing status and take-home calculations. HostedTimesheets intentionally does not imitate that different intent; its information gain is transparent gross math, adjustable paid weeks/days, separated regular/overtime outputs, multiple currencies and browser-local/no-signup use.
+
+Score:
+
+- Search intent + semantic coverage: 19/20
+- Competitor information gain: 17/20
+- Skimmability + readability: 15/15
+- Native-English grammar, punctuation + active voice: 15/15
+- Methodology + calculation accuracy: 15/15
+- SEO, schema, internal links + trust/privacy: 14/15
+
+Calculation verification against corrected `assets/js/hourly-wage.js`:
+
+- $25/hour × 40 regular hours × 52 weeks → $1,000 weekly, $2,000 biweekly, $4,333.33 average monthly regular pay and $52,000 annual regular pay: PASS.
+- Example: $22.50/hour, 40 regular hours, 52 weeks, 5 overtime hours/week at 1.5× → $900 regular weekly pay, $168.75 weekly overtime pay, $1,068.75 weekly including OT and $55,575 annual including OT: PASS.
+- Part-time example: $25 × 32 hours × 50 weeks → $40,000 annual regular pay: PASS.
+- $0 hourly rate → all pay outputs $0: PASS.
+- Invalid 100 weeks/year is clamped to the visible maximum 53; invalid 10 workdays/week is clamped to 7: PASS after remediation.
+- Overtime multiplier values below 1 are clamped to 1; other negative numeric inputs are clamped at zero.
+
+Accuracy/UX findings and remediation:
+
+- FOUND: HTML declared maximums of 53 weeks/year and 7 days/week, but JavaScript previously enforced only the minimum values. A manually entered out-of-range value could still drive arithmetic beyond the visible input limits.
+- FIXED: JavaScript now clamps weeks to 1–53 and workdays to 1–7, matching the UI.
+- CLARIFIED: the hours-per-week input represents regular hours; overtime hours are additional and must not also be included in regular hours.
+- CLARIFIED: the monthly metric is monthly regular pay, not monthly pay including overtime.
+- Added explicit weekly-overtime and annual-including-overtime formulas.
+- Added a schema-matched FAQ explaining how to avoid double-counting overtime.
+- Explicitly distinguishes this gross-pay conversion page from paycheck/take-home-tax calculators that appear in the current mixed SERP.
+
+Remaining before VERIFIED:
+
+- Content Quality CI.
+- Merge and controlled HTML + JavaScript production deployment.
+- Live HTTP/canonical/schema/content/asset verification.
+- Rendered desktop/mobile proofread when an allowed browser path is available.
