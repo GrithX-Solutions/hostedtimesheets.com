@@ -467,3 +467,77 @@ Release evidence:
 - Rendered desktop/mobile proofread: BLOCKED — available browser runtime blocks the live domain with ERR_BLOCKED_BY_ADMINISTRATOR.
 
 Status remains PARTIALLY VERIFIED because rendered visual QA is blocked; do not treat the page as fully VERIFIED yet.
+
+
+### /pto-accrual-calculator/ — repository review
+
+Status: PARTIALLY VERIFIED  
+Repository content score after remediation: **97/100**
+
+U.S. keyword evidence captured 2026-10-03 from Ubersuggest:
+
+- `pto accrual calculator`: volume 4,400/month; CPC $9.62; SD 12; informational intent.
+- `free pto accrual calculator`: volume 110/month; CPC $5.65; SD 16.
+- `pto accrual calculator based on hours worked`: volume 90/month; CPC $4.36; SD 12.
+- `pto accrual calculator excel`: volume 40/month; SD 16.
+- Current SERP includes both established HR/payroll brands and lower-authority specialist pages. Ubersuggest reports DA 3 at position 9 and DA 19 at position 13 for the primary query.
+
+Current competitor evidence:
+
+- VacationTracker, Paycor, PurelyHR and OnTheClock rank prominently and commonly support annual allowances, pay-period frequency, carryover/used-time inputs or HR-oriented explanations.
+- PTOAccrualCalculator.com appears in the current SERP; Ubersuggest reports page authority 14 with 6 backlinks from 6 referring domains.
+- BuddiesHR's PTO accrual page has page authority 21 with 1 backlink/referring domain in the current Ubersuggest overview.
+- ShiftFlow ranks with a free PTO accrual calculator; Ubersuggest reports page authority 18 and 0 backlinks/referring domains.
+- Several competitors add target-date ledgers, annual-frequency selectors, CSV/share links or payout/value tools. HostedTimesheets does not claim those features. Its distinct value is three explicit arithmetic modes (hours worked, pay period, fixed), current balance + carryover + usage + cap modeling, transparent formulas, no signup/browser-local calculation and strict policy/legal boundaries.
+
+Score:
+
+- Search intent + semantic coverage: 20/20
+- Competitor information gain: 18/20
+- Skimmability + readability: 15/15
+- Native-English grammar, punctuation + active voice: 15/15
+- Methodology + calculation accuracy: 15/15
+- SEO, schema, internal links + trust/privacy: 14/15
+
+Accuracy finding and remediation:
+
+- FOUND: fixed-accrual mode calculated earned PTO from the correct `#pto-fixed` input but displayed the unrelated hourly accrual-rate value in the formula line.
+- VERIFIED DEFECT: with fixed PTO set to 8 hours and the default hourly rate still at 0.05, the earned result was 8.00 while the formula line could say `0.05 PTO hours added`.
+- FIXED in `assets/js/pto-accrual.js`: fixed mode now stores the fixed input explicitly and displays that same fixed amount in the formula line.
+- No entitlement, eligibility, carryover or cap policy logic was added.
+
+Calculation/edge tests against the corrected logic:
+
+- Hours method: 160 × 0.05 → 8.00 earned; projected 8.00: PASS.
+- Pay-period method: 2 periods × 4.50 → 9.00 earned; projected 9.00: PASS.
+- Fixed method: 8 fixed PTO hours → 8.00 earned and formula `8.00 PTO hours added`: PASS.
+- Example: 24 current + 16 carryover + 8 earned − 8 used → 40 projected under a 120 cap: PASS.
+- Cap: 100 current + 10 carryover + 20 earned → 130 before cap; 120 displayed with a 120 cap: PASS.
+- Negative balance: 0 current + 0 carryover + 8 earned − 10 used → -2 projected: PASS. The calculator does not decide whether negative PTO is permitted.
+- Decimal accrual: 160 × 0.03846 → 6.1536 internally and 6.15 displayed: PASS.
+- Inputs are clamped at zero before arithmetic; the projected balance itself is not floored at zero.
+
+Verified strengths:
+
+- One canonical URL owns the general PTO/vacation/time-off accrual intent, while the hours-worked-specific calculator remains a distinct supporting URL.
+- The tool supports hourly, per-pay-period and fixed accrual methods without pretending they are interchangeable policy rules.
+- Projected balance order matches implementation: current balance + carryover + earned − used, then a positive cap limits the final projection.
+- FAQPage schema matches visible FAQ text, including the newly documented negative-balance behavior.
+- The page derives hourly and biweekly rates as conditional arithmetic examples rather than prescribing a policy.
+- Current U.S. DOL vacation guidance is used only to support the narrow federal statement that the FLSA does not generally require vacation/PTO payment; the page explicitly notes that policy and jurisdiction can differ.
+
+Remediation in branch `content/re-audit-pto-accrual-20261003`:
+
+- Fixed the fixed-accrual formula-display defect in JavaScript.
+- Added the fixed-accrual formula to the methodology.
+- Documented that the calculator uses entered numeric values without an internal policy-rounding rule and formats displayed PTO balances to two decimals.
+- Documented cap application order and clarified that the tool limits the final displayed projection rather than modeling “stop accrual at cap” policy logic.
+- Documented negative projected balances and added a schema-matched FAQ explaining that policy permission is a separate question.
+- Calculator remains arithmetic-only and does not determine eligibility, accrual rates, carryover, forfeiture, payout or jurisdiction-specific entitlement.
+
+Remaining before VERIFIED:
+
+- Content Quality CI.
+- Merge and controlled production deployment of HTML + JavaScript.
+- Live HTTP/canonical/schema/content/asset verification.
+- Rendered desktop/mobile proofread when an allowed browser path is available.
