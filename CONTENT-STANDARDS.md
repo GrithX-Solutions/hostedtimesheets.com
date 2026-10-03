@@ -1,6 +1,6 @@
 # HostedTimesheets Content Quality Standard
 
-Status: HARD RULE — mandatory for every new page and every material content update.
+Status: HARD RULE — mandatory for every new page and every material content update. The measurable repository audit must pass before a content change is treated as complete.
 
 The site targets global English with U.S.-first search intent. Public-facing copy must read like natural, professional native English. No page is considered complete merely because it has the target keyword, a minimum word count, or a passing technical SEO score.
 
