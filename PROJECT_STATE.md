@@ -60,7 +60,8 @@ Manual review, current federal-source remediation, CI, merge, controlled product
 - /work-hours-calculator/ — repository + production content verified; rendered browser proofread blocked by environment policy.
 - /salary-increase-calculator/ — repository + production HTML/JS verified; rendered browser proofread blocked by environment policy.
 - /overtime-calculator/ — repository + production content verified; rendered browser proofread blocked by environment policy.
-- assets/js/overtime-calculator.js reviewed; not modified.
+- /pto-accrual-calculator/ — manual repository audit/remediation in progress.
+- assets/js/pto-accrual.js — fixed-accrual formula-display defect fixed in branch.
 - CONTENT-AUDIT-2026-10-03.md updated.
 
 ## Deployment / indexing / content status
@@ -85,8 +86,8 @@ Manual review, current federal-source remediation, CI, merge, controlled product
 
 ## In progress
 
-Sitewide manual content re-audit and controlled production reconciliation continue page by page, prioritized by verified traffic opportunity, monetizable relevance and calculation/legal risk.
+Manual review and calculation-accuracy remediation of /pto-accrual-calculator/ are complete in branch content/re-audit-pto-accrual-20261003; release verification remains.
 
 ## NEXT ACTION
 
-Manually audit /pto-accrual-calculator/ for the U.S. `pto accrual calculator` opportunity (4,400 monthly searches, CPC $9.62, SD 12), including current competitor gaps, accrual math/rounding, semantic coverage, and a strict boundary that the tool performs arithmetic rather than determining PTO entitlement or employer policy.
+Pass Content Quality CI for /pto-accrual-calculator/, merge the HTML + JavaScript remediation, deploy the exact tested artifacts with rollback preservation, and verify the public page plus JavaScript asset.
