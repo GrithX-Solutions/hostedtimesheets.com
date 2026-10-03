@@ -39,8 +39,9 @@ Manual review, remediation, merge, controlled production deployment and live-res
 
 ## Affected pages / calculators
 
-- /timesheet-calculator-with-lunch/
-- assets/js/timesheet-calculator.js reviewed; not modified.
+- /timesheet-calculator-with-lunch/ — repository + production content verified; rendered browser proofread blocked by environment policy.
+- /weekly-timesheet-calculator/ — manual repository audit/remediation in progress.
+- assets/js/weekly-timesheet.js reviewed; not modified.
 - CONTENT-AUDIT-2026-10-03.md updated.
 
 ## Deployment / indexing / content status
@@ -65,8 +66,8 @@ Manual review, remediation, merge, controlled production deployment and live-res
 
 ## In progress
 
-Sitewide manual content re-audit, page by page, with controlled production synchronization after each verified page.
+Manual review/remediation of /weekly-timesheet-calculator/ is complete in branch content/re-audit-weekly-timesheet-20261003; release verification remains.
 
 ## NEXT ACTION
 
-Manually audit /weekly-timesheet-calculator/ against current Ubersuggest/SERP competitors, calculator behavior and CONTENT-STANDARDS.md; remediate and deploy only after CI passes.
+Pass Content Quality CI for /weekly-timesheet-calculator/, merge the remediation, deploy the exact tested page with rollback preservation, and verify the public response.
