@@ -456,9 +456,14 @@ Remediation in branch `content/re-audit-overtime-20261003`:
 - Preserved the one-rate/configurable-threshold scope instead of pretending to model state daily overtime, multiple rates, bonuses or tax deductions.
 - Calculator JavaScript was not changed.
 
-Remaining before VERIFIED:
+Release evidence:
 
-- Content Quality CI.
-- Merge and controlled production deployment.
-- Live HTTP/canonical/schema/content verification.
-- Rendered desktop/mobile proofread when an allowed browser path is available.
+- Content Quality CI: PASS — run #32.
+- Merge: PASS — PR #37 merged at 822b535a61500e6f2730147cac5463b9a376ed01.
+- Controlled production deployment: PASS — current-origin SHA guard used, 22 positional edits applied, and rollback copy preserved at `/opt/hostedtimesheets/archive/overtime-pre-822b535-20261003.html`.
+- Origin/GitHub parity: PASS — production HTML exactly matches the merged GitHub page (25,606 characters).
+- Public HTTPS: PASS — HTTP 200; served title, canonical, dateModified, DOL regular-rate source, effective-rate formula, IRS tax-boundary content and schema/visible tax FAQ all match.
+- Cloudflare/Rocket Loader changes public-response bytes, so public SHA differs from origin while verified content fields remain correct.
+- Rendered desktop/mobile proofread: BLOCKED — available browser runtime blocks the live domain with ERR_BLOCKED_BY_ADMINISTRATOR.
+
+Status remains PARTIALLY VERIFIED because rendered visual QA is blocked; do not treat the page as fully VERIFIED yet.
