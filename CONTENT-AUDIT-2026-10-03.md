@@ -379,9 +379,19 @@ Content/methodology remediation in branch `content/re-audit-salary-increase-2026
 - Added a transparent fixed-dollar raise workflow using compare mode instead of pretending a dedicated fixed-raise UI exists.
 - Calculator and content remain gross-pay arithmetic only; taxes, deductions, benefits, bonuses, inflation and cost-of-living adjustments are outside this URL's calculation scope.
 
-Remaining before VERIFIED:
+Release evidence:
 
-- Content Quality CI.
-- Merge and controlled production deployment.
-- Live HTTP/canonical/schema/content verification.
-- Rendered desktop/mobile proofread when an allowed browser path is available.
+- Content Quality CI: first run #29 FAILED because one methodology paragraph reached 93 words; copy was split without weakening the hard gate.
+- Content Quality CI: PASS — rerun #30 on the revised PR head.
+- Merge: PASS — PR #35 merged at 4764f055de1fd86a63800af69a0c47d91482d2a3.
+- Controlled production deployment: PASS — both HTML and JavaScript used stale-source guards and separate rollback copies:
+  - `/opt/hostedtimesheets/archive/salary-increase-pre-4764f05-20261003.html`
+  - `/opt/hostedtimesheets/archive/salary-increase-js-pre-4764f05-20261003.js`
+- Origin/GitHub parity: PASS — production HTML exactly matches merged GitHub (22,118 characters); production JavaScript exactly matches merged GitHub (2,331 characters).
+- Public HTTPS: PASS — calculator page HTTP 200; JavaScript asset HTTP 200.
+- Served HTML contains the expected title, canonical, zero-baseline methodology, flat-dollar workflow, hourly-equivalent formula and added FAQ coverage.
+- Served JavaScript contains the zero-baseline `N/A` fix and is byte-identical to the deployed/GitHub JavaScript.
+- Live server `node --check`: BLOCKED because the production host does not expose a Node executable. The served JavaScript is byte-identical to the syntax-checked merged artifact, so no separate syntax divergence exists.
+- Rendered desktop/mobile proofread: BLOCKED — available browser runtime blocks the live domain with ERR_BLOCKED_BY_ADMINISTRATOR.
+
+Status remains PARTIALLY VERIFIED because rendered visual QA is blocked; do not treat the page as fully VERIFIED yet.
