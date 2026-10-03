@@ -78,3 +78,64 @@ The repository now enforces measurable rules through:
 - .github/workflows/content-quality.yml
 
 The automated gate checks structural and readability rules. Semantic superiority, competitor information gain, grammar nuance, native-English quality, factual accuracy, and rendered UX remain mandatory editorial review items because a static score cannot reliably prove them.
+
+
+## Manual page review progress
+
+### Scoring rubric
+
+Search-targeted pages are scored out of 100 using evidence from the current page, current Ubersuggest data, the current SERP/competitor set, calculator/source verification, and schema/internal-link review.
+
+- Search intent + semantic coverage: 20
+- Competitor information gain: 20
+- Skimmability + readability: 15
+- Native-English grammar, punctuation + active voice: 15
+- Methodology, math + authoritative sourcing: 15
+- SEO, schema, internal links + trust/privacy: 15
+
+A numeric score is not a substitute for the status label. A page remains PARTIALLY VERIFIED until applicable CI, production HTTP/rendering and live consistency checks pass.
+
+### /timesheet-calculator-with-lunch/ — repository review
+
+Status: PARTIALLY VERIFIED  
+Repository content score after remediation: **97/100**
+
+U.S. keyword evidence captured 2026-10-03 from Ubersuggest:
+
+- `timesheet calculator with lunch`: volume 2,900/month; CPC $8.58; SD 50; informational intent.
+- `timesheet calculator with lunch break`: volume 2,900/month; CPC $3.51; SD 48.
+- Current Ubersuggest SERP data includes both high-authority brands and lower-authority ranking domains, including DA 19 and DA 13 results, so the query is competitive but not authority-exclusive.
+
+Competitive review included CalculateHours, Redcort, Harvest, Time Clock Wizard, CalculatorSoup, TimeCardCalculatorGeek, Turnozo and newer specialist calculators surfaced in current web search.
+
+Score:
+
+- Search intent + semantic coverage: 20/20
+- Competitor information gain: 18/20
+- Skimmability + readability: 14/15
+- Native-English grammar, punctuation + active voice: 15/15
+- Methodology, math + authoritative sourcing: 15/15
+- SEO, schema, internal links + trust/privacy: 15/15
+
+Verified strengths:
+
+- Calculator appears before explanatory SEO content.
+- One clear weekly lunch-break timesheet intent with natural time-card/work-hours variants.
+- Per-day lunch deductions, overnight shifts, configurable overtime inputs, per-day rounding, multiple currencies, print/CSV and browser-local calculation disclosure.
+- Reproducible 30-minute, 60-minute and overnight examples agree with calculator logic.
+- U.S. Department of Labor Fact Sheet #22 is an appropriate primary reference for the limited U.S. meal/rest-period statement.
+- Contextual links separate split-shift use cases into the Weekly Timesheet Calculator rather than overloading this page.
+
+Remediation in branch `content/re-audit-timesheet-lunch-20261003`:
+
+- Aligned all visible FAQ answers exactly with FAQPage schema text.
+- Documented rounding order.
+- Documented same-start/end behavior and the zero floor when break minutes exceed elapsed shift.
+- Calculator JavaScript was not changed.
+
+Remaining before VERIFIED:
+
+- Content Quality CI: PASS — run #19 after an initial passive-voice regression was caught and corrected.
+- Merge/deployment.
+- Live HTTP/canonical/schema check.
+- Desktop/mobile rendered-page proofread.
