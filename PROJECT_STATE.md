@@ -64,7 +64,8 @@ Manual review, calculation-display defect remediation, CI, merge, controlled HTM
 - /salary-increase-calculator/ — repository + production HTML/JS verified; rendered browser proofread blocked by environment policy.
 - /overtime-calculator/ — repository + production content verified; rendered browser proofread blocked by environment policy.
 - /pto-accrual-calculator/ — repository + production HTML/JS verified; rendered browser proofread blocked by environment policy.
-- assets/js/pto-accrual.js — fixed-accrual formula-display defect fixed in branch.
+- /hourly-wage-calculator/ — manual repository audit/remediation in progress.
+- assets/js/hourly-wage.js — input-limit validation aligned with HTML in branch.
 - CONTENT-AUDIT-2026-10-03.md updated.
 
 ## Deployment / indexing / content status
@@ -89,8 +90,8 @@ Manual review, calculation-display defect remediation, CI, merge, controlled HTM
 
 ## In progress
 
-Sitewide manual content re-audit and controlled production reconciliation continue page by page, prioritized by verified traffic opportunity, monetizable relevance and calculation risk.
+Manual review and input-validation remediation of /hourly-wage-calculator/ are complete in branch content/re-audit-hourly-wage-20261003; release verification remains.
 
 ## NEXT ACTION
 
-Manually audit /hourly-wage-calculator/ for the U.S. `hourly wage calculator` opportunity (18,100 monthly searches, SD 19, CPC about $1.94), including conversion math, semantic coverage, competitor gaps and cannibalization against salary-to-hourly and pay calculators.
+Pass Content Quality CI for /hourly-wage-calculator/, merge the HTML + JavaScript remediation, deploy the exact tested artifacts with rollback preservation, and verify the public page plus JavaScript asset.
