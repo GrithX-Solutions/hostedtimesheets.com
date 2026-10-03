@@ -11,7 +11,8 @@ Complete a sitewide content re-audit against CONTENT-STANDARDS.md, then remediat
 - Repository: GrithX-Solutions/hostedtimesheets.com
 - Default branch: main
 - Working branch: content/re-audit-timesheet-lunch-20261003
-- Working branch last known commit: 80e44b1a6fa55a9e0acc73302711ea7e75fc9e04
+- Base main SHA at PR creation: ab4e984629456883b99b69ed0d4e22f738b3f6d7
+- Last content-remediation commit before state sync: 42731919c5c4b8eb3d7143b384aac3e7a4a5081e
 - Production deploy SHA: UNKNOWN — production source/deploy identity has not yet been re-verified in this resumed session.
 - Public sitemap: 32 URLs, all with lastmod 2026-10-03 in the current repository sitemap.
 
@@ -30,7 +31,8 @@ Repository-level manual review and remediation of /timesheet-calculator-with-lun
 - FAQPage schema mismatch found and remediated in the working branch.
 - Rounding sequence and edge-case behavior documented without changing calculator JavaScript.
 - Manual repository content score after remediation: 97/100.
-- CI/live/rendered verification: pending.
+- Content Quality CI: PASS — run #19.
+- Live/rendered verification: pending.
 
 ## Affected pages / calculators
 
@@ -41,8 +43,8 @@ Repository-level manual review and remediation of /timesheet-calculator-with-lun
 ## Deployment / indexing / content status
 
 - Repository remediation: IN PROGRESS on working branch.
-- Pull request: not opened yet.
-- CI: not run yet for this remediation branch.
+- Pull request: #27 open.
+- CI: PASS — Content Quality run #19.
 - Production deployment: not performed yet.
 - Live HTTP/canonical/schema/mobile proofread: pending.
 - Indexing request: not needed until a material production content change is shipped and verified.
@@ -60,7 +62,7 @@ Repository-level manual review and remediation of /timesheet-calculator-with-lun
 
 ## In progress
 
-Flagship content remediation release gate.
+Flagship content remediation passed repository CI; merge and production verification remain.
 
 ## NEXT ACTION
 
