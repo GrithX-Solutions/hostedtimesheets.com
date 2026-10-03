@@ -136,6 +136,6 @@ Remediation in branch `content/re-audit-timesheet-lunch-20261003`:
 Remaining before VERIFIED:
 
 - Content Quality CI: PASS — run #19 after an initial passive-voice regression was caught and corrected.
-- Merge/deployment.
-- Live HTTP/canonical/schema check.
-- Desktop/mobile rendered-page proofread.
+- Merge/deployment: PASS — PR #27 merged at 989c0bca676f6ba5132503b624531a6c3ad8f1c2 and the flagship page was deployed with a stale-source guard plus a rollback copy.
+- Live HTTP/canonical/schema check: PASS — public HTTPS returned 200 and the served title, canonical, dateModified, FAQ schema/visible answers and rounding text matched the intended page. Cloudflare/Rocket Loader rewrites script tags at the edge, so response bytes differ from the origin file without changing the verified content fields.
+- Desktop/mobile rendered-page proofread: BLOCKED — the available Chromium/Playwright runtime returned ERR_BLOCKED_BY_ADMINISTRATOR for the live domain. Do not treat this as a visual pass.

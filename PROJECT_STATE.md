@@ -1,6 +1,6 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-03T14:51:19+05:00
+Last verified: 2026-10-03T15:10:15+05:00
 
 ## Objective
 
@@ -13,12 +13,12 @@ Complete a sitewide content re-audit against CONTENT-STANDARDS.md, then remediat
 - Working branch: content/re-audit-timesheet-lunch-20261003
 - Base main SHA at PR creation: ab4e984629456883b99b69ed0d4e22f738b3f6d7
 - Last content-remediation commit before state sync: 42731919c5c4b8eb3d7143b384aac3e7a4a5081e
-- Production deploy SHA: UNKNOWN — production source/deploy identity has not yet been re-verified in this resumed session.
+- Production content source for flagship page: main commit 989c0bca676f6ba5132503b624531a6c3ad8f1c2
 - Public sitemap: 32 URLs, all with lastmod 2026-10-03 in the current repository sitemap.
 
 ## Last completed task
 
-Repository-level manual review and remediation of /timesheet-calculator-with-lunch/.
+Manual review, remediation, merge, controlled production deployment and live-response verification of /timesheet-calculator-with-lunch/.
 
 ## Tests / evidence
 
@@ -31,8 +31,11 @@ Repository-level manual review and remediation of /timesheet-calculator-with-lun
 - FAQPage schema mismatch found and remediated in the working branch.
 - Rounding sequence and edge-case behavior documented without changing calculator JavaScript.
 - Manual repository content score after remediation: 97/100.
-- Content Quality CI: PASS — run #19.
-- Live/rendered verification: pending.
+- Content Quality CI: PASS — run #21 on the final PR head; run #19 also passed after the active-voice correction.
+- Production filesystem content exactly matches GitHub main for the flagship page (24,520 characters).
+- Public HTTPS check: HTTP 200 with correct title, canonical, dateModified, FAQ schema/visible-answer parity and rounding/edge-case methodology text.
+- Cloudflare/Rocket Loader rewrites script tags in the public response, so public-body SHA differs from the origin file while the verified content fields match.
+- Rendered desktop/mobile QA: BLOCKED in the available browser runtime by ERR_BLOCKED_BY_ADMINISTRATOR; no visual-pass claim made.
 
 ## Affected pages / calculators
 
@@ -42,28 +45,28 @@ Repository-level manual review and remediation of /timesheet-calculator-with-lun
 
 ## Deployment / indexing / content status
 
-- Repository remediation: IN PROGRESS on working branch.
-- Pull request: #27 open.
-- CI: PASS — Content Quality run #19.
-- Production deployment: not performed yet.
-- Live HTTP/canonical/schema/mobile proofread: pending.
+- Flagship repository remediation: MERGED via PR #27 at 989c0bca676f6ba5132503b624531a6c3ad8f1c2.
+- CI: PASS — Content Quality run #21.
+- Flagship production deployment: VERIFIED on origin filesystem and public HTTP 200 response.
+- Live canonical/schema/content checks: VERIFIED.
+- Rendered desktop/mobile visual proofread: BLOCKED by browser network policy in this session.
 - Indexing request: not needed until a material production content change is shipped and verified.
 
 ## Blockers / unknowns
 
 - AGENTS.md was not present on the default branch when checked.
-- PROJECT_STATE.md and DECISIONS.md were absent before this branch; continuity files are being restored here.
-- Production deploy/source SHA remains UNKNOWN until the server state is re-verified.
+- Rendered browser QA for the live page is BLOCKED in this environment by ERR_BLOCKED_BY_ADMINISTRATOR.
 
 ## Technical debt
 
 - README.md page inventory/roadmap is stale relative to the current 32-URL sitemap.
+- Main is 19 commits ahead of the last full production reconciliation commit c2fb0f719c7922fc41aae1657cf1c07008c1dab8; 20 public HTML pages changed in that range. Only /timesheet-calculator-with-lunch/ has been individually brought forward and live-verified in this resumed audit.
 - Manual editorial/SERP verification remains incomplete for the rest of the public pages.
 
 ## In progress
 
-Flagship content remediation passed repository CI; merge and production verification remain.
+Sitewide manual content re-audit, page by page, with controlled production synchronization after each verified page.
 
 ## NEXT ACTION
 
-Complete the flagship release gate: open the remediation PR, pass CI, merge, deploy, and verify the live page before moving to the next page.
+Manually audit /weekly-timesheet-calculator/ against current Ubersuggest/SERP competitors, calculator behavior and CONTENT-STANDARDS.md; remediate and deploy only after CI passes.
