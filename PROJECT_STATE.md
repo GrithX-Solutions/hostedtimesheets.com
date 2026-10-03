@@ -1,6 +1,6 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-03T16:32:10+05:00
+Last verified: 2026-10-03T16:45:44+05:00
 
 ## Objective
 
@@ -19,11 +19,12 @@ Complete a sitewide content re-audit against CONTENT-STANDARDS.md, then remediat
 - Production content source for work-hours page: main commit edd62236e79d4e075a44d8087700546051921d58
 - Production content source for salary-increase page + JS: main commit 4764f055de1fd86a63800af69a0c47d91482d2a3
 - Production content source for overtime page: main commit 822b535a61500e6f2730147cac5463b9a376ed01
+- Production content source for PTO accrual page + JS: main commit 5ab40c66c91954700921fcefb768d3dc59e851a9
 - Public sitemap: 32 URLs, all with lastmod 2026-10-03 in the current repository sitemap.
 
 ## Last completed task
 
-Manual review, current federal-source remediation, CI, merge, controlled production deployment and live-response verification of /overtime-calculator/.
+Manual review, calculation-display defect remediation, CI, merge, controlled HTML+JS production deployment and live-response verification of /pto-accrual-calculator/.
 
 ## Tests / evidence
 
@@ -51,6 +52,8 @@ Manual review, current federal-source remediation, CI, merge, controlled product
 - Salary Increase production HTML + JS exactly match GitHub main; public page and JS asset both returned HTTP 200; served JS contains the zero-baseline N/A fix and matches the deployed asset byte-for-byte.
 - Overtime Content Quality CI: PASS — run #32.
 - Overtime production origin exactly matches GitHub main; public HTTPS returned 200 with correct title, canonical, dateModified, DOL regular-rate source, effective-rate formula, IRS qualified-overtime tax boundary and FAQ schema/visible parity.
+- PTO Accrual Content Quality CI: PASS — run #34.
+- PTO production HTML + JS exactly match GitHub main; public page and JS asset both returned HTTP 200; served JS contains the fixed-mode formula-display correction and matches the deployed asset byte-for-byte.
 
 ## Affected pages / calculators
 
@@ -60,7 +63,7 @@ Manual review, current federal-source remediation, CI, merge, controlled product
 - /work-hours-calculator/ — repository + production content verified; rendered browser proofread blocked by environment policy.
 - /salary-increase-calculator/ — repository + production HTML/JS verified; rendered browser proofread blocked by environment policy.
 - /overtime-calculator/ — repository + production content verified; rendered browser proofread blocked by environment policy.
-- /pto-accrual-calculator/ — manual repository audit/remediation in progress.
+- /pto-accrual-calculator/ — repository + production HTML/JS verified; rendered browser proofread blocked by environment policy.
 - assets/js/pto-accrual.js — fixed-accrual formula-display defect fixed in branch.
 - CONTENT-AUDIT-2026-10-03.md updated.
 
@@ -81,13 +84,13 @@ Manual review, current federal-source remediation, CI, merge, controlled product
 ## Technical debt
 
 - README.md page inventory/roadmap is stale relative to the current 32-URL sitemap.
-- Main is ahead of the last full production reconciliation commit c2fb0f719c7922fc41aae1657cf1c07008c1dab8; 20 public HTML pages changed in that range. Six pages — /timesheet-calculator-with-lunch/, /weekly-timesheet-calculator/, /biweekly-timesheet-calculator/, /work-hours-calculator/, /salary-increase-calculator/ and /overtime-calculator/ — have now been individually brought forward and live-content-verified in this resumed audit; 14 changed public HTML pages still need controlled reconciliation.
+- Main is ahead of the last full production reconciliation commit c2fb0f719c7922fc41aae1657cf1c07008c1dab8; 20 public HTML pages changed in that range. Seven pages — /timesheet-calculator-with-lunch/, /weekly-timesheet-calculator/, /biweekly-timesheet-calculator/, /work-hours-calculator/, /salary-increase-calculator/, /overtime-calculator/ and /pto-accrual-calculator/ — have now been individually brought forward and live-content-verified in this resumed audit; 13 changed public HTML pages still need controlled reconciliation.
 - Manual editorial/SERP verification remains incomplete for the rest of the public pages.
 
 ## In progress
 
-Manual review and calculation-accuracy remediation of /pto-accrual-calculator/ are complete in branch content/re-audit-pto-accrual-20261003; release verification remains.
+Sitewide manual content re-audit and controlled production reconciliation continue page by page, prioritized by verified traffic opportunity, monetizable relevance and calculation risk.
 
 ## NEXT ACTION
 
-Pass Content Quality CI for /pto-accrual-calculator/, merge the HTML + JavaScript remediation, deploy the exact tested artifacts with rollback preservation, and verify the public page plus JavaScript asset.
+Manually audit /hourly-wage-calculator/ for the U.S. `hourly wage calculator` opportunity (18,100 monthly searches, SD 19, CPC about $1.94), including conversion math, semantic coverage, competitor gaps and cannibalization against salary-to-hourly and pay calculators.
