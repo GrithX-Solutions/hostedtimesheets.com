@@ -197,3 +197,59 @@ Release evidence:
 - Rendered desktop/mobile proofread: BLOCKED — available browser runtime blocks the live domain with ERR_BLOCKED_BY_ADMINISTRATOR.
 
 Status remains PARTIALLY VERIFIED because rendered visual QA is blocked; do not treat the page as fully VERIFIED yet.
+
+
+### /biweekly-timesheet-calculator/ — repository review
+
+Status: PARTIALLY VERIFIED  
+Repository content score after remediation: **96/100**
+
+U.S. keyword evidence captured 2026-10-03 from Ubersuggest:
+
+- `biweekly timesheet calculator`: volume 1,300/month; CPC $6.31; SD 33; informational intent.
+- `free bi weekly timesheet calculator`: volume 140/month; SD 8.
+- `biweekly timesheet calculator with lunch`: volume 50/month; SD 29.
+- `biweekly timesheet calculator with breaks`: volume 10/month; SD 5.
+- The current SERP contains very low-authority ranking domains: Ubersuggest reports DA 5 at position 1, DA 2 at position 4 and DA 1 at position 6 for the primary query.
+
+Current competitor evidence:
+
+- SlickCalc ranks at position 1 in the current Ubersuggest SERP; its page overview reports page authority 12 with 0 backlinks/referring domains in the current dataset.
+- BestTimeCard's biweekly page appears at position 4; Ubersuggest reports page authority 6 and 0 backlinks/referring domains.
+- Current web review shows competitors commonly add week-start controls, multiple export formats, autosave/share links, double-time/state presets or spreadsheet downloads.
+- HostedTimesheets does not currently match every export/preset feature. Its defensible information gain is the simpler two-week workflow, per-day lunch fields, explicit per-week threshold math, overnight handling, exact rounding-order disclosure, privacy/no-signup positioning and scoped primary-source federal reference.
+
+Score:
+
+- Search intent + semantic coverage: 20/20
+- Competitor information gain: 17/20
+- Skimmability + readability: 15/15
+- Native-English grammar, punctuation + active voice: 15/15
+- Methodology, math + authoritative sourcing: 15/15
+- SEO, schema, internal links + trust/privacy: 14/15
+
+Verified strengths:
+
+- One canonical URL clearly owns the two-week/biweekly timesheet intent without replacing the weekly calculator intent.
+- The page handles 14 daily rows, per-day unpaid breaks, overnight shifts, per-day rounding, per-week overtime threshold arithmetic and a combined pay-period total.
+- FAQPage questions and answers match the visible FAQ text.
+- The implementation applies the chosen threshold separately to Week 1 and Week 2; 42 + 38 hours at a 40-hour threshold produces 80 total hours and 2 overtime hours.
+- `assets/js/biweekly-timesheet.js` floors negative daily net minutes at zero, rounds each day's net minutes to the nearest selected increment, and treats identical start/end times as zero.
+- U.S. federal wording is now scoped to covered, nonexempt employees and cites U.S. Department of Labor Fact Sheet #23 plus the DOL overtime page. The calculator still does not decide coverage, exemptions, state rules or the applicable threshold.
+
+Remediation in branch `content/re-audit-biweekly-timesheet-20261003`:
+
+- Added `Free` to the title/social/WebPage name while preserving the primary biweekly intent.
+- Replaced vague overtime wording with calculator-specific arithmetic behavior.
+- Documented actual rounding order, overnight handling, zero-floor behavior and identical-time behavior.
+- Added the gross-pay formula.
+- Added current authoritative DOL sourcing for the limited U.S. federal workweek/averaging statement.
+- Rewrote the rounding section to match the implemented daily rounding order.
+- Calculator JavaScript was not changed.
+
+Remaining before VERIFIED:
+
+- Content Quality CI.
+- Merge and controlled production deployment.
+- Live HTTP/canonical/schema/content verification.
+- Rendered desktop/mobile proofread when an allowed browser path is available.
