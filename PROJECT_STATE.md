@@ -1,6 +1,6 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-03T15:59:56+05:00
+Last verified: 2026-10-03T16:17:10+05:00
 
 ## Objective
 
@@ -17,11 +17,12 @@ Complete a sitewide content re-audit against CONTENT-STANDARDS.md, then remediat
 - Production content source for weekly page: main commit c3622544baecd8409e82bdb8825a84d6ec38ea92
 - Production content source for biweekly page: main commit e0f20fd4dcabfd97cb5daac1aa33031756a4e6ae
 - Production content source for work-hours page: main commit edd62236e79d4e075a44d8087700546051921d58
+- Production content source for salary-increase page + JS: main commit 4764f055de1fd86a63800af69a0c47d91482d2a3
 - Public sitemap: 32 URLs, all with lastmod 2026-10-03 in the current repository sitemap.
 
 ## Last completed task
 
-Manual review, remediation, CI, merge, controlled production deployment and live-response verification of /work-hours-calculator/.
+Manual review, calculation-accuracy remediation, CI, merge, controlled HTML+JS production deployment and live-response verification of /salary-increase-calculator/.
 
 ## Tests / evidence
 
@@ -45,6 +46,8 @@ Manual review, remediation, CI, merge, controlled production deployment and live
 - Biweekly production origin exactly matches GitHub main; public HTTPS returned 200 with correct title, canonical, dateModified, rounding methodology, gross-pay formula and DOL references.
 - Work Hours Content Quality CI: PASS — run #27.
 - Work-hours production origin exactly matches GitHub main; public HTTPS returned 200 with correct title, canonical, dateModified, no-rounding methodology, zero-floor behavior, gross-pay formula and Total-minutes explanation.
+- Salary Increase Content Quality CI: initial run #29 FAILED on a 93-word paragraph; rerun #30 PASS after a skimmability-only split.
+- Salary Increase production HTML + JS exactly match GitHub main; public page and JS asset both returned HTTP 200; served JS contains the zero-baseline N/A fix and matches the deployed asset byte-for-byte.
 
 ## Affected pages / calculators
 
@@ -52,7 +55,7 @@ Manual review, remediation, CI, merge, controlled production deployment and live
 - /weekly-timesheet-calculator/ — repository + production content verified; rendered browser proofread blocked by environment policy.
 - /biweekly-timesheet-calculator/ — repository + production content verified; rendered browser proofread blocked by environment policy.
 - /work-hours-calculator/ — repository + production content verified; rendered browser proofread blocked by environment policy.
-- /salary-increase-calculator/ — manual repository audit/remediation in progress.
+- /salary-increase-calculator/ — repository + production HTML/JS verified; rendered browser proofread blocked by environment policy.
 - assets/js/salary-increase.js — zero-baseline percentage defect fixed in branch.
 - CONTENT-AUDIT-2026-10-03.md updated.
 
@@ -73,13 +76,13 @@ Manual review, remediation, CI, merge, controlled production deployment and live
 ## Technical debt
 
 - README.md page inventory/roadmap is stale relative to the current 32-URL sitemap.
-- Main is ahead of the last full production reconciliation commit c2fb0f719c7922fc41aae1657cf1c07008c1dab8; 20 public HTML pages changed in that range. Four pages — /timesheet-calculator-with-lunch/, /weekly-timesheet-calculator/, /biweekly-timesheet-calculator/ and /work-hours-calculator/ — have now been individually brought forward and live-content-verified in this resumed audit; 16 changed public HTML pages still need controlled reconciliation.
+- Main is ahead of the last full production reconciliation commit c2fb0f719c7922fc41aae1657cf1c07008c1dab8; 20 public HTML pages changed in that range. Five pages — /timesheet-calculator-with-lunch/, /weekly-timesheet-calculator/, /biweekly-timesheet-calculator/, /work-hours-calculator/ and /salary-increase-calculator/ — have now been individually brought forward and live-content-verified in this resumed audit; 15 changed public HTML pages still need controlled reconciliation.
 - Manual editorial/SERP verification remains incomplete for the rest of the public pages.
 
 ## In progress
 
-Manual review/remediation of /salary-increase-calculator/ is complete in branch content/re-audit-salary-increase-20261003, including one calculation-accuracy fix; release verification remains.
+Sitewide manual content re-audit and controlled production reconciliation continue page by page, prioritized by verified traffic opportunity and calculation risk.
 
 ## NEXT ACTION
 
-Pass Content Quality CI for /salary-increase-calculator/, merge the HTML + JavaScript accuracy fix, deploy the exact tested files with rollback preservation, and verify live calculator/content behavior.
+Manually audit /overtime-calculator/ for the U.S. `overtime calculator` opportunity (22,200 monthly searches, SD 20, CPC $5.83), including current federal-source boundaries, calculator math, semantic coverage, competitor gaps and cannibalization against weekly/timesheet/payroll pages.
