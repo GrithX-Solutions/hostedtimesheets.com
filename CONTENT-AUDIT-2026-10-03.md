@@ -784,3 +784,72 @@ Release evidence:
 - Rendered desktop/mobile proofread: BLOCKED — available browser runtime blocks the live domain with ERR_BLOCKED_BY_ADMINISTRATOR.
 
 Status remains PARTIALLY VERIFIED because rendered visual QA is blocked; do not treat the page as fully VERIFIED yet.
+
+
+### /clock-out-time-calculator/ — pre-release review
+
+Status: PARTIALLY VERIFIED  
+Repository score before production release: **97/100**
+
+U.S. search evidence captured 2026-10-03:
+
+- `clock out time calculator`: 135,000 monthly searches; SD 29; CPC $4.56; informational intent.
+- Ubersuggest SERP: MTS Calculators ranks #1 on DA 9. Its ranking page has PA 15 with 0 backlinks and 0 referring domains in the current page overview.
+- ECU ranks #2; its page has PA 46, 25 backlinks and 22 referring domains.
+- The #1 MTS page also ranks for `what time do i clock out`, `what time should i clock out to get 8 hours`, `clock out calculator with lunch` and related reverse-scheduling queries.
+
+Current competitor feature review:
+
+- ECU asks for total work hours plus clock-in, meal clock-out and meal clock-back-in.
+- Current specialist competitors commonly use clock-in + work target + unpaid break, with overnight handling.
+- Several competitors add 12/24-hour output, break presets, current-time buttons, reverse hours-worked modes or weekly-target modes.
+- HostedTimesheets intentionally keeps the primary interaction focused on the dominant reverse-scheduling intent rather than combining weekly payroll/time-card functions into this URL.
+
+Information gain / product position:
+
+- Direct 12-hour and 24-hour clock-out outputs together.
+- Same-day, next-day and multi-day rollover label.
+- Paid-work output and total time-at-work output shown separately.
+- Fast 4/6/8/8.5/10/12-hour target presets and 0/30/45/60-minute unpaid-break presets.
+- "Use current time" convenience without server-side location/timezone storage.
+- Explicit arithmetic boundary: paid versus unpaid break treatment is supplied by the user; the tool does not decide break entitlement, overtime or compensability.
+- DST/local-clock limitation is stated and linked to the date-aware Elapsed Time Calculator.
+
+Score:
+
+- Search intent + semantic coverage: 20/20
+- Competitor information gain: 18/20
+- Skimmability + readability: 15/15
+- Native-English grammar, punctuation + active voice: 15/15
+- Methodology + calculation accuracy: 15/15
+- SEO, schema, internal links + trust/privacy: 14/15
+
+Formula and calculation verification against `assets/js/clock-out-time.js`:
+
+- Formula: clock-out = clock-in + required paid work + unpaid break.
+- 8:30 AM + 8h paid + 30m unpaid break → 5:00 PM / 17:00, same day: PASS.
+- 9:00 AM + 7h 30m + 0 break → 4:30 PM / 16:30: PASS.
+- 10:00 PM + 8h + 0 break → 6:00 AM / 06:00, next day: PASS.
+- 4:00 PM + 8h → 12:00 AM / 00:00, next day: PASS.
+- Zero/negative numeric inputs clamp to zero: PASS.
+- Paid hours clamp to 72, paid minutes to 59, unpaid break to 1,440: PASS.
+- Long inputs produce explicit multi-day rollover rather than silently wrapping without a day label: PASS.
+- JavaScript syntax check with Node: PASS.
+
+SEO/schema/internal discovery verification:
+
+- One H1: PASS.
+- Self-canonical `https://hostedtimesheets.com/clock-out-time-calculator/`: PASS.
+- FAQPage visible/schema parity: 5/5 exact PASS.
+- WebApplication + WebPage + FAQPage structured data present.
+- Sitemap contains the new canonical URL; branch sitemap count is 33.
+- Site-search index contains the new page.
+- Work Hours and Time Card pages contain contextual links to the new page.
+
+Remaining before VERIFIED:
+
+- Content Quality CI.
+- Merge.
+- Controlled production deployment of exact tested HTML/JS plus sitemap/search/contextual-link changes.
+- Public HTTP 200, canonical/schema/JS/sitemap/internal-link verification.
+- Rendered desktop/mobile proofread when an allowed browser path is available.

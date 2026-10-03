@@ -1,6 +1,6 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-03T18:16:16+05:00
+Last verified: 2026-10-03T18:40:00+05:00
 
 ## Objective
 
@@ -28,7 +28,7 @@ Complete a sitewide content re-audit against CONTENT-STANDARDS.md, then remediat
 
 ## Last completed task
 
-Completed the requested traffic-first repository/site inspection and gap analysis. Current mobile performance target is met; no blind performance rewrite is justified. The next implementation target is /clock-out-time-calculator/.
+Built and pre-release validated the new /clock-out-time-calculator/ flagship on feature/clock-out-time-calculator-20261003 after Ubersuggest/SERP/competitor research.
 
 ## Tests / evidence
 
@@ -78,6 +78,11 @@ Completed the requested traffic-first repository/site inspection and gap analysi
 - Google PageSpeed API exact-LCP-element lookup: BLOCKED by quota 429; rendered browser path remains blocked, so exact LCP DOM element is UNKNOWN.
 - Fresh U.S. Ubersuggest: clock out time calculator 135,000 / SD 29 / CPC $4.56; time duration calculator 135,000 / SD 34; military time converter 74,000 / SD 22.
 - TRAFFIC-GAP-ANALYSIS-2026-10-03.md records the repository/site gap matrix and dependency order.
+- Clock Out keyword: 135,000 US monthly searches, SD 29, CPC $4.56; #1 MTS page PA 15 with 0 backlinks/referring domains.
+- Clock Out pre-release formula tests: standard shift, partial-hour shift, overnight, midnight boundary, zero/negative clamp and max-boundary cases PASS.
+- Clock Out DOM structure: PASS; one H1/self-canonical: PASS; FAQ schema/visible parity 5/5 PASS; Node JS syntax: PASS.
+- Clock Out Content Quality run #46: FAILED only because the two worked scenarios did not use the literal word “example”; headings corrected without changing the underlying content or formula.
+- New URL added to sitemap and site-search; Work Hours and Time Card pages link contextually to it.
 
 ## Affected pages / calculators
 
@@ -119,8 +124,8 @@ Completed the requested traffic-first repository/site inspection and gap analysi
 
 ## In progress
 
-Traffic-first flagship implementation phase.
+Clock Out Time Calculator release gate.
 
 ## NEXT ACTION
 
-Research the live /clock-out-time-calculator/ competitor feature/methodology gap, define formulas and edge cases, then build the page and browser-only calculator on a feature branch without changing existing calculator URLs.
+Pass Content Quality CI for /clock-out-time-calculator/, merge the exact branch, deploy the new page/JS plus discovery/internal-link changes with rollback preservation, and verify the live URL before homepage reprioritization.
