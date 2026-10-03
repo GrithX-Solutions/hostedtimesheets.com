@@ -395,3 +395,70 @@ Release evidence:
 - Rendered desktop/mobile proofread: BLOCKED — available browser runtime blocks the live domain with ERR_BLOCKED_BY_ADMINISTRATOR.
 
 Status remains PARTIALLY VERIFIED because rendered visual QA is blocked; do not treat the page as fully VERIFIED yet.
+
+
+### /overtime-calculator/ — repository review
+
+Status: PARTIALLY VERIFIED  
+Repository content score after remediation: **97/100**
+
+U.S. keyword evidence captured 2026-10-03 from Ubersuggest:
+
+- `overtime calculator`: volume 22,200/month; CPC $5.83; SD 20; informational intent.
+- `time and a half calculator`: volume 14,800/month; CPC $4.11; SD 20.
+- `overtime pay calculator`: volume 4,400/month; CPC $4.73; SD 24.
+- Current SERP includes both authoritative/high-DA domains and lower-authority specialist pages. Ubersuggest reports DA 21 at position 3, DA 4 at position 7, DA 3 at position 10 and DA 3 at position 16 for the primary query.
+
+Current competitor evidence:
+
+- Omni Calculator ranks first and provides overtime formulas, explanatory content and flexible regular/overtime inputs.
+- Log My Hours ranks in the top three; Ubersuggest reports page authority 20 with 0 backlinks/referring domains in the current page overview.
+- SmartOvertime ranks on the first page; Ubersuggest reports page authority 10 with 0 backlinks/referring domains and adds state/daily-overtime modes.
+- OvertimeCalc also appears in the current SERP; Ubersuggest reports page authority 19, 16 backlinks and 15 referring domains.
+- Search results in 2026 mix ordinary overtime-pay calculators with “no tax on overtime” / qualified-overtime tax-deduction calculators, creating a material intent-clarity gap.
+
+Score:
+
+- Search intent + semantic coverage: 20/20
+- Competitor information gain: 18/20
+- Skimmability + readability: 15/15
+- Native-English grammar, punctuation + active voice: 15/15
+- Methodology, calculation accuracy + authoritative sourcing: 15/15
+- SEO, schema, internal links + trust/privacy: 14/15
+
+Calculation verification against `assets/js/overtime-calculator.js`:
+
+- 45 hours, $25 rate, 40-hour threshold, 1.5× → 40 regular hours, 5 overtime hours, $37.50 overtime rate, $1,000 regular pay, $187.50 overtime pay, $1,187.50 gross: PASS.
+- 42.5 hours, $20 rate, 40-hour threshold, 1.5× → 40 regular, 2.5 overtime, $30 overtime rate, $875 gross: PASS.
+- 40 hours at threshold → 0 overtime hours: PASS.
+- 0 total hours → $0 gross and $0 effective hourly rate with no divide-by-zero display: PASS.
+- Threshold 0 → all entered hours are classified as overtime by arithmetic: PASS.
+- Multiplier 0 → overtime hours remain classified but overtime rate/pay become zero by arithmetic: PASS.
+- Inputs are clamped at zero by JavaScript before calculation.
+
+Verified strengths:
+
+- The URL cleanly owns generic overtime-pay / time-and-a-half arithmetic rather than raw time-card entry.
+- The calculator separates regular hours, overtime hours, overtime rate, regular pay, overtime pay, gross pay and effective hourly rate.
+- The default 40-hour threshold and 1.5× multiplier are editable and are described as a common U.S. federal example rather than a universal rule.
+- Visible FAQ answers match FAQPage schema.
+- The page already distinguishes full overtime rate from the overtime premium, reducing a common double-counting error.
+- DOL Fact Sheet #23 supports the limited federal workweek/time-and-a-half statements; DOL Fact Sheet #56A supports the regular-rate boundary.
+- Current IRS Fact Sheet FS-2026-13 is used only to clarify that the qualified-overtime tax deduction is a separate tax calculation; the calculator does not determine tax eligibility or deduction amounts.
+
+Remediation in branch `content/re-audit-overtime-20261003`:
+
+- Added the complete regular-hours, regular-pay, overtime-pay, gross-pay and effective-hourly-rate formula chain.
+- Documented the zero-hours effective-rate behavior.
+- Clarified that the regular-rate input may require more than a stated base wage in FLSA cases and linked current DOL regular-rate guidance.
+- Added a clear separation between gross overtime pay and the current federal qualified-overtime tax deduction.
+- Added a visible + schema-matched FAQ clarifying that this page is not a “no tax on overtime” deduction calculator.
+- Preserved the one-rate/configurable-threshold scope instead of pretending to model state daily overtime, multiple rates, bonuses or tax deductions.
+- Calculator JavaScript was not changed.
+
+Remaining before VERIFIED:
+
+- Content Quality CI.
+- Merge and controlled production deployment.
+- Live HTTP/canonical/schema/content verification.
+- Rendered desktop/mobile proofread when an allowed browser path is available.

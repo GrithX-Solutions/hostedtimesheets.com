@@ -1,6 +1,6 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-03T16:17:10+05:00
+Last verified: 2026-10-03T16:18:00+05:00
 
 ## Objective
 
@@ -56,7 +56,8 @@ Manual review, calculation-accuracy remediation, CI, merge, controlled HTML+JS p
 - /biweekly-timesheet-calculator/ — repository + production content verified; rendered browser proofread blocked by environment policy.
 - /work-hours-calculator/ — repository + production content verified; rendered browser proofread blocked by environment policy.
 - /salary-increase-calculator/ — repository + production HTML/JS verified; rendered browser proofread blocked by environment policy.
-- assets/js/salary-increase.js — zero-baseline percentage defect fixed in branch.
+- /overtime-calculator/ — manual repository audit/remediation in progress.
+- assets/js/overtime-calculator.js reviewed; not modified.
 - CONTENT-AUDIT-2026-10-03.md updated.
 
 ## Deployment / indexing / content status
@@ -81,8 +82,8 @@ Manual review, calculation-accuracy remediation, CI, merge, controlled HTML+JS p
 
 ## In progress
 
-Sitewide manual content re-audit and controlled production reconciliation continue page by page, prioritized by verified traffic opportunity and calculation risk.
+Manual review/remediation of /overtime-calculator/ is complete in branch content/re-audit-overtime-20261003; release verification remains.
 
 ## NEXT ACTION
 
-Manually audit /overtime-calculator/ for the U.S. `overtime calculator` opportunity (22,200 monthly searches, SD 20, CPC $5.83), including current federal-source boundaries, calculator math, semantic coverage, competitor gaps and cannibalization against weekly/timesheet/payroll pages.
+Pass Content Quality CI for /overtime-calculator/, merge the remediation, deploy the exact tested page with rollback preservation, and verify the public response.
