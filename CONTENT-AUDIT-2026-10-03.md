@@ -693,9 +693,17 @@ Accuracy/UX findings and remediation:
 - Added a schema-matched zero-base FAQ; visible FAQ and FAQPage schema now match 7/7 exactly.
 - Calculator JavaScript math for ordinary positive-base fixed/percentage cases remains unchanged.
 
-Remaining before VERIFIED:
+Release evidence:
 
-- Content Quality CI.
-- Merge and controlled HTML + JavaScript production deployment.
-- Live HTTP/canonical/schema/content/asset verification.
-- Rendered desktop/mobile proofread when an allowed browser path is available.
+- Content Quality CI: PASS — run #42.
+- Merge: PASS — PR #47 merged at `4b17394d84cba000c256f2b1da6abb61c0793eb7`.
+- Controlled production deployment: PASS — current-origin SHA guards used separately for HTML and JavaScript.
+- Rollback preservation: PASS — `/opt/hostedtimesheets/archive/salary-bonus-pre-4b17394-20261003.html` and `/opt/hostedtimesheets/archive/salary-bonus-js-pre-4b17394-20261003.js`.
+- Origin/GitHub parity: PASS — production HTML exactly matches merged GitHub (20,663 characters); production JavaScript exactly matches merged GitHub (2,158 characters).
+- Public HTTPS: PASS — calculator page HTTP 200; JavaScript asset HTTP 200.
+- Public JavaScript freshness: PASS — served JS SHA `f36a63674dc93c3a36c98322d7cab97aeaeb192db7ed3c947639dfca119553cc` matches the corrected origin asset.
+- Served HTML checks: PASS — canonical, dateModified, schedule-specific input labels, bonus-percentage label, zero-base FAQ in schema + visible HTML and gross-only tax-intent boundary are present.
+- Cloudflare/Rocket Loader may transform public HTML bytes, so public HTML SHA is not used as the origin-parity check.
+- Rendered desktop/mobile proofread: BLOCKED — available browser runtime blocks the live domain with ERR_BLOCKED_BY_ADMINISTRATOR.
+
+Status remains PARTIALLY VERIFIED because rendered visual QA is blocked; do not treat the page as fully VERIFIED yet.
