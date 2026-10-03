@@ -81,6 +81,7 @@ Built and pre-release validated the new /clock-out-time-calculator/ flagship on 
 - Clock Out keyword: 135,000 US monthly searches, SD 29, CPC $4.56; #1 MTS page PA 15 with 0 backlinks/referring domains.
 - Clock Out pre-release formula tests: standard shift, partial-hour shift, overnight, midnight boundary, zero/negative clamp and max-boundary cases PASS.
 - Clock Out DOM structure: PASS; one H1/self-canonical: PASS; FAQ schema/visible parity 5/5 PASS; Node JS syntax: PASS.
+- Clock Out Content Quality run #46: FAILED only because the two worked scenarios did not use the literal word “example”; headings corrected without changing the underlying content or formula.
 - New URL added to sitemap and site-search; Work Hours and Time Card pages link contextually to it.
 
 ## Affected pages / calculators
