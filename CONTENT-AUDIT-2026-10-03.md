@@ -186,9 +186,14 @@ Remediation in branch `content/re-audit-weekly-timesheet-20261003`:
 - Clarified that the editable 40-hour default does not determine a legal threshold.
 - Calculator JavaScript was not changed.
 
-Remaining before VERIFIED:
+Release evidence:
 
-- Content Quality CI.
-- Merge and controlled production deployment.
-- Live HTTP/canonical/schema/content verification.
-- Rendered desktop/mobile proofread when an allowed browser path is available.
+- Content Quality CI: PASS — run #23.
+- Merge: PASS — PR #29 merged at c3622544baecd8409e82bdb8825a84d6ec38ea92.
+- Controlled production deployment: PASS — origin page updated with stale-source guard and rollback copy `/opt/hostedtimesheets/archive/weekly-timesheet-pre-c362254-20261003.html`.
+- Origin/GitHub parity: PASS — production page exactly matches the merged GitHub page (22,248 characters).
+- Public HTTPS: PASS — HTTP 200; served title, canonical, dateModified, rounding text, gross-pay formula and fourth FAQ schema/visible content all match.
+- Cloudflare/Rocket Loader rewrites script tags at the edge, so public-response SHA differs from the origin file without changing the verified content fields.
+- Rendered desktop/mobile proofread: BLOCKED — available browser runtime blocks the live domain with ERR_BLOCKED_BY_ADMINISTRATOR.
+
+Status remains PARTIALLY VERIFIED because rendered visual QA is blocked; do not treat the page as fully VERIFIED yet.
