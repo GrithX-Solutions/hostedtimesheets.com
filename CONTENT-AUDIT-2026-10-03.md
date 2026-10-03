@@ -258,3 +258,58 @@ Release evidence:
 - Rendered desktop/mobile proofread: BLOCKED — available browser runtime blocks the live domain with ERR_BLOCKED_BY_ADMINISTRATOR.
 
 Status remains PARTIALLY VERIFIED because rendered visual QA is blocked; do not treat the page as fully VERIFIED yet.
+
+
+### /work-hours-calculator/ — repository review
+
+Status: PARTIALLY VERIFIED  
+Repository content score after remediation: **96/100**
+
+U.S. keyword evidence captured 2026-10-03 from Ubersuggest:
+
+- `work hours calculator`: volume 135,000/month; CPC $2.89; SD 49.
+- `free work hours calculator`: volume 4,400/month; CPC $3.14; SD 7.
+- `work hours calculator with lunch`: volume 1,600/month; CPC $2.13; SD 38.
+- `work hours calculator excel`: volume 140/month; CPC $9.42; SD 28.
+- The exact low-SD phrase is promising, but the current SERP is not uniformly low-authority: Redcort, CalculatorSoup and other established domains are present, alongside DA-19 competitors. Treat this as a strong long-tail entry point, not a guaranteed easy ranking.
+
+Current competitor review:
+
+- CalculatorSoup exposes 12/24-hour input, multiple break-entry modes and rounding controls.
+- Jibble exposes quick presets, 12/24-hour modes, overtime, clear/reset, sharing/export and repeated working days.
+- Current smaller competitors emphasize exact hours:minutes, decimal hours, overnight shifts, privacy/no-signup and copy/print/reset controls.
+- HostedTimesheets intentionally keeps this URL simpler: one repeated shift pattern, one unpaid-break duration, total minutes, decimal hours and an optional one-rate gross-pay estimate. Variable daily schedules remain owned by the Time Card / Weekly Timesheet URLs.
+
+Score:
+
+- Search intent + semantic coverage: 20/20
+- Competitor information gain: 17/20
+- Skimmability + readability: 15/15
+- Native-English grammar, punctuation + active voice: 15/15
+- Methodology + calculation accuracy: 15/15
+- SEO, schema, internal links + trust/privacy: 14/15
+
+Verified strengths:
+
+- Title, H1, lead and FAQ naturally cover the exact `free work hours calculator` intent without changing canonical ownership.
+- The calculator clearly differentiates itself from the weekly/time-card pages by repeating one identical shift across a chosen number of workdays.
+- `assets/js/work-hours.js` uses exact entered minutes with no rounding, handles overnight shifts by rolling the end into the next day, subtracts unpaid breaks, floors negative net duration at zero, multiplies by repeated workdays and calculates one-rate gross pay.
+- The page already includes reproducible examples, decimal-hours education, overnight handling, pay limitations and internal links to the appropriate variable-schedule/overtime tools.
+- FAQPage schema matches the visible FAQ text.
+
+Remediation in branch `content/re-audit-work-hours-20261003`:
+
+- Documented that the calculator applies no time-clock rounding.
+- Documented same-start/end = zero and break-longer-than-shift = zero behavior.
+- Added the explicit gross-pay formula.
+- Clarified that the pay estimate uses one hourly rate across the repeated schedule.
+- Explained how Total minutes relates to the decimal-hours output.
+- Updated the legitimate page modification date to 2026-10-03.
+- Calculator JavaScript was not changed.
+
+Remaining before VERIFIED:
+
+- Content Quality CI.
+- Merge and controlled production deployment.
+- Live HTTP/canonical/schema/content verification.
+- Rendered desktop/mobile proofread when an allowed browser path is available.
