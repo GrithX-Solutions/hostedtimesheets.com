@@ -139,3 +139,56 @@ Remaining before VERIFIED:
 - Merge/deployment: PASS — PR #27 merged at 989c0bca676f6ba5132503b624531a6c3ad8f1c2 and the flagship page was deployed with a stale-source guard plus a rollback copy.
 - Live HTTP/canonical/schema check: PASS — public HTTPS returned 200 and the served title, canonical, dateModified, FAQ schema/visible answers and rounding text matched the intended page. Cloudflare/Rocket Loader rewrites script tags at the edge, so response bytes differ from the origin file without changing the verified content fields.
 - Desktop/mobile rendered-page proofread: BLOCKED — the available Chromium/Playwright runtime returned ERR_BLOCKED_BY_ADMINISTRATOR for the live domain. Do not treat this as a visual pass.
+
+
+### /weekly-timesheet-calculator/ — repository review
+
+Status: PARTIALLY VERIFIED  
+Repository content score after remediation: **96/100**
+
+U.S. keyword evidence captured 2026-10-03 from Ubersuggest:
+
+- `weekly timesheet calculator`: volume 260/month; CPC $2.42; SD 48; informational intent.
+- `free weekly timesheet calculator`: volume 10/month; SD 12.
+- `weekly timesheet calculator with lunch`: volume 10/month; SD 5.
+- The current Ubersuggest SERP is dominated by broader time-card/work-hours calculators, with domain authority ranging from 19 to 74 among visible organic results. This supports keeping the page focused on the distinct weekly/split-shift intent instead of cannibalizing the generic Time Card Calculator or Work Hours Calculator intents.
+
+Competitor evidence reviewed:
+
+- Redcort ranks prominently and Ubersuggest reports page authority 47, 5,383 backlinks and 524 referring domains for its free timecard calculator.
+- TimeCardCalculator.net has page authority 45, 8,330 backlinks and 695 referring domains.
+- Hivedesk's timesheet calculator has page authority 25 with no backlinks/referring domains reported by the current Ubersuggest page overview, showing that lower-link pages can still enter the result set when intent/utility are relevant.
+- Current web competitors commonly offer breaks, weekly overtime/pay, decimal totals, CSV/print, device saving, copy/share, biweekly toggles or daily-overtime modes. HostedTimesheets differentiates this URL with two shift intervals per day, explicit double-deduction guidance, overnight handling, browser-local calculation, weekly overtime inputs and traceable export guidance.
+
+Score:
+
+- Search intent + semantic coverage: 19/20
+- Competitor information gain: 18/20
+- Skimmability + readability: 15/15
+- Native-English grammar, punctuation + active voice: 15/15
+- Methodology, math + authoritative-boundary handling: 15/15
+- SEO, schema, internal links + trust/privacy: 14/15
+
+Verified strengths:
+
+- Calculator appears before explanatory content and the H1 cleanly owns the weekly timesheet intent.
+- Split shifts are modeled as two independent in/out pairs, which is a useful distinction from the simpler lunch-break calculator.
+- FAQPage questions/answers match the visible FAQ text exactly.
+- Reproducible examples agree with `assets/js/weekly-timesheet.js`: two 4-hour split shifts produce 8 hours; a 10:30 PM–6:30 AM shift produces 8 hours; 41.5 weekly hours with a 40-hour threshold produces 40 regular and 1.5 overtime hours.
+- The calculator floors negative net daily minutes at zero and rounds each day's net minutes to the nearest selected increment before summing the week.
+- Overtime/pay wording keeps the tool inside its arithmetic boundary and does not decide legal eligibility or required payroll rules.
+
+Remediation in branch `content/re-audit-weekly-timesheet-20261003`:
+
+- Documented the actual rounding order and same-start/end edge case.
+- Added the explicit gross-pay formula.
+- Reworded split-shift guidance so the calculator describes arithmetic behavior instead of deciding whether gap time legally counts as work.
+- Clarified that the editable 40-hour default does not determine a legal threshold.
+- Calculator JavaScript was not changed.
+
+Remaining before VERIFIED:
+
+- Content Quality CI.
+- Merge and controlled production deployment.
+- Live HTTP/canonical/schema/content verification.
+- Rendered desktop/mobile proofread when an allowed browser path is available.
