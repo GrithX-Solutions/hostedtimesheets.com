@@ -1,6 +1,6 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-03T17:18:17+05:00
+Last verified: 2026-10-03T17:24:00+05:00
 
 ## Objective
 
@@ -75,6 +75,8 @@ Manual review, input-validation remediation, CI, merge, controlled HTML+JS produ
 - /overtime-calculator/ — repository + production content verified; rendered browser proofread blocked by environment policy.
 - /pto-accrual-calculator/ — repository + production HTML/JS verified; rendered browser proofread blocked by environment policy.
 - /hourly-wage-calculator/ — repository + production HTML/JS verified; rendered browser proofread blocked by environment policy.
+- /salary-calculator-with-bonus/ — manual repository audit/remediation in progress.
+- assets/js/salary-bonus.js — zero-base percentage display and workweek-limit validation remediated in branch.
 - assets/js/hourly-wage.js — weeks/year and workdays/week validation aligned with visible HTML limits and released.
 - assets/js/pto-accrual.js — fixed-accrual and decimal pay-period formula-display defects released; PTO page uses a versioned asset URL to bypass stale edge cache.
 - CONTENT-AUDIT-2026-10-03.md updated.
@@ -101,8 +103,8 @@ Manual review, input-validation remediation, CI, merge, controlled HTML+JS produ
 
 ## In progress
 
-Sitewide manual content re-audit and controlled production reconciliation continue page by page, prioritized by verified traffic opportunity, monetizable relevance and calculation risk.
+Manual review and edge-case remediation of /salary-calculator-with-bonus/ are complete in branch content/re-audit-salary-bonus-20261003; release verification remains.
 
 ## NEXT ACTION
 
-Manually audit /salary-calculator-with-bonus/ for the U.S. `salary calculator with bonus` opportunity (2,400 monthly searches, CPC $8.23, SD 6), including base-salary + bonus math, pay-frequency equivalents, semantic coverage, competitor gaps and cannibalization against salary-increase and salary-to-hourly calculators.
+Pass Content Quality CI for /salary-calculator-with-bonus/, merge the HTML + JavaScript remediation, deploy the exact tested artifacts with rollback preservation, and verify the public page plus JavaScript asset.
