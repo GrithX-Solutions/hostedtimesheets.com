@@ -28,7 +28,7 @@ Complete a sitewide content re-audit against CONTENT-STANDARDS.md, then remediat
 
 ## Last completed task
 
-Search-intent/functionality remediation, CI, merge, controlled production deployment and live-response verification of /hours-and-minutes-calculator/.
+Completed the requested traffic-first repository/site inspection and gap analysis. Current mobile performance target is met; no blind performance rewrite is justified. The next implementation target is /clock-out-time-calculator/.
 
 ## Tests / evidence
 
@@ -72,6 +72,12 @@ Search-intent/functionality remediation, CI, merge, controlled production deploy
 - Hours & Minutes Content Quality CI: PASS — run #44; PR #49 merged at 4cbada58d14c5e3a6417c4647b9b6b43961f178a.
 - Hours & Minutes production HTML + JS exactly match GitHub main; public page and JS asset both returned HTTP 200.
 - Public hours-minutes JS SHA c2902b21a9aa468095dc6770ad2f7d6ffdbe3b0fabb773ad6d82343399cb84e1 matches the corrected origin asset; add/subtract modes and signed-result content passed live checks.
+- Fresh PageSpeed mobile: LCP 2.4 s, FCP 2.1 s, Speed Index 2.1 s, TBT 39 ms, CLS 0; desktop LCP 673 ms.
+- Canonical HTTPS production fetch: 0 redirects; HTTP/www variants correctly redirect once to https://hostedtimesheets.com/.
+- AdSense loader measured ~206 KB versus ~8.4 KB shared site-search JS; it is the dominant evidence-backed candidate behind the ~149 KB unused-JS audit finding.
+- Google PageSpeed API exact-LCP-element lookup: BLOCKED by quota 429; rendered browser path remains blocked, so exact LCP DOM element is UNKNOWN.
+- Fresh U.S. Ubersuggest: clock out time calculator 135,000 / SD 29 / CPC $4.56; time duration calculator 135,000 / SD 34; military time converter 74,000 / SD 22.
+- TRAFFIC-GAP-ANALYSIS-2026-10-03.md records the repository/site gap matrix and dependency order.
 
 ## Affected pages / calculators
 
@@ -113,8 +119,8 @@ Search-intent/functionality remediation, CI, merge, controlled production deploy
 
 ## In progress
 
-Traffic-first correction phase: repository/site gap inspection and P0 mobile performance root-cause analysis before the next flagship page implementation.
+Traffic-first flagship implementation phase.
 
 ## NEXT ACTION
 
-Inspect the complete current repository/site architecture and current production performance path, identify the actual mobile LCP element/root cause and redirect/unused-JS contributors without changing files, then produce the requested gap analysis. If the evidence supports a safe fix, remediate mobile performance before implementing /clock-out-time-calculator/.
+Research the live /clock-out-time-calculator/ competitor feature/methodology gap, define formulas and edge cases, then build the page and browser-only calculator on a feature branch without changing existing calculator URLs.

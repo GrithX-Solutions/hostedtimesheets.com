@@ -28,3 +28,18 @@ During content remediation, existing calculator logic remains unchanged unless a
 ## 2026-10-03 — SEO evidence source
 
 Ubersuggest is the primary quantitative source for keyword volume, difficulty, CPC, ranking pages and competitor evidence. Current web SERP review supplements it for freshness and intent/feature validation. Semantic coverage and information gain take precedence over keyword repetition.
+
+
+## 2026-10-03 — Traffic-first dependency order
+
+A fresh performance audit currently meets the mobile LCP target (2.4 s), so no speculative performance rewrite is allowed while the exact LCP element is blocked/unknown. The remaining unused-JS finding is dominated by third-party AdSense code, and canonical HTTPS itself has no redirect.
+
+Implementation order is:
+1. /clock-out-time-calculator/
+2. migrate /elapsed-time-calculator/ to /time-duration-calculator/ with a tested 301
+3. /military-time-converter/
+4. authoritative /timesheet-calculator/ architecture while keeping specialist timesheet pages unless GSC later proves consolidation is needed
+5. homepage/internal-link reprioritization after the flagship URLs exist
+6. decimal-hours semantic retarget and remaining page reconciliation
+
+Production-only brand assets and broader regression CI are recorded as engineering debt, not reasons to delay the first traffic flagship.
