@@ -559,3 +559,17 @@ Follow-up verification after the initial release:
 - Validation: JavaScript syntax check PASS; decimal pay-period display test PASS; schema/visible FAQ parity 7/7 PASS.
 - These follow-up fixes do not change PTO entitlement, accrual policy, cap logic, or earned/balance arithmetic.
 
+Follow-up release evidence:
+
+- Content Quality CI: PASS — hotfix run #36.
+- Merge: PASS — PR #41 merged at `2de2e22b738be027e4b47f20abcebec25fa1d7c9`.
+- Controlled production deployment: PASS — HTML + JavaScript used stale-source guards and separate rollback copies.
+- Origin/GitHub parity after the hotfix: PASS — HTML and JavaScript exactly matched commit `2de2e22…`.
+- Public verification exposed a stale edge-cached unversioned JavaScript response, so the corrected origin JS was not yet guaranteed to reach users.
+- Cache-delivery fix: PR #43 changed the PTO page script source to `/assets/js/pto-accrual.js?v=2de2e22`; Content Quality run #38 PASS; merged at `4d1cc063e9d31de8ce1f10cbfff668c26e01970a`.
+- Guarded HTML deployment for the cache-bust: PASS with rollback copy `/opt/hostedtimesheets/archive/pto-accrual-pre-4d1cc06-cache-20261003.html`.
+- Final origin/GitHub parity: PASS — production HTML exactly matches `4d1cc063…` (24,168 characters).
+- Final public verification: PASS — calculator page HTTP 200 and served HTML references `/assets/js/pto-accrual.js?v=2de2e22`; the versioned asset returned HTTP 200, SHA `d2c06af8…`, and contains the decimal pay-period formula fix.
+- The unversioned edge URL may remain stale until cache expiry, but the production page no longer references it.
+
+
