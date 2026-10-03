@@ -1,0 +1,28 @@
+name: Content Quality
+
+on:
+  pull_request:
+    paths:
+      - "**/*.html"
+      - "CONTENT-STANDARDS.md"
+      - "scripts/content_quality_audit.py"
+  push:
+    branches: [main]
+    paths:
+      - "**/*.html"
+      - "CONTENT-STANDARDS.md"
+      - "scripts/content_quality_audit.py"
+  workflow_dispatch:
+
+jobs:
+  content-quality:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run content quality gate
+        run: python scripts/content_quality_audit.py
