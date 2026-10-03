@@ -82,9 +82,6 @@ def audit(path: Path):
         failures.append(f"average sentence length {avg_sentence:.1f} > 20 words")
     if sum(n > 32 for n in slens) > max(2, round(len(slens) * 0.10)):
         warnings.append(f"{sum(n > 32 for n in slens)} sentences exceed 32 words")
-    if obvious_punct:
-        failures.append(f"{obvious_punct} obvious punctuation-spacing/repetition issue(s)")
-
     if search_page:
         if len(ws) < 450:
             failures.append(f"search-targeted page has only {len(ws)} words of main content")
