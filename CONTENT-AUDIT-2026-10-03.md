@@ -307,9 +307,14 @@ Remediation in branch `content/re-audit-work-hours-20261003`:
 - Updated the legitimate page modification date to 2026-10-03.
 - Calculator JavaScript was not changed.
 
-Remaining before VERIFIED:
+Release evidence:
 
-- Content Quality CI.
-- Merge and controlled production deployment.
-- Live HTTP/canonical/schema/content verification.
-- Rendered desktop/mobile proofread when an allowed browser path is available.
+- Content Quality CI: PASS — run #27.
+- Merge: PASS — PR #33 merged at edd62236e79d4e075a44d8087700546051921d58.
+- Controlled production deployment: PASS — stale-source guard used and rollback copy preserved at `/opt/hostedtimesheets/archive/work-hours-pre-edd6223-20261003.html`.
+- Origin/GitHub parity: PASS — production HTML exactly matches the merged GitHub page (19,294 characters).
+- Public HTTPS: PASS — HTTP 200; served title, canonical, dateModified, no-rounding methodology, zero-floor behavior, gross-pay formula and Total-minutes explanation are present.
+- Cloudflare/Rocket Loader changes public-response bytes, so public SHA differs from origin while verified content fields remain correct.
+- Rendered desktop/mobile proofread: BLOCKED — available browser runtime blocks the live domain with ERR_BLOCKED_BY_ADMINISTRATOR.
+
+Status remains PARTIALLY VERIFIED because rendered visual QA is blocked; do not treat the page as fully VERIFIED yet.
