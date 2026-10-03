@@ -48,7 +48,8 @@ Manual review, remediation, CI, merge, controlled production deployment and live
 - /timesheet-calculator-with-lunch/ — repository + production content verified; rendered browser proofread blocked by environment policy.
 - /weekly-timesheet-calculator/ — repository + production content verified; rendered browser proofread blocked by environment policy.
 - /biweekly-timesheet-calculator/ — repository + production content verified; rendered browser proofread blocked by environment policy.
-- assets/js/biweekly-timesheet.js reviewed; not modified.
+- /work-hours-calculator/ — manual repository audit/remediation in progress.
+- assets/js/work-hours.js reviewed; not modified.
 - CONTENT-AUDIT-2026-10-03.md updated.
 
 ## Deployment / indexing / content status
@@ -73,8 +74,8 @@ Manual review, remediation, CI, merge, controlled production deployment and live
 
 ## In progress
 
-Sitewide manual content re-audit and controlled production reconciliation continue page by page, prioritized by verified traffic opportunity.
+Manual review/remediation of /work-hours-calculator/ is complete in branch content/re-audit-work-hours-20261003; release verification remains.
 
 ## NEXT ACTION
 
-Manually audit /work-hours-calculator/ for the U.S. `free work hours calculator` opportunity (4,400 monthly searches, SD 7) while preserving canonical ownership and avoiding cannibalization with the weekly/time-card calculators.
+Pass Content Quality CI for /work-hours-calculator/, merge the remediation, deploy the exact tested page with rollback preservation, and verify the public response.
