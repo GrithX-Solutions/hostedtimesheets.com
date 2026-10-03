@@ -1,6 +1,6 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-03T15:19:10+05:00
+Last verified: 2026-10-03T15:51:15+05:00
 
 ## Objective
 
@@ -15,11 +15,12 @@ Complete a sitewide content re-audit against CONTENT-STANDARDS.md, then remediat
 - Last content-remediation commit before state sync: 42731919c5c4b8eb3d7143b384aac3e7a4a5081e
 - Production content source for flagship page: main commit 989c0bca676f6ba5132503b624531a6c3ad8f1c2
 - Production content source for weekly page: main commit c3622544baecd8409e82bdb8825a84d6ec38ea92
+- Production content source for biweekly page: main commit e0f20fd4dcabfd97cb5daac1aa33031756a4e6ae
 - Public sitemap: 32 URLs, all with lastmod 2026-10-03 in the current repository sitemap.
 
 ## Last completed task
 
-Manual review, remediation, CI, merge, controlled production deployment and live-response verification of /weekly-timesheet-calculator/.
+Manual review, remediation, CI, merge, controlled production deployment and live-response verification of /biweekly-timesheet-calculator/.
 
 ## Tests / evidence
 
@@ -39,12 +40,14 @@ Manual review, remediation, CI, merge, controlled production deployment and live
 - Rendered desktop/mobile QA: BLOCKED in the available browser runtime by ERR_BLOCKED_BY_ADMINISTRATOR; no visual-pass claim made.
 - Weekly Timesheet Content Quality CI: PASS — run #23.
 - Weekly production origin exactly matches GitHub main; public HTTPS returned 200 with correct title, canonical, dateModified, rounding/formula content and FAQ schema/visible parity.
+- Biweekly Timesheet Content Quality CI: PASS — run #25.
+- Biweekly production origin exactly matches GitHub main; public HTTPS returned 200 with correct title, canonical, dateModified, rounding methodology, gross-pay formula and DOL references.
 
 ## Affected pages / calculators
 
 - /timesheet-calculator-with-lunch/ — repository + production content verified; rendered browser proofread blocked by environment policy.
 - /weekly-timesheet-calculator/ — repository + production content verified; rendered browser proofread blocked by environment policy.
-- /biweekly-timesheet-calculator/ — manual repository audit/remediation in progress.
+- /biweekly-timesheet-calculator/ — repository + production content verified; rendered browser proofread blocked by environment policy.
 - assets/js/biweekly-timesheet.js reviewed; not modified.
 - CONTENT-AUDIT-2026-10-03.md updated.
 
@@ -65,13 +68,13 @@ Manual review, remediation, CI, merge, controlled production deployment and live
 ## Technical debt
 
 - README.md page inventory/roadmap is stale relative to the current 32-URL sitemap.
-- Main is ahead of the last full production reconciliation commit c2fb0f719c7922fc41aae1657cf1c07008c1dab8; 20 public HTML pages changed in that range. Two pages — /timesheet-calculator-with-lunch/ and /weekly-timesheet-calculator/ — have now been individually brought forward and live-content-verified in this resumed audit; 18 changed public HTML pages still need controlled reconciliation.
+- Main is ahead of the last full production reconciliation commit c2fb0f719c7922fc41aae1657cf1c07008c1dab8; 20 public HTML pages changed in that range. Three pages — /timesheet-calculator-with-lunch/, /weekly-timesheet-calculator/ and /biweekly-timesheet-calculator/ — have now been individually brought forward and live-content-verified in this resumed audit; 17 changed public HTML pages still need controlled reconciliation.
 - Manual editorial/SERP verification remains incomplete for the rest of the public pages.
 
 ## In progress
 
-Manual review/remediation of /biweekly-timesheet-calculator/ is complete in branch content/re-audit-biweekly-timesheet-20261003; release verification remains.
+Sitewide manual content re-audit and controlled production reconciliation continue page by page, prioritized by verified traffic opportunity.
 
 ## NEXT ACTION
 
-Pass Content Quality CI for /biweekly-timesheet-calculator/, merge the remediation, deploy the exact tested page with rollback preservation, and verify the public response.
+Manually audit /work-hours-calculator/ for the U.S. `free work hours calculator` opportunity (4,400 monthly searches, SD 7) while preserving canonical ownership and avoiding cannibalization with the weekly/time-card calculators.

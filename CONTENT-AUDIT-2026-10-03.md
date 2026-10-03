@@ -247,9 +247,14 @@ Remediation in branch `content/re-audit-biweekly-timesheet-20261003`:
 - Rewrote the rounding section to match the implemented daily rounding order.
 - Calculator JavaScript was not changed.
 
-Remaining before VERIFIED:
+Release evidence:
 
-- Content Quality CI.
-- Merge and controlled production deployment.
-- Live HTTP/canonical/schema/content verification.
-- Rendered desktop/mobile proofread when an allowed browser path is available.
+- Content Quality CI: PASS — run #25.
+- Merge: PASS — PR #31 merged at e0f20fd4dcabfd97cb5daac1aa33031756a4e6ae.
+- Controlled production deployment: PASS — stale-source guard used and rollback copy preserved at `/opt/hostedtimesheets/archive/biweekly-timesheet-pre-e0f20fd-20261003.html`.
+- Origin/GitHub parity: PASS — production HTML exactly matches the merged GitHub page (23,358 characters).
+- Public HTTPS: PASS — HTTP 200; served title, canonical, dateModified, rounding methodology, gross-pay formula and DOL references are present.
+- Cloudflare/Rocket Loader changes public-response bytes, so public SHA differs from origin while verified content fields remain correct.
+- Rendered desktop/mobile proofread: BLOCKED — available browser runtime blocks the live domain with ERR_BLOCKED_BY_ADMINISTRATOR.
+
+Status remains PARTIALLY VERIFIED because rendered visual QA is blocked; do not treat the page as fully VERIFIED yet.
