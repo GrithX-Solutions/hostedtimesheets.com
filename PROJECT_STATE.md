@@ -44,7 +44,8 @@ Manual review, remediation, CI, merge, controlled production deployment and live
 
 - /timesheet-calculator-with-lunch/ — repository + production content verified; rendered browser proofread blocked by environment policy.
 - /weekly-timesheet-calculator/ — repository + production content verified; rendered browser proofread blocked by environment policy.
-- assets/js/weekly-timesheet.js reviewed; not modified.
+- /biweekly-timesheet-calculator/ — manual repository audit/remediation in progress.
+- assets/js/biweekly-timesheet.js reviewed; not modified.
 - CONTENT-AUDIT-2026-10-03.md updated.
 
 ## Deployment / indexing / content status
@@ -69,8 +70,8 @@ Manual review, remediation, CI, merge, controlled production deployment and live
 
 ## In progress
 
-Sitewide manual content re-audit and controlled production reconciliation continue page by page.
+Manual review/remediation of /biweekly-timesheet-calculator/ is complete in branch content/re-audit-biweekly-timesheet-20261003; release verification remains.
 
 ## NEXT ACTION
 
-Manually audit /biweekly-timesheet-calculator/ against current Ubersuggest/SERP competitors, calculator behavior and CONTENT-STANDARDS.md, prioritizing the low-difficulty biweekly intent without cannibalizing the weekly page.
+Pass Content Quality CI for /biweekly-timesheet-calculator/, merge the remediation, deploy the exact tested page with rollback preservation, and verify the public response.
