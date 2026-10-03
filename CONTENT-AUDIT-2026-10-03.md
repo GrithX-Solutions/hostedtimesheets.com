@@ -135,7 +135,7 @@ Remediation in branch `content/re-audit-timesheet-lunch-20261003`:
 
 Remaining before VERIFIED:
 
-- Content Quality CI on the remediation branch/PR.
+- Content Quality CI: PASS — run #19 after an initial passive-voice regression was caught and corrected.
 - Merge/deployment.
 - Live HTTP/canonical/schema check.
 - Desktop/mobile rendered-page proofread.
