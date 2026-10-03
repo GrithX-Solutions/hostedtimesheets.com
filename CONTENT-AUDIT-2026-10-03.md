@@ -7,8 +7,8 @@ This audit applies the new CONTENT-STANDARDS.md rules. It separates measurable s
 ## Sitewide baseline
 
 - Pages audited: 32
-- Pages with no measurable structural/readability issue in the first pass: 19
-- Pages requiring remediation under the new standard: 13
+- Pages passing the calibrated measurable hard gate: 20
+- Pages failing the calibrated measurable hard gate: 12
 - Paragraphs over the 90-word hard maximum: 0
 - All pages remain structurally indexable and were already verified for H1/canonical/schema integrity in the production regression audit.
 
@@ -65,7 +65,7 @@ The privacy page also shows high passive-voice density, but legal/privacy wordin
 
 ### Readability tightening
 
-Pages closest to the upper readability target and worth line-editing:
+The following pages are within the hard sentence-length limit but sit near the preferred upper range and should receive line editing during remediation:
 
 - /timesheet-pay-calculator/
 - /time-off-tracker/
@@ -118,3 +118,27 @@ Repository enforcement added:
 - .github/workflows/content-quality.yml
 
 The script checks measurable structural/readability rules. Semantic superiority, competitor information gain, grammar nuance, and native-English quality remain mandatory editorial review items because automated scoring cannot reliably prove them.
+
+
+## Calibrated CI result
+
+GitHub Actions Content Quality run #2 executed the corrected measurable gate.
+
+- Pages checked: 32
+- PASS: 20
+- FAIL: 12
+- Result: intentionally failing until the remediation queue is cleared
+
+Current hard failures:
+- /biweekly-timesheet-calculator/ — methodology framing
+- /decimal-hours-calculator/ — FAQ depth
+- /how-to-calculate-pto-accrual/ — Quick Answer + FAQ depth
+- /how-to-calculate-time-card/ — methodology framing
+- /minutes-to-decimal-hours/ — Quick Answer
+- /payroll-hours-calculator/ — active-voice threshold
+- /pto-accrual-based-on-hours-worked/ — Quick Answer + FAQ depth
+- /time-card-calculator/ — active-voice threshold
+- /time-card-hours-with-lunch-break/ — FAQ depth
+- /time-off-tracker/ — methodology framing
+- /timesheet-pay-calculator/ — methodology framing
+- /timesheet-template/ — Quick Answer + methodology + FAQ depth + worked examples
