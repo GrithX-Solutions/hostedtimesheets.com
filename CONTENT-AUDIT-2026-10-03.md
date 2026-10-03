@@ -631,9 +631,15 @@ Accuracy/UX findings and remediation:
 - Added a schema-matched FAQ explaining how to avoid double-counting overtime.
 - Explicitly distinguishes this gross-pay conversion page from paycheck/take-home-tax calculators that appear in the current mixed SERP.
 
-Remaining before VERIFIED:
+Release evidence:
 
-- Content Quality CI.
-- Merge and controlled HTML + JavaScript production deployment.
-- Live HTTP/canonical/schema/content/asset verification.
-- Rendered desktop/mobile proofread when an allowed browser path is available.
+- Content Quality CI: PASS — run #40.
+- Merge: PASS — PR #45 merged at `de976055a430e4b9aa01fb2d1883d7f328ba009a`.
+- Controlled production deployment: PASS — current-origin SHA guards used for both HTML and JavaScript; rollback copies preserved at `/opt/hostedtimesheets/archive/hourly-wage-pre-de97605-20261003.html` and `/opt/hostedtimesheets/archive/hourly-wage-js-pre-de97605-20261003.js`.
+- Origin/GitHub parity: PASS — production HTML exactly matches merged GitHub (20,473 characters); production JavaScript exactly matches merged GitHub (1,811 characters).
+- Public HTTPS: PASS — calculator page HTTP 200; JavaScript asset HTTP 200.
+- Public JavaScript freshness: PASS — served JS SHA `d08a5bfe68b587b0266ee2ab6d6b421853875086515a88638554d3890a19de4d` matches the corrected origin asset.
+- Served HTML checks: PASS — canonical, dateModified, Regular hours/week label, Monthly regular pay label, overtime double-count warning, schema/visible overtime FAQ and annual-including-overtime formula are present.
+- Rendered desktop/mobile proofread: BLOCKED — available browser runtime blocks the live domain with ERR_BLOCKED_BY_ADMINISTRATOR.
+
+Status remains PARTIALLY VERIFIED because rendered visual QA is blocked; do not treat the page as fully VERIFIED yet.
