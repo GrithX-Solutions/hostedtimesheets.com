@@ -2,79 +2,39 @@
 
 Scope: all 32 public HTML pages.
 
-This audit applies the new CONTENT-STANDARDS.md rules. It separates measurable static checks from editorial/search-quality checks that require human/research judgment.
+This audit applies the mandatory rules in CONTENT-STANDARDS.md and separates measurable repository checks from editorial/search-quality checks that require current research and human judgment.
 
-## Sitewide baseline
+## Sitewide measurable baseline
 
 - Pages audited: 32
-- Pages passing the calibrated measurable hard gate: 20
-- Pages failing the calibrated measurable hard gate: 12
+- Pages passing the calibrated measurable hard gate: 32
+- Pages failing the calibrated measurable hard gate: 0
 - Paragraphs over the 90-word hard maximum: 0
-- All pages remain structurally indexable and were already verified for H1/canonical/schema integrity in the production regression audit.
+- Pull request validation: Content Quality run #3 — PASS
+- Remediation PR: #20
 
-A page that passes the automated baseline is not automatically considered fully approved. Every search-targeted page still requires a current SERP/competitor review, semantic-intent review, native-English editorial pass, and factual verification.
+Passing this baseline does not by itself complete the editorial/search-quality review. Search-targeted pages still require current SERP/competitor review, semantic-intent review, native-English editorial review, factual verification, and rendered-page proofreading.
 
-## Remediation queue
+## Remediation completed
 
-### Content architecture / answer extraction
+The 12 pages that previously failed the measurable gate were corrected without changing calculator logic or the site's low-difficulty semantic SEO strategy.
 
-- /pto-accrual-based-on-hours-worked/
-  - Add Quick Answer.
-  - Expand FAQ from 2 to at least 3 useful questions.
-  - Tighten sentence length.
-
-- /how-to-calculate-pto-accrual/
-  - Add Quick Answer.
-  - Expand FAQ from 2 to at least 3 useful questions.
-
-- /minutes-to-decimal-hours/
-  - Add Quick Answer.
-
-- /timesheet-template/
-  - Add Quick Answer.
-  - Add explicit methodology/how-to-use framing.
-  - Add at least 3 useful FAQs.
-  - Add at least 2 worked usage examples.
-
-### Methodology / how-it-works framing
-
-- /timesheet-pay-calculator/
-- /biweekly-timesheet-calculator/
-- /time-off-tracker/
-- /how-to-calculate-time-card/
-- /timesheet-template/
-
-These pages contain useful content, but the method is not labeled/extracted clearly enough for the new standard.
-
-### FAQ depth
-
-- /pto-accrual-based-on-hours-worked/ — 2 FAQs
-- /time-card-hours-with-lunch-break/ — 2 FAQs
-- /how-to-calculate-pto-accrual/ — 2 FAQs
-- /decimal-hours-calculator/ — 2 FAQs
-- /timesheet-template/ — 0 FAQs
-
-### Active voice
-
-The passive-voice heuristic is above the new preferred threshold on:
-
-- /payroll-hours-calculator/
-- /time-card-calculator/
-
-The privacy page also shows high passive-voice density, but legal/privacy wording must be edited for clarity without changing legal meaning.
-
-### Readability tightening
-
-The following pages are within the hard sentence-length limit but sit near the preferred upper range and should receive line editing during remediation:
-
-- /timesheet-pay-calculator/
-- /time-off-tracker/
-- /pto-accrual-based-on-hours-worked/
-- /about/
+- /biweekly-timesheet-calculator/ — explicit methodology framing
+- /decimal-hours-calculator/ — expanded visible FAQ depth
+- /how-to-calculate-pto-accrual/ — Quick Answer + expanded FAQ depth
+- /how-to-calculate-time-card/ — explicit methodology framing
+- /minutes-to-decimal-hours/ — Quick Answer
+- /payroll-hours-calculator/ — active-voice rewrite + explicit methodology framing
+- /pto-accrual-based-on-hours-worked/ — Quick Answer + expanded FAQ depth
+- /time-card-calculator/ — active-voice rewrite
+- /time-card-hours-with-lunch-break/ — expanded visible FAQ depth
+- /time-off-tracker/ — explicit methodology framing
+- /timesheet-pay-calculator/ — explicit methodology framing
+- /timesheet-template/ — Quick Answer + methodology + visible FAQ structure + two worked examples
 
 ## Competitive benchmark findings
 
-Current competitor review shows that the strongest calculator pages commonly combine:
+Current competitor review shows that strong calculator pages commonly combine:
 
 - an immediate answer or formula;
 - detailed settings/use instructions;
@@ -86,9 +46,9 @@ Current competitor review shows that the strongest calculator pages commonly com
 - visible freshness/review information when warranted;
 - strong tool UX rather than SEO copy before the calculator.
 
-Examples observed in the current search landscape include CalculatorSoup for work-hours/time calculations, Omni Calculator for overtime, Capstan and PTOAccrual.com for PTO, and several specialist pay-raise calculators for salary-increase intent.
+Examples observed in the current search landscape include CalculatorSoup for work-hours/time calculations, Omni Calculator for overtime, Capstan and PTOAccrual.com for PTO, and specialist pay-raise calculators for salary-increase intent.
 
-HostedTimesheets should not copy their content or add unsupported features simply to match feature counts. The standard is to provide better clarity, a more direct path to the answer, and defensible information gain for the exact intent the page serves.
+HostedTimesheets should not copy competitor wording, structure, claims, or examples. The standard is to provide better clarity, a more direct path to the answer, and defensible information gain for the exact intent each page serves.
 
 ## Hard editorial rule
 
@@ -100,45 +60,21 @@ For search-targeted calculators and guides, publication approval requires:
 - current competitor review;
 - information gain;
 - clear answer-first structure;
-- skimmable headings/paragraphs;
+- skimmable headings and paragraphs;
 - native-English grammar and punctuation;
 - predominantly active voice;
-- reproducible methodology/examples;
+- reproducible methodology and examples;
 - factual and source verification;
-- mobile/rendered proofread.
+- mobile/rendered proofreading.
 
-Technical SEO score alone cannot mark a page complete.
+Technical SEO or an automated content score alone cannot mark a page complete.
 
-## Automation
+## Repository enforcement
 
-Repository enforcement added:
+The repository now enforces measurable rules through:
 
 - CONTENT-STANDARDS.md
 - scripts/content_quality_audit.py
 - .github/workflows/content-quality.yml
 
-The script checks measurable structural/readability rules. Semantic superiority, competitor information gain, grammar nuance, and native-English quality remain mandatory editorial review items because automated scoring cannot reliably prove them.
-
-
-## Calibrated CI result
-
-GitHub Actions Content Quality run #2 executed the corrected measurable gate.
-
-- Pages checked: 32
-- PASS: 20
-- FAIL: 12
-- Result: intentionally failing until the remediation queue is cleared
-
-Current hard failures:
-- /biweekly-timesheet-calculator/ — methodology framing
-- /decimal-hours-calculator/ — FAQ depth
-- /how-to-calculate-pto-accrual/ — Quick Answer + FAQ depth
-- /how-to-calculate-time-card/ — methodology framing
-- /minutes-to-decimal-hours/ — Quick Answer
-- /payroll-hours-calculator/ — active-voice threshold
-- /pto-accrual-based-on-hours-worked/ — Quick Answer + FAQ depth
-- /time-card-calculator/ — active-voice threshold
-- /time-card-hours-with-lunch-break/ — FAQ depth
-- /time-off-tracker/ — methodology framing
-- /timesheet-pay-calculator/ — methodology framing
-- /timesheet-template/ — Quick Answer + methodology + FAQ depth + worked examples
+The automated gate checks structural and readability rules. Semantic superiority, competitor information gain, grammar nuance, native-English quality, factual accuracy, and rendered UX remain mandatory editorial review items because a static score cannot reliably prove them.
