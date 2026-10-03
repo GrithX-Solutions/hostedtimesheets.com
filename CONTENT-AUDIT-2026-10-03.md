@@ -643,3 +643,59 @@ Release evidence:
 - Rendered desktop/mobile proofread: BLOCKED — available browser runtime blocks the live domain with ERR_BLOCKED_BY_ADMINISTRATOR.
 
 Status remains PARTIALLY VERIFIED because rendered visual QA is blocked; do not treat the page as fully VERIFIED yet.
+
+
+### /salary-calculator-with-bonus/ — repository review
+
+Status: PARTIALLY VERIFIED  
+Repository content score after remediation: **96/100**
+
+U.S. keyword evidence captured 2026-10-03 from Ubersuggest:
+
+- `salary calculator with bonus`: volume 2,400/month; CPC $8.23; SD 6.
+- The current primary-query SERP is heavily mixed with bonus-tax, take-home-pay and payroll-calculator intent. It includes high-authority payroll/tax domains and a DA 2 take-home-pay page, so low headline SD does not mean every ranking route matches this URL's gross-compensation intent.
+- This URL remains scoped to gross base salary + bonus arithmetic. It does not add tax or withholding logic merely to imitate a different SERP intent.
+
+Current competitor evidence:
+
+- Current gross-bonus tools commonly support percentage bonuses, flat bonuses and total-compensation output.
+- Several competitors extend beyond this page's scope with combined percent + fixed awards, performance/proration factors, reverse-solving fields, payout-period breakdowns, copy/share controls or benefit-inclusive total compensation.
+- Calculator Academy's bonus-percentage page has page authority 30 and 0 backlinks/referring domains in the current Ubersuggest page overview.
+- HostedTimesheets' useful gap is transparent fixed-or-percent annual bonus math, target-compensation reverse math, schedule-adjusted hourly equivalents, monthly/biweekly/weekly planning equivalents, multiple currencies, browser-local calculation and a clear gross-only boundary.
+
+Score:
+
+- Search intent + semantic coverage: 20/20
+- Competitor information gain: 17/20
+- Skimmability + readability: 15/15
+- Native-English grammar, punctuation + active voice: 15/15
+- Methodology + calculation accuracy: 15/15
+- SEO, schema, internal links + trust/privacy: 14/15
+
+Calculation verification against corrected `assets/js/salary-bonus.js`:
+
+- $60,000 base salary with a 10% bonus → $6,000 annual bonus and $66,000 total annual compensation: PASS.
+- $50,000 base salary with a fixed $5,000 bonus → $55,000 total and 10.00% bonus relative to base salary: PASS.
+- $60,000 + 10% at 40 hours/week and 52 workweeks → $5,500 monthly equivalent, $2,538.46 biweekly equivalent, $1,269.23 weekly equivalent, $28.85 base hourly equivalent and $31.73 hourly including bonus: PASS.
+- $0 base salary with a fixed $6,000 bonus → $6,000 total compensation and `N/A` for bonus percentage of base salary: PASS after remediation.
+- 100 workweeks/year is clamped to the visible maximum 53; zero hours/week is clamped to the visible arithmetic minimum 0.25: PASS.
+- Negative salary, bonus and percentage inputs are clamped at zero.
+
+Accuracy/UX findings and remediation:
+
+- FOUND: HTML limited Workweeks/year to 53, but JavaScript previously enforced only the minimum. A manually entered value above 53 could change hourly-equivalent math beyond the visible input range.
+- FIXED: JavaScript now clamps Workweeks/year to 1–53.
+- FOUND: a zero base salary produced `0.00%` for “Bonus as % of salary,” even though a percentage relative to zero is undefined.
+- FIXED: the result now shows `N/A` whenever base salary is zero.
+- CLARIFIED: Hours/week and Workweeks/year affect only the hourly-equivalent metrics; monthly, biweekly and weekly equivalents continue to use annual total ÷ 12, ÷ 26 and ÷ 52.
+- CLARIFIED: the reverse target-compensation percentage formula requires a positive base salary.
+- Added a gross-compensation vs. bonus-tax intent boundary so the page does not imply take-home or withholding calculations.
+- Added a schema-matched zero-base FAQ; visible FAQ and FAQPage schema now match 7/7 exactly.
+- Calculator JavaScript math for ordinary positive-base fixed/percentage cases remains unchanged.
+
+Remaining before VERIFIED:
+
+- Content Quality CI.
+- Merge and controlled HTML + JavaScript production deployment.
+- Live HTTP/canonical/schema/content/asset verification.
+- Rendered desktop/mobile proofread when an allowed browser path is available.
