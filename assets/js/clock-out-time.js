@@ -8,7 +8,7 @@ const format24=m=>`${pad(Math.floor(m/60)%24)}:${pad(m%60)}`;
 const format12=m=>{const h24=Math.floor(m/60)%24,n=m%60,ampm=h24>=12?"PM":"AM",h=h24%12||12;return `${h}:${pad(n)} ${ampm}`};
 const spanText=m=>{const d=Math.floor(m/1440),r=m%1440,h=Math.floor(r/60),n=r%60;return `${d?d+"d ":""}${h}h ${pad(n)}m`};
 function calc(){
- const start=parseTime($("#co-start").value),hours=clamp($("#co-hours").value,0,72),minutes=clamp($("#co-minutes").value,0,59),breakMin=clamp($("#co-break").value,0,1440);
+ const start=parseTime($("#co-start").value),hours=Math.floor(clamp($("#co-hours").value,0,72)),minutes=Math.floor(clamp($("#co-minutes").value,0,59)),breakMin=Math.floor(clamp($("#co-break").value,0,1440));
  if(start===null){$("#co-time-12").textContent="—";$("#co-time-24").textContent="—";$("#co-day").textContent="Enter a valid clock-in time";$("#co-paid").textContent="—";$("#co-span").textContent="—";$("#co-formula").textContent="Enter a valid clock-in time.";return}
  const paidMinutes=Math.round(hours*60+minutes),span=paidMinutes+breakMin,total=start+span,dayOffset=Math.floor(total/1440),clock=total%1440;
  $("#co-time-12").textContent=format12(clock);$("#co-time-24").textContent=format24(clock);
