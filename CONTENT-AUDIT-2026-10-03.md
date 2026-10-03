@@ -707,3 +707,72 @@ Release evidence:
 - Rendered desktop/mobile proofread: BLOCKED — available browser runtime blocks the live domain with ERR_BLOCKED_BY_ADMINISTRATOR.
 
 Status remains PARTIALLY VERIFIED because rendered visual QA is blocked; do not treat the page as fully VERIFIED yet.
+
+
+### /hours-and-minutes-calculator/ — repository review
+
+Status: PARTIALLY VERIFIED  
+Repository content score after remediation: **97/100**
+
+U.S. keyword evidence captured 2026-10-03 from Ubersuggest:
+
+- `hours and minutes calculator`: volume 14,800/month; CPC $1.13; SD 35; informational intent.
+- `time hours and minutes calculator`: volume 14,800/month; CPC $4.82; SD 30.
+- `add hours and minutes calculator`: volume 390/month; SD 36.
+- The fresh 2026-10-03 SERP includes lower-authority ranking domains alongside established calculator brands, including DA 11 and DA 2 results.
+
+Intent/cannibalization finding:
+
+- The current SERP primarily expects duration arithmetic: add/subtract known hour-and-minute values and normalize the result.
+- The previous HostedTimesheets page converted only one duration, which under-served the primary query.
+- This URL now owns duration arithmetic + conversion.
+- `/elapsed-time-calculator/` remains the start/end clock-time difference tool.
+- `/work-hours-calculator/` remains the shift/break work-hours tool.
+- `/decimal-hours-calculator/` remains the focused decimal-hours conversion tool.
+
+Current competitor evidence:
+
+- CalculateHours ranks first in the fresh SERP; Ubersuggest reports page authority 44, 931 backlinks and 209 referring domains for its time calculator.
+- Hivedesk's time-duration calculator has page authority 25 with 0 backlinks/referring domains in the current Ubersuggest overview.
+- CalcToolsBase's time calculator has page authority 15 with 0 backlinks/referring domains.
+- CalculatorSoup supports multi-row addition/subtraction and broader time arithmetic; other current competitors add seconds, multiple rows, multiply/divide modes or flexible text entry.
+- HostedTimesheets does not claim those broader modes. Its information gain is a simpler two-duration workflow plus convert mode, signed negative subtraction, total-minutes + decimal + normalized H:M outputs, optional pay, copy actions, exact minute-derived pay math and clear separation from clock-time calculators.
+
+Score:
+
+- Search intent + semantic coverage: 20/20
+- Competitor information gain: 18/20
+- Skimmability + readability: 15/15
+- Native-English grammar, punctuation + active voice: 15/15
+- Methodology + calculation accuracy: 15/15
+- SEO, schema, internal links + trust/privacy: 14/15
+
+Calculation verification against corrected `assets/js/hours-minutes.js`:
+
+- Convert 8h 30m → 510 total minutes, 8.50 decimal hours, 8h 30m, and $212.50 at $25/hour: PASS.
+- Add 2h 45m + 1h 20m → 245 minutes, 4h 05m, 4.0833 decimal hours: PASS.
+- Subtract 3h 10m − 1h 45m → 85 minutes, 1h 25m, 1.4167 decimal hours: PASS.
+- Negative subtraction 1h 15m − 2h 00m → −45 minutes, −0h 45m, −0.75 decimal hours and −$18.75 at $25/hour: PASS.
+- Hours are clamped at zero or above; minute-part inputs are clamped to 0–59; negative hourly rates are clamped at zero.
+- Decimal display uses at least two and up to four places; estimated pay uses the unrounded total-minutes ÷ 60 value before display rounding.
+- FAQPage schema and visible FAQ text match 6/6 exactly.
+- Structural HTML tag-stack validation: PASS after correcting one extra closing `</div>` found during pre-PR QA.
+
+Accuracy/UX findings and remediation:
+
+- FOUND: the original calculator only converted one duration even though current search intent is dominated by adding/subtracting hours and minutes.
+- FIXED: added Convert, Add and Subtract modes while preserving the existing conversion outputs and copy actions.
+- FIXED: subtraction preserves a negative signed result when the second duration is larger instead of flooring at zero.
+- FOUND: decimal hours were displayed/copied to only two decimal places while estimated pay used the exact unrounded minute-derived value, so copied decimals could fail to reproduce displayed pay.
+- FIXED: decimal hours now show at least two and up to four decimal places; methodology explicitly states that pay uses unrounded minute-derived decimal hours.
+- Added a second duration input pair with 0–59 minute-part validation.
+- Clarified duration arithmetic versus clock-time differences to prevent cannibalization with Elapsed Time and Work Hours.
+- Expanded FAQ schema/visible FAQ to cover addition, signed subtraction and pay precision.
+- Updated title/meta/schema freshness to the add/subtract/convert intent.
+
+Remaining before VERIFIED:
+
+- Content Quality CI.
+- Merge and controlled HTML + JavaScript production deployment.
+- Live HTTP/canonical/schema/content/asset verification.
+- Rendered desktop/mobile proofread when an allowed browser path is available.

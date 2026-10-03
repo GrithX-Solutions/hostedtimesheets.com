@@ -80,6 +80,8 @@ Manual review, edge-case remediation, CI, merge, controlled HTML+JS production d
 - /pto-accrual-calculator/ — repository + production HTML/JS verified; rendered browser proofread blocked by environment policy.
 - /hourly-wage-calculator/ — repository + production HTML/JS verified; rendered browser proofread blocked by environment policy.
 - /salary-calculator-with-bonus/ — repository + production HTML/JS verified; rendered browser proofread blocked by environment policy.
+- /hours-and-minutes-calculator/ — manual repository audit/remediation in progress.
+- assets/js/hours-minutes.js — add/subtract modes, signed results and 4-place decimal display remediated in branch.
 - assets/js/salary-bonus.js — zero-base N/A handling and 1–53 workweek validation released.
 - assets/js/hourly-wage.js — weeks/year and workdays/week validation aligned with visible HTML limits and released.
 - assets/js/pto-accrual.js — fixed-accrual and decimal pay-period formula-display defects released; PTO page uses a versioned asset URL to bypass stale edge cache.
@@ -107,8 +109,8 @@ Manual review, edge-case remediation, CI, merge, controlled HTML+JS production d
 
 ## In progress
 
-Sitewide manual content re-audit and controlled production reconciliation continue page by page, prioritized by verified traffic opportunity, monetizable relevance and calculation risk.
+Manual review, search-intent remediation and calculator functionality expansion of /hours-and-minutes-calculator/ are complete in branch content/re-audit-hours-minutes-20261003; release verification remains.
 
 ## NEXT ACTION
 
-Manually audit /hours-and-minutes-calculator/ for the U.S. `hours and minutes calculator` opportunity (14,800 monthly searches, SD 35, CPC $1.13) and the closely aligned `time hours and minutes calculator` variant (14,800 monthly searches, SD 30, CPC $4.82), including add/subtract math, normalization/negative-time behavior, semantic coverage, competitor gaps and cannibalization against elapsed-time/work-hours calculators.
+Pass Content Quality CI for /hours-and-minutes-calculator/, merge the HTML + JavaScript remediation, deploy the exact tested artifacts with rollback preservation, and verify the public page plus JavaScript asset.
