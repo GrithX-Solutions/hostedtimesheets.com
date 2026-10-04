@@ -1018,6 +1018,8 @@ Editorial/SEO validation:
 - Passive-voice heuristic: 0/1,000 words.
 - Explicit example references: 6.
 - Full chart contains 24 hourly rows plus the header.
+- PR #57 automated review found the print action hid `.content-grid`, which also hid the advertised chart under the global print stylesheet.
+- FIXED before production release: Military Time now uses a page-scoped print override that hides the calculator/sidebar, re-enables the article grid, and keeps the chart table printable without changing global print behavior.
 - Sitemap contains the new canonical URL; branch sitemap count is 34.
 - Site search indexes the new page.
 - Clock Out and Time Duration contain contextual links to the new page.
