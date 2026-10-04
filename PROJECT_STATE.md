@@ -1,6 +1,6 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-05T00:31:00+05:00
+Last verified: 2026-10-05T00:52:00+05:00
 
 ## Objective
 
@@ -169,10 +169,10 @@ Completed all currently safe non-production preparation while GitHub Actions is 
 - Military Time Converter public page: HTTP 200 and still references the unversioned shared search asset.
 - PR #62 Content Quality run #59 failed before step 1 on rerun (steps/logs null), confirming the GitHub Actions runner blocker remained external to content.
 - Actions run #59 second recovery rerun on 2026-10-05: rerun request accepted; job 111511287834 queued, then completed failure with `steps=null` before checkout. GitHub public status reported Actions operational, so the repository's hosted-runner execution path remains BLOCKED despite no platform-wide incident.
-- Fresh control PR #77 from then-current main triggered Content Quality run #60. Run #60 also completed failure before checkout with job 111512715846 and `steps=null`; the control PR was closed unmerged as intended. This rules out a stale-run-only failure.
+- Fresh control PR #77 from then-current main triggered Content Quality run #60. Its original attempt completed failure before checkout with job 111512715846 and `steps=null`; the control PR was closed unmerged as intended. A new failed-jobs rerun was accepted on 2026-10-05 and again completed before checkout with job 111517427788, `steps=null`, and no logs. This rules out a stale-run-only failure and confirms the hosted-runner execution blocker still persists.
 - Root cause remains UNKNOWN from available APIs: GitHub public status reports Actions operational, but repository hosted-runner jobs fail before step 1; account quota/billing versus runner allocation cannot be verified with the current GitHub connector.
 - Windsor.ai Search Console connection for `sc-domain:hostedtimesheets.com` is VERIFIED available. Last 28 days for `/time-card-calculator/`: 0 rows. Last 90 days sitewide: only 2 query/page rows, 2 impressions total, 0 clicks; there is not yet enough first-party GSC data to justify changing the planned Time Card canonical ownership.
-- Search Console sitemap status: `https://hostedtimesheets.com/sitemap.xml` has 0 errors / 0 warnings, last submitted 2026-09-28, last downloaded 2026-10-02, and reports 26 submitted URLs.
+- Search Console sitemap status rechecked from raw non-aggregated rows: `https://hostedtimesheets.com/sitemap.xml` has 0 errors / 0 warnings, last submitted 2026-09-28, last downloaded 2026-10-02, and still reports 26 submitted URLs. A 52-URL aggregate result was rejected as a double-summed connector artifact after raw rows confirmed 26.
 - Current origin/public sitemap is newer and healthy: 34 URLs, HTTP 200, Cloudflare `DYNAMIC`, Last-Modified 2026-10-04, and includes Clock Out, Time Duration and Military Time. Therefore the 26-URL GSC count is a stale Google fetch, not an origin/edge deployment defect.
 - Current Search Console connector exposes no write actions, so sitemap resubmission / URL-inspection push is BLOCKED from available tooling. No submission claim is made.
 - Ubersuggest domain overview currently reports 0 U.S. organic keywords and 0 estimated U.S. organic traffic for hostedtimesheets.com; a current external `site:hostedtimesheets.com` search also returned no results. Indexation/discovery remains a material acquisition risk.
@@ -228,7 +228,7 @@ Completed all currently safe non-production preparation while GitHub Actions is 
 
 ## In progress
 
-BLOCKED on repository GitHub Actions hosted-runner execution. Fresh control PR #77 confirmed the failure is reproducible on a new run from current main. Parallel acquisition verification shows Search Console has almost no query data and has not yet re-fetched the current 34-URL sitemap, although the live sitemap is healthy.
+BLOCKED on repository GitHub Actions hosted-runner execution. Fresh control PR #77 confirmed the failure is reproducible on a new run from current main, and a new rerun again failed before checkout with `steps=null`. Parallel acquisition verification shows Search Console has almost no query data and has not yet re-fetched the current 34-URL sitemap; the raw sitemap row still reports 26 submitted URLs, 0 errors and 0 warnings.
 
 ## NEXT ACTION
 
