@@ -226,3 +226,139 @@ Evidence:
 - Control re-run of previously successful Clock Out Content Quality run #48 also failed with zero steps.
 
 Therefore this memo is research-only. No production retarget is authorized until the gate executes normally.
+
+
+## Read-only pre-retarget Time Card audit
+
+Status: VERIFIED source/math review / NO PRODUCTION CHANGE
+
+Current runtime:
+- `assets/js/timesheet-calculator.js`
+- one start/end pair per day;
+- break minutes deducted from the daily span;
+- overnight shifts add 24 hours when end < start;
+- daily result is rounded after break deduction;
+- weekly overtime/pay are calculated from the rounded daily totals.
+
+### Finding 1 — rounding label/content does not match the implemented operation
+
+The page describes the selector as “Rounding” and the quality guide says the selector controls how the calculator interprets entered times.
+
+The JavaScript does not round clock-in and clock-out punches individually. It first calculates:
+
+`net daily minutes = clock out − clock in − break`
+
+and then rounds that final daily net duration.
+
+These methods can produce materially different results.
+
+Verified example with nearest 15-minute rounding:
+
+- Clock in: 08:07
+- Clock out: 17:08
+- Unpaid break: 30 minutes
+- Current implementation: raw net 511 minutes → rounded daily net = 510 minutes = 8.50 hours.
+- Punch-rounding interpretation: 08:07 → 08:00 and 17:08 → 17:15, then subtract 30 minutes = 525 minutes = 8.75 hours.
+
+Difference: 15 minutes.
+
+Remediation decision for the future retarget:
+- either explicitly rename/document the current behavior as “Daily worked-time rounding,”
+- or implement actual punch rounding before duration calculation.
+- Do not claim punch rounding while using daily-total rounding.
+
+### Finding 2 — incomplete punch rows silently become zero
+
+Current behavior:
+- start entered, end blank → 0 minutes;
+- end entered, start blank → 0 minutes;
+- no visible row error is produced.
+
+The editorial content tells users to correct missing punches, but the calculator does not surface the problem.
+
+Required future behavior:
+- visibly flag an incomplete row;
+- exclude it from totals until complete;
+- do not silently present 0.00 as if the row were valid.
+
+### Finding 3 — equal start/end is silently treated as zero
+
+Current `shift()` returns 0 when start equals end.
+
+That may be a valid zero-duration row, but in a time-card context it is also ambiguous with a 24-hour/next-day interpretation and can hide an entry error.
+
+Required future behavior:
+- make the interpretation explicit;
+- preferred broad-owner behavior: flag equal non-empty punches as ambiguous/invalid rather than silently counting 0, unless an explicit next-day control exists.
+
+### Finding 4 — break longer than the shift silently floors the day to zero
+
+Current behavior:
+
+`Math.max(0, gross minutes − break minutes)`
+
+If the break exceeds the gross shift, the result becomes 0.00 without a visible warning.
+
+Required future behavior:
+- flag break > gross shift as invalid;
+- do not silently convert an impossible row to zero worked time.
+
+### Finding 5 — two-decimal hours can fail to reproduce gross pay
+
+The calculator displays daily/weekly decimal hours with `toFixed(2)`, but pay uses the exact minute total.
+
+Verified example:
+
+- 08:00 to 16:01, no break = 481 minutes.
+- Exact decimal hours = 8.016666...
+- Visible hours = 8.02.
+- At $25/hour, calculator pay from exact minutes = $200.42.
+- Multiplying the visible 8.02 by $25 gives $200.50.
+
+The visible hours therefore do not always reproduce the visible pay.
+
+Required future behavior:
+- show at least 4 decimal places where needed, or
+- clearly state that pay uses exact minute-derived hours before display rounding;
+- CSV should preserve enough precision to reproduce pay.
+
+### Finding 6 — blank overtime settings silently coerce to zero
+
+Current JavaScript uses `Number(value) || 0`.
+
+Verified effects:
+
+- 40 worked hours, hourly rate $25, overtime threshold cleared:
+  - threshold becomes 0;
+  - all 40 hours become overtime;
+  - at 1.5× the gross estimate becomes $1,500 instead of the normal $1,000 result at a 40-hour threshold.
+
+- 45 worked hours, threshold 40, multiplier cleared:
+  - multiplier becomes 0;
+  - 5 overtime hours remain classified as overtime but contribute $0 overtime pay.
+
+Required future behavior:
+- blank threshold/multiplier must not silently become meaningful zero values;
+- use explicit validation or a documented disabled/default state;
+- retain the boundary that the user supplies the applicable threshold/multiplier.
+
+### Existing behavior that remains valid
+
+- Overnight arithmetic works for shifts shorter than 24 hours when end < start.
+- Break values are clamped at zero or above in JavaScript.
+- User-supplied overtime threshold and multiplier are separated from legal eligibility.
+- Print and CSV use the entered rows/results.
+- Exact-minute mode does not round daily totals before weekly aggregation.
+
+## Future retarget release blockers
+
+Before changing /time-card-calculator/ to the broad Time Card + Timesheet owner:
+
+1. Resolve/document rounding semantics.
+2. Add incomplete-punch validation.
+3. Add break-overrun validation.
+4. Resolve equal-punch ambiguity.
+5. Make displayed/exported decimal precision reproduce pay, or disclose exact-minute pay math explicitly.
+6. Validate blank overtime threshold/multiplier inputs.
+7. Re-run normal, overnight, boundary, rounding, incomplete-row, break-overrun and pay-reproducibility tests.
+8. Required GitHub Actions Content Quality gate must execute and pass.
