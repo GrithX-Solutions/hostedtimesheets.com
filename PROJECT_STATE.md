@@ -1,6 +1,6 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-05T00:05:00+05:00
+Last verified: 2026-10-04T23:58:00+05:00
 
 ## Objective
 
@@ -30,7 +30,7 @@ Complete a sitewide content re-audit against CONTENT-STANDARDS.md, then remediat
 
 ## Last completed task
 
-Military Time Converter source, production-origin and public page/runtime verification completed. The only remaining release issue is stale edge delivery of the shared unversioned site-search asset; the deterministic cache-bust PR is prepared but GitHub Actions is currently failing before exposing steps/logs.
+Closed PR #62 without merge after verifying that the shared site-search edge cache recovered naturally. The unversioned public asset is now fresh and byte-identical to origin, so the proposed 34-page cache-bust is no longer needed.
 
 ## Tests / evidence
 
@@ -144,6 +144,11 @@ Military Time Converter source, production-origin and public page/runtime verifi
 - Military Time content metrics: 865 words, 12.36 average sentence words, 50-word maximum paragraph, passive heuristic 0/1,000, 6 examples.
 - Military Time PR #57 review finding: print actions hid the chart because global print CSS hides `.content-grid`; page-scoped print override prepared on fix/military-time-print-20261004 and revalidated.
 - Sitemap/search/llms discovery present; Clock Out and Time Duration contain contextual links.
+- Shared site-search cache recovery: VERIFIED — unversioned and ?v=e1350fd public responses both returned HTTP 200 with SHA-256 c9ba209dd32d7dc9f790835b439b7492ac02038f15d71494de9bf25c46da099a, exactly matching origin.
+- Origin site-search Git blob: e1350fd156987c154b807e68479ae3dac06f3850; it contains Military Time, Clock Out and Time Duration discovery entries.
+- Military Time Converter public page: HTTP 200 and still references the unversioned shared search asset.
+- PR #62 Content Quality run #59 failed before step 1 on rerun (steps/logs null), confirming the GitHub Actions runner blocker remained external to content.
+- PR #62 closed unmerged after the stale-edge condition expired; no production HTML change was necessary.
 
 ## Affected pages / calculators
 
@@ -159,7 +164,7 @@ Military Time Converter source, production-origin and public page/runtime verifi
 - /hours-and-minutes-calculator/ — repository + production HTML/JS verified; rendered browser proofread blocked by environment policy.
 - /clock-out-time-calculator/ — repository + production HTML/JS/discovery verified; rendered browser proofread blocked by environment policy.
 - /time-duration-calculator/ — repository + production HTML/JS/redirect/discovery verified; rendered browser proofread blocked by environment policy.
-- /military-time-converter/ — repository + production HTML/JS verified; public page/runtime/sitemap verified; shared site-search cache-bust remains BLOCKED on GitHub Actions.
+- /military-time-converter/ — repository + production HTML/JS verified; public page/runtime/sitemap/search discovery verified; shared site-search edge cache has recovered.
 - /elapsed-time-calculator/ — retired canonical; live HTTPS path 301s directly to /time-duration-calculator/.
 - /time-card-calculator/ — reconciled to current main during Clock Out release; contextual link live and rollback preserved.
 - assets/js/hours-minutes.js — add/subtract modes, signed results and 4-place decimal display released.
@@ -189,8 +194,8 @@ Military Time Converter source, production-origin and public page/runtime verifi
 
 ## In progress
 
-GitHub Actions runner execution remains the hard release blocker for PR #62. Non-production research is complete for Time Card canonical ownership, Time Card calculation/UX blockers, homepage traffic prioritization, Decimal Hours architecture and Salary Increase architecture.
+GitHub Actions runner execution remains unhealthy: the required Content Quality job still fails before step 1 with no logs. PR #62 is no longer a release dependency because its cache-bust objective became obsolete after edge-cache recovery.
 
 ## NEXT ACTION
 
-Do not merge/deploy PR #62 until GitHub Actions can execute the required Content Quality job. When the gate recovers: re-run PR #62 → merge/deploy the shared-search version references → verify public delivery → remediate/retarget Time Card → apply homepage priority changes → implement Decimal Hours and Salary Increase improvements only after current SERP/GSC revalidation.
+While GitHub Actions cannot execute the required gate, keep work non-production and prepare the implementation-ready Time Card remediation specification from the already verified canonical-ownership and calculation/UX findings. Periodically re-run a control Content Quality job; only after Actions executes normally should the Time Card code/content remediation branch be implemented, merged and deployed.
