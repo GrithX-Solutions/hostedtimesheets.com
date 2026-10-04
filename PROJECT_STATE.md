@@ -1,6 +1,6 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-04T20:55:00+05:00
+Last verified: 2026-10-04T22:53:36+05:00
 
 ## Objective
 
@@ -30,7 +30,7 @@ Complete a sitewide content re-audit against CONTENT-STANDARDS.md, then remediat
 
 ## Last completed task
 
-Completed U.S. SERP/competitor research and pre-release validation for /military-time-converter/ on feature/military-time-converter-20261004.
+Military Time Converter source, production-origin and public page/runtime verification completed. The only remaining release issue is stale edge delivery of the shared unversioned site-search asset; the deterministic cache-bust PR is prepared but GitHub Actions is currently failing before exposing steps/logs.
 
 ## Tests / evidence
 
@@ -131,7 +131,7 @@ Completed U.S. SERP/competitor research and pre-release validation for /military
 - /hours-and-minutes-calculator/ — repository + production HTML/JS verified; rendered browser proofread blocked by environment policy.
 - /clock-out-time-calculator/ — repository + production HTML/JS/discovery verified; rendered browser proofread blocked by environment policy.
 - /time-duration-calculator/ — repository + production HTML/JS/redirect/discovery verified; rendered browser proofread blocked by environment policy.
-- /military-time-converter/ — pre-release repository/content/conversion checks PASS; CI/merge/deploy remain.
+- /military-time-converter/ — repository + production HTML/JS verified; public page/runtime/sitemap verified; shared site-search cache-bust remains BLOCKED on GitHub Actions.
 - /elapsed-time-calculator/ — retired canonical; live HTTPS path 301s directly to /time-duration-calculator/.
 - /time-card-calculator/ — reconciled to current main during Clock Out release; contextual link live and rollback preserved.
 - assets/js/hours-minutes.js — add/subtract modes, signed results and 4-place decimal display released.
@@ -162,8 +162,8 @@ Completed U.S. SERP/competitor research and pre-release validation for /military
 
 ## In progress
 
-Military Time Converter release gate.
+Military Time Converter final release closure: shared site-search edge-cache remediation is BLOCKED on GitHub Actions execution for PR #60.
 
 ## NEXT ACTION
 
-Open the Military Time Converter PR, pass Content Quality CI, merge the exact tested branch, deploy the new page/runtime plus discovery/contextual-link changes with rollback preservation, and verify the public URL before moving to the general /timesheet-calculator/ architecture.
+Do not merge or deploy PR #60 while the required Content Quality check is red. Re-run/inspect the GitHub Actions check when runner metadata becomes available; if the gate passes, merge and deploy the 34 bounded script-reference replacements with rollback preservation, verify the public versioned search asset from homepage/Military/Clock Out/Time Duration, then advance to the general /timesheet-calculator/ architecture.
