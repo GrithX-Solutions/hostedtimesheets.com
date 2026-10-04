@@ -515,3 +515,61 @@ Rollback unit:
 If a homepage/internal-link reprioritization ships later, keep that as a separate rollback unit.
 
 Do not roll back specialist calculators when only the broad Time Card owner changes.
+
+
+## 2026-10-05 pre-implementation revalidation
+
+Status: VERIFIED evidence refresh / IMPLEMENTATION STILL BLOCKED
+
+### GitHub Actions release gate
+
+- Existing Content Quality run #59 was re-run again.
+- Re-run request was accepted and job `111511287834` entered the queue.
+- The job then completed with conclusion `failure` before checkout; GitHub returned `steps=null`.
+- GitHub public status reported Actions operational at the time, so this remains a repository/hosted-runner execution blocker rather than a content-quality failure.
+- Production-bound Time Card HTML/JavaScript changes remain unauthorized until a control run executes real steps normally.
+
+### First-party Google Search Console
+
+Verified via the connected Windsor.ai Search Console account:
+
+- Property: `sc-domain:hostedtimesheets.com`.
+- Last 28 days, filtered to `/time-card-calculator/`: 0 rows.
+- Last 90 days, entire property: 2 query/page rows, 2 impressions total, 0 clicks.
+- The two visible rows were:
+  - `/how-to-calculate-hours-worked/` for `work out hours worked`: 1 impression, position 83.
+  - `/timesheet-template/` for `biweekly timesheet template`: 1 impression, position 66.
+- Conclusion: there is not yet enough first-party query/landing-page evidence to overturn the planned canonical ownership. Do not claim current Time Card ranking or traffic from GSC.
+
+### Refreshed Ubersuggest evidence
+
+U.S. metrics remain materially unchanged:
+
+- `time card calculator`: 201,000 monthly searches; CPC $5.57; SD 49.
+- `timecard calculator`: 201,000; CPC $4.96; SD 48.
+- `time sheet calculator`: 90,500; CPC $4.70; SD 50.
+- `timesheet calculator`: 49,500; CPC $3.255; SD 52.
+- `timesheet calculator free`: 22,200; CPC $3.32; SD 20.
+
+Current SERP review still resolves the broad Time Card/Timesheet synonyms to the same weekly punch/break/overtime/pay product class. A ranking ShiftFlow page remains a useful low-authority comparator; current Ubersuggest page overview reports PA 18 with 0 backlinks and 0 referring domains.
+
+### Live source-of-truth recheck
+
+Production remains aligned with current main:
+
+- `time-card-calculator/index.html` Git blob: `a165256198cfb22969457c97b47c5a7fc4b4ab0e`.
+- `assets/js/timesheet-calculator.js` Git blob: `b2f24b756bf7a7f211d393a7a2f403dbefd132e1`.
+- Public Time Card page: HTTP 200.
+- Public calculator JavaScript: HTTP 200.
+
+The remediation defects in this specification remain present in the live-matching runtime:
+
+- incomplete punches are silently converted to 0 worked minutes;
+- equal punches are silently converted to 0;
+- break-overrun is floored to 0 instead of flagged invalid;
+- negative break values are silently clamped;
+- blank hourly rate, overtime threshold and overtime multiplier are coerced to 0;
+- visible decimal hours are fixed to two decimal places;
+- current content still says the rounding selector controls how the calculator interprets entered times, while runtime rounding actually applies after break deduction to daily worked duration.
+
+No formula or scope change in this specification is invalidated by the 2026-10-05 revalidation.
