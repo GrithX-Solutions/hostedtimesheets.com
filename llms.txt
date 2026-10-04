@@ -11,6 +11,7 @@
 - https://hostedtimesheets.com/salary-to-hourly-calculator/
 - https://hostedtimesheets.com/hourly-wage-calculator/
 - https://hostedtimesheets.com/time-duration-calculator/
+- https://hostedtimesheets.com/military-time-converter/
 - https://hostedtimesheets.com/billable-hours-calculator/
 
 ## Identity

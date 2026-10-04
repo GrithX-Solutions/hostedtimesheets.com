@@ -1,6 +1,6 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-04T20:45:35+05:00
+Last verified: 2026-10-04T20:55:00+05:00
 
 ## Objective
 
@@ -30,7 +30,7 @@ Complete a sitewide content re-audit against CONTENT-STANDARDS.md, then remediat
 
 ## Last completed task
 
-Completed and live-verified the Elapsed Time → Time Duration canonical migration, including second-precision calculator expansion, sitewide internal-link/search/sitemap updates, persistent outer-Nginx 301s and rollback preservation.
+Completed U.S. SERP/competitor research and pre-release validation for /military-time-converter/ on feature/military-time-converter-20261004.
 
 ## Tests / evidence
 
@@ -109,6 +109,12 @@ Completed and live-verified the Elapsed Time → Time Duration canonical migrati
 - All 32 active tracked link files checked: no internal /elapsed-time-calculator/ links remain on the feature branch.
 - Sitemap remains 33 URLs with /time-duration-calculator/ replacing the old elapsed-time canonical.
 - Production redirect source-of-truth verified as the outer ZetoPanel Nginx vhost, not .htaccess or /opt/hostedtimesheets/nginx.conf.
+- Military Time keyword: 74,000 US monthly searches, SD 22, CPC $0.11; Military Time Chart: 135,000 monthly, SD 28, CPC $0.31.
+- Low-authority competitor evidence: TimeRewards PA 20 / 0 backlinks; ASA PA 17 / 0 backlinks; Shifton PA 23 / 1 backlink.
+- Military Time parser tests: 0000, 1200, 1730, 0730/730, 17:30, AM/PM, noon/midnight, flexible compact inputs and invalid 2400/2360 cases PASS.
+- Military Time DOM: PASS; one H1/self-canonical: PASS; FAQ schema/visible parity 7/7 PASS; Node JavaScript syntax: PASS.
+- Military Time content metrics: 865 words, 12.36 average sentence words, 50-word maximum paragraph, passive heuristic 0/1,000, 6 examples.
+- Sitemap/search/llms discovery present; Clock Out and Time Duration contain contextual links.
 
 ## Affected pages / calculators
 
@@ -124,6 +130,7 @@ Completed and live-verified the Elapsed Time → Time Duration canonical migrati
 - /hours-and-minutes-calculator/ — repository + production HTML/JS verified; rendered browser proofread blocked by environment policy.
 - /clock-out-time-calculator/ — repository + production HTML/JS/discovery verified; rendered browser proofread blocked by environment policy.
 - /time-duration-calculator/ — repository + production HTML/JS/redirect/discovery verified; rendered browser proofread blocked by environment policy.
+- /military-time-converter/ — pre-release repository/content/conversion checks PASS; CI/merge/deploy remain.
 - /elapsed-time-calculator/ — retired canonical; live HTTPS path 301s directly to /time-duration-calculator/.
 - /time-card-calculator/ — reconciled to current main during Clock Out release; contextual link live and rollback preserved.
 - assets/js/hours-minutes.js — add/subtract modes, signed results and 4-place decimal display released.
@@ -154,8 +161,8 @@ Completed and live-verified the Elapsed Time → Time Duration canonical migrati
 
 ## In progress
 
-Traffic-first flagship expansion continues after the verified Time Duration migration.
+Military Time Converter release gate.
 
 ## NEXT ACTION
 
-Research the current U.S. `military time converter` SERP and competitor feature gap, define 12-hour↔24-hour conversion rules and edge cases, then build /military-time-converter/ as the next distinct no-signup flagship without overlapping Time Duration or Hours & Minutes.
+Open the Military Time Converter PR, pass Content Quality CI, merge the exact tested branch, deploy the new page/runtime plus discovery/contextual-link changes with rollback preservation, and verify the public URL before moving to the general /timesheet-calculator/ architecture.
