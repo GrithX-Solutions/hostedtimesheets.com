@@ -1,6 +1,6 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-05T00:08:00+05:00
+Last verified: 2026-10-05T00:05:37+05:00
 
 ## Objective
 
@@ -30,7 +30,7 @@ Complete a sitewide content re-audit against CONTENT-STANDARDS.md, then remediat
 
 ## Last completed task
 
-Completed the implementation-ready Time Card & Timesheet Calculator remediation specification from the verified canonical-ownership research and current runtime defects. No production code changed while GitHub Actions remains unable to execute the required gate.
+Completed the implementation-ready Decimal Hours Calculator remediation specification from the verified architecture research and current runtime defects. No production code changed because the GitHub Actions runner still fails before step 1.
 
 ## Tests / evidence
 
@@ -45,6 +45,10 @@ Completed the implementation-ready Time Card & Timesheet Calculator remediation 
 - Decimal cluster opportunity: hours to decimal calculator 14,800 / CPC $8.62 / SD 16; time to decimal calculator 14,800 / CPC $8.62 / SD 19; decimal hours calculator 12,100 / CPC $5.48 / SD 46.
 - Current Decimal Hours runtime silently clamps minutes above 59 to 59 and negative minutes to 0 instead of surfacing invalid input.
 - Current Decimal Hours runtime displays only two decimals while optional pay uses the exact unrounded duration; e.g. 8h 1m displays 8.02 but exact-time pay at $25/hour is $200.42, while 8.02 × $25 = $200.50.
+- DECIMAL-HOURS-REMEDIATION-SPEC-2026-10-05.md freezes the two-way Time ↔ Decimal product contract, seconds support, 2/3/4-place display precision, explicit invalid-input handling, optional-rate behavior, reverse nearest-second normalization and 36-case release matrix.
+- Decimal Hours future validation: 60/-1/fractional minutes or seconds are invalid and must never be silently clamped.
+- Decimal Hours future pay rule: Time → Decimal uses exact unrounded source duration; Decimal → Time uses the exact decimal input; blank optional rate shows — rather than $0.00.
+- GitHub Actions control re-run of previously successful Content Quality run #48 failed again before step 1 with steps/logs null, confirming the external runner blocker persists.
 - Current calculator is one-way; current competitors commonly provide two-way conversion, seconds and selectable precision.
 
 - HOMEPAGE-TRAFFIC-PRIORITY-2026-10-04.md records verified U.S. demand/CPC/SD and the future homepage priority map.
@@ -199,8 +203,8 @@ Completed the implementation-ready Time Card & Timesheet Calculator remediation 
 
 ## In progress
 
-GitHub Actions runner health check remains the release gate. Time Card implementation is fully specified but intentionally not started while required Actions jobs fail before step 1.
+GitHub Actions runner remains externally BLOCKED before step 1. Production-bound calculator changes stay frozen. Implementation-ready specifications now exist for Time Card and Decimal Hours.
 
 ## NEXT ACTION
 
-Run a control re-execution of a previously successful Content Quality job. If GitHub Actions executes steps normally, revalidate current Time Card SERP/GSC evidence and implement TIME-CARD-REMEDIATION-SPEC-2026-10-04.md on a fresh feature branch. If the control still fails before step 1, keep production-bound code frozen and continue only non-production planning/research.
+While the required Actions gate remains unavailable, prepare the implementation-ready Salary Increase remediation specification from SALARY-INCREASE-ARCHITECTURE-2026-10-04.md and the current runtime. Continue periodic control reruns; only start production-bound implementation after a Content Quality job executes normally.
