@@ -34,6 +34,11 @@ Military Time Converter source, production-origin and public page/runtime verifi
 
 ## Tests / evidence
 
+- SALARY-INCREASE-ARCHITECTURE-2026-10-04.md records verified U.S. keyword/SERP evidence, canonical ownership and the future product/validation plan.
+- Salary Increase synonym cluster: salary increase calculator 33,100 / CPC $13.90 / SD 16; pay raise calculator 33,100 / CPC $13.90 / SD 26; pay increase calculator 33,100 / CPC $13.90 / SD 19; wage increase calculator 33,100 / CPC $9.79 / SD 22.
+- Current Salary Increase runtime does not enforce the visible 53-week maximum in JavaScript and silently substitutes fallback values for blank hours/week and weeks/year inputs.
+- Ranking competitor pages include PA 11–14 pages with zero backlinks/referring domains, so the opportunity is not exclusively backlink-driven.
+
 - README.md and TRAFFIC-GAP-ANALYSIS-2026-10-03.md reconciled against the current repository: sitemap has 34 URLs; Clock Out, Time Duration and Military Time are no longer marked missing; the obsolete plan to add /timesheet-calculator/ was removed in favor of the verified Time Card canonical-owner decision.
 
 - DECIMAL-HOURS-ARCHITECTURE-2026-10-04.md records fresh U.S. keyword/SERP evidence, competitor gaps, canonical ownership and a tested future calculation specification.
@@ -184,8 +189,8 @@ Military Time Converter source, production-origin and public page/runtime verifi
 
 ## In progress
 
-GitHub Actions runner execution remains the hard release blocker for PR #62. Non-production research is complete for Time Card canonical ownership, Time Card calculation/UX blockers, homepage traffic prioritization and Decimal Hours canonical/product architecture.
+GitHub Actions runner execution remains the hard release blocker for PR #62. Non-production research is complete for Time Card canonical ownership, Time Card calculation/UX blockers, homepage traffic prioritization, Decimal Hours architecture and Salary Increase architecture.
 
 ## NEXT ACTION
 
-Do not merge/deploy PR #62 until GitHub Actions can execute the required Content Quality job. When the gate recovers: re-run PR #62 → merge/deploy the 34 shared-search version references → verify public versioned search delivery → remediate and retarget the broad Time Card owner → apply the homepage priority plan → then implement the Decimal Hours improvements in DECIMAL-HOURS-ARCHITECTURE-2026-10-04.md if still supported by current SERP/GSC evidence.
+Do not merge/deploy PR #62 until GitHub Actions can execute the required Content Quality job. When the gate recovers: re-run PR #62 → merge/deploy the shared-search version references → verify public delivery → remediate/retarget Time Card → apply homepage priority changes → implement Decimal Hours and Salary Increase improvements only after current SERP/GSC revalidation.
