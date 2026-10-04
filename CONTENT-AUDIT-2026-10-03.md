@@ -846,10 +846,18 @@ SEO/schema/internal discovery verification:
 - Site-search index contains the new page.
 - Work Hours and Time Card pages contain contextual links to the new page.
 
-Remaining before VERIFIED:
+Release evidence:
 
-- Content Quality CI.
-- Merge.
-- Controlled production deployment of exact tested HTML/JS plus sitemap/search/contextual-link changes.
-- Public HTTP 200, canonical/schema/JS/sitemap/internal-link verification.
-- Rendered desktop/mobile proofread when an allowed browser path is available.
+- Initial Content Quality run #46: FAILED only because two worked scenarios did not use the literal word "example"; the headings were corrected without changing formula logic.
+- Content Quality rerun #48: PASS.
+- Merge: PASS — PR #52 merged at `718b1693d7c8f3fb55d6fe651c2d1342a90d8490`.
+- New production artifacts: `/clock-out-time-calculator/index.html` and `/assets/js/clock-out-time.js` match the merged GitHub blobs exactly.
+- Discovery artifacts: production `site-search.js` and `sitemap.xml` match merged GitHub exactly; sitemap count is 33 URLs.
+- Contextual-link artifacts: Work Hours matches merged GitHub; Time Card was reconciled to current main while preserving the exact pre-release rollback copy.
+- Public HTTPS: PASS — Clock Out page, calculator JavaScript, site-search JavaScript, sitemap, Time Card and Work Hours all returned HTTP 200.
+- Public asset freshness: PASS — Clock Out JS, site-search JS and sitemap public SHA-256 hashes exactly match their production-origin files, so no stale edge cache was observed.
+- Served Clock Out HTML contains the expected title, self-canonical, WebApplication/WebPage/FAQ schema, worked examples and calculator JS reference.
+- Public Time Card and Work Hours responses both contain contextual links to `/clock-out-time-calculator/`.
+- Rendered desktop/mobile proofread: BLOCKED — available browser runtime still blocks the live domain with ERR_BLOCKED_BY_ADMINISTRATOR.
+
+Status remains PARTIALLY VERIFIED only because rendered visual QA is blocked; calculation, repository, deployment and live-response checks passed.

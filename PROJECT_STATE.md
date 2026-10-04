@@ -1,6 +1,6 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-03T18:40:00+05:00
+Last verified: 2026-10-04T09:15:00+05:00
 
 ## Objective
 
@@ -24,11 +24,12 @@ Complete a sitewide content re-audit against CONTENT-STANDARDS.md, then remediat
 - Production content source for hourly wage page + JS: main commit de976055a430e4b9aa01fb2d1883d7f328ba009a
 - Production content source for salary-bonus page + JS: main commit 4b17394d84cba000c256f2b1da6abb61c0793eb7
 - Production content source for hours-and-minutes page + JS: main commit 4cbada58d14c5e3a6417c4647b9b6b43961f178a
-- Public sitemap: 32 URLs, all with lastmod 2026-10-03 in the current repository sitemap.
+- Production content source for clock-out page + JS/discovery links: main commit 718b1693d7c8f3fb55d6fe651c2d1342a90d8490
+- Public sitemap: 33 URLs after adding /clock-out-time-calculator/; the current repository sitemap uses lastmod 2026-10-03 for the new flagship.
 
 ## Last completed task
 
-Built and pre-release validated the new /clock-out-time-calculator/ flagship on feature/clock-out-time-calculator-20261003 after Ubersuggest/SERP/competitor research.
+Released and live-verified the new /clock-out-time-calculator/ flagship, including exact source deployment, sitemap/site-search discovery and contextual links from Time Card and Work Hours.
 
 ## Tests / evidence
 
@@ -83,6 +84,14 @@ Built and pre-release validated the new /clock-out-time-calculator/ flagship on 
 - Clock Out DOM structure: PASS; one H1/self-canonical: PASS; FAQ schema/visible parity 5/5 PASS; Node JS syntax: PASS.
 - Clock Out Content Quality run #46: FAILED only because the two worked scenarios did not use the literal word “example”; headings corrected without changing the underlying content or formula.
 - New URL added to sitemap and site-search; Work Hours and Time Card pages link contextually to it.
+- Clock Out Content Quality rerun #48: PASS; PR #52 merged at 718b1693d7c8f3fb55d6fe651c2d1342a90d8490.
+- Clock Out production HTML Git blob ca423760b217ffebdcb1283439eda5e1cd3921fb and JS Git blob 3dfe35b3331a80d3b19a1ebccc3f8caf37aefc4a match merged GitHub.
+- Production sitemap Git blob 00cbe31499b240be822164e3183c57c981f2f28e and site-search Git blob fd0dcff56df684f70414897132231755ae41fe4b match merged GitHub.
+- Public Clock Out page/JS, site-search, sitemap, Time Card and Work Hours all returned HTTP 200.
+- Public Clock Out JS SHA-256 52e17a2ca90e2d4738558a35975386bdc7eeb9ef43c251b9e99daa242513051c exactly matches origin.
+- Public site-search SHA-256 f2101d5e81ac05dce75afb835125737e21ae6d6770f83578160c3b0ef1588527 exactly matches origin.
+- Public sitemap SHA-256 b69a3054ad4d161a620aa95b27b31773492fede824bbb0d185eba325652395c1 exactly matches origin.
+- Time Card and Work Hours public responses both contain the Clock Out contextual link; Time Card was reconciled to current main with exact pre-release rollback preserved.
 
 ## Affected pages / calculators
 
@@ -96,6 +105,8 @@ Built and pre-release validated the new /clock-out-time-calculator/ flagship on 
 - /hourly-wage-calculator/ — repository + production HTML/JS verified; rendered browser proofread blocked by environment policy.
 - /salary-calculator-with-bonus/ — repository + production HTML/JS verified; rendered browser proofread blocked by environment policy.
 - /hours-and-minutes-calculator/ — repository + production HTML/JS verified; rendered browser proofread blocked by environment policy.
+- /clock-out-time-calculator/ — repository + production HTML/JS/discovery verified; rendered browser proofread blocked by environment policy.
+- /time-card-calculator/ — reconciled to current main during Clock Out release; contextual link live and rollback preserved.
 - assets/js/hours-minutes.js — add/subtract modes, signed results and 4-place decimal display released.
 - assets/js/salary-bonus.js — zero-base N/A handling and 1–53 workweek validation released.
 - assets/js/hourly-wage.js — weeks/year and workdays/week validation aligned with visible HTML limits and released.
@@ -119,13 +130,13 @@ Built and pre-release validated the new /clock-out-time-calculator/ flagship on 
 ## Technical debt
 
 - README.md page inventory/roadmap is stale relative to the current 32-URL sitemap.
-- Main is ahead of the last full production reconciliation commit c2fb0f719c7922fc41aae1657cf1c07008c1dab8; 20 public HTML pages changed in that range. Ten pages — /timesheet-calculator-with-lunch/, /weekly-timesheet-calculator/, /biweekly-timesheet-calculator/, /work-hours-calculator/, /salary-increase-calculator/, /overtime-calculator/, /pto-accrual-calculator/, /hourly-wage-calculator/, /salary-calculator-with-bonus/ and /hours-and-minutes-calculator/ — have now been individually brought forward and live-content-verified in this resumed audit; 10 changed public HTML pages still need controlled reconciliation.
+- Main is ahead of the last full production reconciliation commit c2fb0f719c7922fc41aae1657cf1c07008c1dab8; 20 public HTML pages changed in that range. Eleven pre-existing pages — /timesheet-calculator-with-lunch/, /weekly-timesheet-calculator/, /biweekly-timesheet-calculator/, /work-hours-calculator/, /salary-increase-calculator/, /overtime-calculator/, /pto-accrual-calculator/, /hourly-wage-calculator/, /salary-calculator-with-bonus/, /hours-and-minutes-calculator/ and /time-card-calculator/ — have now been individually brought forward and live-content-verified in this resumed audit; 9 changed public HTML pages still need controlled reconciliation. The new /clock-out-time-calculator/ flagship is also live-verified.
 - Manual editorial/SERP verification remains incomplete for the rest of the public pages.
 
 ## In progress
 
-Clock Out Time Calculator release gate.
+Traffic-first flagship expansion: migrate the overlapping Elapsed Time implementation into the higher-demand Time Duration intent without creating a duplicate calculator.
 
 ## NEXT ACTION
 
-Pass Content Quality CI for /clock-out-time-calculator/, merge the exact branch, deploy the new page/JS plus discovery/internal-link changes with rollback preservation, and verify the live URL before homepage reprioritization.
+Research the current `time duration calculator` SERP/competitor feature gap, rework the existing /elapsed-time-calculator/ implementation into /time-duration-calculator/, then perform a tested one-hop 301 migration with canonical/schema/sitemap/site-search/internal-link updates while preserving `elapsed time calculator` as a secondary semantic target.
