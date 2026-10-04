@@ -94,3 +94,15 @@ Decision after release-gate recovery:
 - Overtime remains a first-tier payroll tool.
 - Timesheet With Lunch remains a specialist, not the homepage flagship.
 - Do not deploy these homepage changes until PR #62 and the broad Time Card owner are safely released.
+
+
+## 2026-10-04 — Decimal Hours calculator owns interactive time-to-decimal conversion
+
+Fresh U.S. keyword/SERP research shows `hours to decimal calculator` and `time to decimal calculator` each at 14,800 monthly searches with CPC $8.62 and SD 16–19, while current SERPs repeatedly rank the same converter class across those phrases and `decimal hours calculator`.
+
+Decision:
+- Keep /decimal-hours-calculator/ as the single interactive owner for hours/time ↔ decimal conversion.
+- Keep /minutes-to-decimal-hours/ as the static 1–60 minute chart, formula and spreadsheet guide.
+- Do not create another decimal-time calculator URL.
+- Future calculator remediation should add reverse conversion, seconds, selectable precision and explicit invalid-input handling while keeping exact source duration authoritative for pay.
+- Do not duplicate the full minute chart on the calculator; cross-link to the guide instead.
