@@ -53,3 +53,18 @@ Production URL migrations for hostedtimesheets.com must use the persistent outer
 ## 2026-10-04 — Time Duration canonical migration
 
 The former /elapsed-time-calculator/ intent is consolidated into /time-duration-calculator/ rather than maintained as a second near-identical calculator. The HTTPS old URL must remain a permanent one-hop 301 to the new canonical. Internal links, sitemap, site search and llms point only to the new canonical; "elapsed time calculator" remains a secondary semantic target on the new page. The persistent redirect source of truth is tracked at ops/nginx/hostedtimesheets.com.conf and deployed through the outer ZetoPanel Nginx vhost.
+
+
+## 2026-10-04 — Do not bypass GitHub Actions runner failures
+
+The required Content Quality gate must remain authoritative even when GitHub Actions fails before job execution.
+
+Evidence:
+- PR #60 run #58 failed twice with zero steps and no downloadable log blob.
+- Clean current-main replacement PR #62 run #59 failed the same way.
+- A control re-run of previously successful Clock Out Content Quality run #48 also failed before step 1.
+
+Decision:
+- Classify the current condition as an external GitHub Actions execution blocker, not a content-quality failure.
+- Do not merge/deploy PR #62 while the required check is red.
+- Keep productive work limited to non-production research/planning until Actions can execute the gate normally.
