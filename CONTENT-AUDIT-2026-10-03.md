@@ -952,3 +952,88 @@ Release evidence:
 - Rendered desktop/mobile proofread: BLOCKED — available browser runtime still blocks the live domain with ERR_BLOCKED_BY_ADMINISTRATOR.
 
 Status remains PARTIALLY VERIFIED only because rendered visual QA is blocked; calculation, content, redirect, source-parity, rollback and live-response checks passed.
+
+
+### /military-time-converter/ — pre-release review
+
+Status: PARTIALLY VERIFIED  
+Repository score before production release: **98/100**
+
+U.S. search evidence captured 2026-10-04 from Ubersuggest:
+
+- `military time converter`: 74,000 monthly searches; SD 22; CPC $0.11; informational intent.
+- `military time chart`: 135,000 monthly searches; SD 28; CPC $0.31.
+- `standard time to military time`: 1,600 monthly searches; SD 25.
+- `military time to standard time`: 1,600 monthly searches; SD 38.
+- A current lower-authority ranking set exists: TimeRewards PA 20 with 0 backlinks/referring domains; ASA PA 17 with 0 backlinks/referring domains; Shifton PA 23 with 1 backlink/referring domain.
+- Stronger domains also rank, so the low SD/PA evidence is treated as an opportunity rather than a ranking guarantee.
+
+Current live competitor review:
+
+- OnTheClock supports two-way conversion, a swap flow and a whole-hour chart.
+- ClockIt accepts flexible inputs such as 1830, 18:30 and 6:30 pm and provides a 15-minute chart.
+- Current specialist tools commonly expose current local time, copy actions, full charts and quick examples.
+- HostedTimesheets' information gain is the combination of one smart input that accepts military, colon-form 24-hour and AM/PM notation, simultaneous display of all three formats, current-time shortcut, presets, copy actions, time-of-day label, printable 24-row chart, and explicit midnight/noon/2400 handling tied to work-time tools.
+
+Intent/cannibalization boundary:
+
+- This URL owns clock-notation conversion only.
+- `/time-duration-calculator/` remains the owner for duration between two moments.
+- `/hours-and-minutes-calculator/` remains the owner for adding/subtracting known durations.
+- `/clock-out-time-calculator/` remains the reverse shift-end calculator.
+- No timezone/city/UTC conversion is added to this page.
+
+Score:
+
+- Search intent + semantic coverage: 20/20
+- Competitor information gain: 19/20
+- Skimmability + readability: 15/15
+- Native-English grammar, punctuation + active voice: 15/15
+- Methodology + conversion accuracy: 15/15
+- SEO, schema, internal links + trust/privacy: 14/15
+
+Repository/conversion verification against `assets/js/military-time.js`:
+
+- `0000` → 00:00 → 12:00 AM: PASS.
+- `1200` → 12:00 → 12:00 PM: PASS.
+- `1730` → 17:30 → 5:30 PM: PASS.
+- `0730` and shorthand `730` → 07:30 → 7:30 AM: PASS.
+- `17:30` → 1730 → 5:30 PM: PASS.
+- `5:30 PM` → 1730 → 17:30: PASS.
+- `12:00 AM` → 0000 and `12:00 PM` → 1200: PASS.
+- `noon` → 1200 and `midnight` → 0000: PASS.
+- `7 PM`, `930PM` and `09:30 am` flexible inputs: PASS.
+- Invalid `2400`, `2360` and `13:00 PM`: rejected: PASS.
+- JavaScript syntax compilation with Node: PASS.
+
+Editorial/SEO validation:
+
+- DOM structural stack: PASS.
+- One H1: PASS.
+- Self-canonical `https://hostedtimesheets.com/military-time-converter/`: PASS.
+- FAQPage schema and visible FAQ parity: 7/7 exact PASS.
+- Main-content word count: 865.
+- Average sentence length: 12.36 words.
+- Maximum paragraph: 50 words.
+- Passive-voice heuristic: 0/1,000 words.
+- Explicit example references: 6.
+- Full chart contains 24 hourly rows plus the header.
+- Sitemap contains the new canonical URL; branch sitemap count is 34.
+- Site search indexes the new page.
+- Clock Out and Time Duration contain contextual links to the new page.
+- llms.txt contains the new canonical.
+
+Product decisions:
+
+- The converter intentionally uses `0000` for midnight and accepts military values only through `2359`.
+- `2400` is rejected to avoid a date-boundary representation that is not a unique time within a single day; the page documents this explicitly.
+- Military-style output is shown without a colon and the equivalent 24-hour clock output is shown separately with a colon.
+- Current-time behavior uses the user's device clock and sends no time value to the server.
+
+Remaining before VERIFIED:
+
+- Content Quality CI.
+- Merge.
+- Controlled production deployment of page/JS plus sitemap/search/llms/contextual-link changes with rollback preservation.
+- Public HTTP 200/canonical/schema/JS/sitemap/search/internal-link verification.
+- Rendered desktop/mobile proofread when an allowed browser path is available.
