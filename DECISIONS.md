@@ -118,3 +118,21 @@ Decision:
 - Preserve the current title concept bridging Salary Increase and Pay Raise.
 - Future product work should focus on validation, flat-amount raises and before/after pay-period outputs.
 - Do not add tax, take-home-pay, jurisdictional deduction or automatic inflation conclusions to this calculator.
+
+
+## 2026-10-04 — Retire site-search cache-bust after edge recovery
+
+The shared site-search cache-bust PR #62 is no longer needed.
+
+Evidence:
+- The unversioned public `/assets/js/site-search.js` now returns HTTP 200 with SHA-256 `c9ba209dd32d7dc9f790835b439b7492ac02038f15d71494de9bf25c46da099a`, exactly matching the production-origin file.
+- The proposed `?v=e1350fd` URL returns the same bytes.
+- The origin file's Git blob is `e1350fd156987c154b807e68479ae3dac06f3850` and contains Military Time, Clock Out and Time Duration search entries.
+- The Military Time Converter remains HTTP 200 and references the unversioned asset.
+- GitHub Actions run #59 still fails before step 1, so the prior “do not bypass Actions” decision remains valid.
+
+Decision:
+- Close PR #62 without merge or deployment.
+- Do not add cache-busting query strings when the currently referenced unversioned asset is already fresh.
+- Treat future stale-edge incidents as deployment/cache-delivery issues to verify against origin and public hashes before changing every HTML page.
+- Continue to require a real GitHub Actions Content Quality pass before any future production-bound HTML release.
