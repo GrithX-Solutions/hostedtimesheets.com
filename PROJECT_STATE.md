@@ -1,6 +1,6 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-04T23:22:00+05:00
+Last verified: 2026-10-04T23:35:00+05:00
 
 ## Objective
 
@@ -33,6 +33,11 @@ Complete a sitewide content re-audit against CONTENT-STANDARDS.md, then remediat
 Military Time Converter source, production-origin and public page/runtime verification completed. The only remaining release issue is stale edge delivery of the shared unversioned site-search asset; the deterministic cache-bust PR is prepared but GitHub Actions is currently failing before exposing steps/logs.
 
 ## Tests / evidence
+
+- TIMESHEET-ARCHITECTURE-2026-10-04.md records fresh U.S. Ubersuggest/SERP evidence and the canonical-ownership decision.
+- Broad cluster demand: time card calculator 201,000; time sheet calculator 90,500; timesheet calculator 49,500; timesheet calculator free 22,200 monthly U.S. searches.
+- Fresh SERPs repeatedly rank Time Card pages for Timesheet queries, confirming strong synonym overlap rather than a separate product intent.
+- Current HostedTimesheets runtimes confirm a new general /timesheet-calculator/ would substantially duplicate /time-card-calculator/.
 
 - Existing repository measurable content audit: 32/32 pages pass the calibrated hard gate.
 - Ubersuggest authenticated Tier 3 account verified.
@@ -162,8 +167,8 @@ Military Time Converter source, production-origin and public page/runtime verifi
 
 ## In progress
 
-Military Time Converter final release closure: shared site-search edge-cache remediation is BLOCKED by GitHub Actions runner execution. Superseded PR #60 is closed; clean current-main replacement PR #62 is open and remains unmerged.
+Military shared-search cache remediation remains release-blocked by GitHub Actions runner execution. Non-production timesheet architecture research is complete.
 
 ## NEXT ACTION
 
-Do not merge or deploy PR #62 while the required Content Quality check is red. GitHub Actions is VERIFIED BLOCKED before step 1: PR #60 run #58 failed twice with zero steps/no log blob; clean PR #62 run #59 failed the same way; and a control re-run of previously successful Clock Out Content Quality run #48 also failed with zero steps. Continue non-production research for the general /timesheet-calculator/ architecture, but do not ship new production changes until the required Actions gate can execute normally. When Actions recovers, re-run PR #62, then merge/deploy the 34 bounded script-reference replacements with rollback preservation and verify versioned search delivery from homepage/Military/Clock Out/Time Duration.
+Do not merge/deploy PR #62 until GitHub Actions can execute the required Content Quality job. When the gate recovers, re-run PR #62, merge/deploy the 34 bounded shared-search version references and verify public delivery. Then retarget /time-card-calculator/ as the broad Time Card + Timesheet Calculator canonical owner according to TIMESHEET-ARCHITECTURE-2026-10-04.md; do not create /timesheet-calculator/ unless later GSC data demonstrates a genuinely distinct intent.

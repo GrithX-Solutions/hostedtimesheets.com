@@ -68,3 +68,15 @@ Decision:
 - Classify the current condition as an external GitHub Actions execution blocker, not a content-quality failure.
 - Do not merge/deploy PR #62 while the required check is red.
 - Keep productive work limited to non-production research/planning until Actions can execute the gate normally.
+
+
+## 2026-10-04 — Time Card owns the broad Timesheet Calculator synonym cluster
+
+Fresh U.S. keyword/SERP research shows that “time card calculator,” “timesheet calculator,” “time sheet calculator,” and “free timesheet calculator” substantially resolve to the same product class and often the same ranking pages.
+
+Decision:
+- Do not create /timesheet-calculator/ now.
+- Keep /time-card-calculator/ as the canonical broad owner for the synonym cluster and retarget its title/H1/content after the required Actions gate is healthy.
+- Keep /weekly-timesheet-calculator/, /biweekly-timesheet-calculator/, /timesheet-calculator-with-lunch/ and /timesheet-pay-calculator/ as specialist intent owners.
+- Do not redirect specialists without first-party GSC evidence of actual cannibalization.
+- Preserve one-shift-per-day on the broad Time Card page; split shifts remain a distinguishing feature of the Weekly specialist.
