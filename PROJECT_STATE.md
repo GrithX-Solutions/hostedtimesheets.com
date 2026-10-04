@@ -34,6 +34,8 @@ Military Time Converter source, production-origin and public page/runtime verifi
 
 ## Tests / evidence
 
+- README.md and TRAFFIC-GAP-ANALYSIS-2026-10-03.md reconciled against the current repository: sitemap has 34 URLs; Clock Out, Time Duration and Military Time are no longer marked missing; the obsolete plan to add /timesheet-calculator/ was removed in favor of the verified Time Card canonical-owner decision.
+
 - DECIMAL-HOURS-ARCHITECTURE-2026-10-04.md records fresh U.S. keyword/SERP evidence, competitor gaps, canonical ownership and a tested future calculation specification.
 - Decimal cluster opportunity: hours to decimal calculator 14,800 / CPC $8.62 / SD 16; time to decimal calculator 14,800 / CPC $8.62 / SD 19; decimal hours calculator 12,100 / CPC $5.48 / SD 46.
 - Current Decimal Hours runtime silently clamps minutes above 59 to 59 and negative minutes to 0 instead of surfacing invalid input.
@@ -177,7 +179,6 @@ Military Time Converter source, production-origin and public page/runtime verifi
 
 ## Technical debt
 
-- README.md page inventory/roadmap is stale relative to the current 32-URL sitemap.
 - Main is ahead of the last full production reconciliation commit c2fb0f719c7922fc41aae1657cf1c07008c1dab8; 20 public HTML pages changed in that range. Twelve pre-existing page intents — including the Elapsed Time → Time Duration migration — have now been individually brought forward and live-content-verified in this resumed audit; 8 changed public HTML pages still need controlled reconciliation. The new /clock-out-time-calculator/ flagship is also live-verified.
 - Manual editorial/SERP verification remains incomplete for the rest of the public pages.
 
