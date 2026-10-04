@@ -1,6 +1,6 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-04T23:58:00+05:00
+Last verified: 2026-10-05T00:08:00+05:00
 
 ## Objective
 
@@ -30,7 +30,7 @@ Complete a sitewide content re-audit against CONTENT-STANDARDS.md, then remediat
 
 ## Last completed task
 
-Closed PR #62 without merge after verifying that the shared site-search edge cache recovered naturally. The unversioned public asset is now fresh and byte-identical to origin, so the proposed 34-page cache-bust is no longer needed.
+Completed the implementation-ready Time Card & Timesheet Calculator remediation specification from the verified canonical-ownership research and current runtime defects. No production code changed while GitHub Actions remains unable to execute the required gate.
 
 ## Tests / evidence
 
@@ -55,6 +55,11 @@ Closed PR #62 without merge after verifying that the shared site-search edge cac
 - Time Card read-only pre-retarget audit: VERIFIED. Current runtime rounds final daily net minutes rather than individual punches; 08:07–17:08 with a 30-minute break and nearest-15 rounding yields 8.50 h under current logic versus 8.75 h under punch rounding.
 - Time Card precision check: 481 exact minutes displays as 8.02 h, but at $25/hour exact-minute pay is $200.42 while 8.02 × $25 = $200.50.
 - Time Card blank-setting checks: clearing overtime threshold coerces it to 0 and can classify all worked time as overtime; clearing the multiplier coerces it to 0 and can zero out overtime pay.
+- TIME-CARD-REMEDIATION-SPEC-2026-10-04.md freezes the future formula order, validation states, daily net-duration rounding semantics, decimal/pay precision, total-break summary, Copy Monday shortcut, CSV/print behavior, SEO retarget and 28-case release test matrix.
+- Time Card remediation decision: preserve current daily net-duration rounding after break deduction and rename/document it accurately; do not silently switch to punch rounding.
+- Time Card future validation: incomplete/equal punches and break > gross shift are invalid and excluded from totals with visible accessible errors.
+- Blank overtime threshold/multiplier must not coerce to zero; explicit numeric 0 remains a valid user-entered value.
+- Decimal-hour outputs should use 2–4 places so minute-derived pay can be reproduced from visible hours.
 - Time Card row-validation gaps: incomplete punches, equal punches, and break > gross shift can all silently resolve to 0.00 instead of a visible validation state.
 
 - TIMESHEET-ARCHITECTURE-2026-10-04.md records fresh U.S. Ubersuggest/SERP evidence and the canonical-ownership decision.
@@ -194,8 +199,8 @@ Closed PR #62 without merge after verifying that the shared site-search edge cac
 
 ## In progress
 
-GitHub Actions runner execution remains unhealthy: the required Content Quality job still fails before step 1 with no logs. PR #62 is no longer a release dependency because its cache-bust objective became obsolete after edge-cache recovery.
+GitHub Actions runner health check remains the release gate. Time Card implementation is fully specified but intentionally not started while required Actions jobs fail before step 1.
 
 ## NEXT ACTION
 
-While GitHub Actions cannot execute the required gate, keep work non-production and prepare the implementation-ready Time Card remediation specification from the already verified canonical-ownership and calculation/UX findings. Periodically re-run a control Content Quality job; only after Actions executes normally should the Time Card code/content remediation branch be implemented, merged and deployed.
+Run a control re-execution of a previously successful Content Quality job. If GitHub Actions executes steps normally, revalidate current Time Card SERP/GSC evidence and implement TIME-CARD-REMEDIATION-SPEC-2026-10-04.md on a fresh feature branch. If the control still fails before step 1, keep production-bound code frozen and continue only non-production planning/research.
