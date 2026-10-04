@@ -861,3 +861,81 @@ Release evidence:
 - Rendered desktop/mobile proofread: BLOCKED — available browser runtime still blocks the live domain with ERR_BLOCKED_BY_ADMINISTRATOR.
 
 Status remains PARTIALLY VERIFIED only because rendered visual QA is blocked; calculation, repository, deployment and live-response checks passed.
+
+
+### /time-duration-calculator/ — pre-release review
+
+Status: PARTIALLY VERIFIED  
+Repository score before production release: **98/100**
+
+U.S. search evidence captured 2026-10-04:
+
+- `time duration calculator`: 135,000 monthly searches; SD 34; informational intent.
+- Ubersuggest stored SERP includes multiple weak ranking pages: CalcShelf PA 14, NGE Tools PA 8, ToolQix PA 8, Calcora PA 1 and Babbage Calculator PA 8; each currently shows 0 backlinks and 0 referring domains in Ubersuggest page overview.
+- The live SERP also includes stronger utility domains, so SD 34 is not treated as an automatic ranking guarantee.
+- Related demand confirms `date time duration calculator` (135,000), `date and time duration calculator` (90,500), and long-tail interest around breaks, dates, minutes/seconds and 24-hour time.
+
+Canonical/cannibalization decision:
+
+- Existing `/elapsed-time-calculator/` already owned start/end duration behavior and strongly overlapped the larger time-duration intent.
+- A second near-identical calculator would create unnecessary cannibalization.
+- The migration therefore replaces that canonical URL with `/time-duration-calculator/`.
+- `elapsed time calculator` remains a secondary semantic target in content/search keywords.
+- `/hours-and-minutes-calculator/` remains the separate owner for adding/subtracting already-known durations.
+
+Feature/information gain:
+
+- Time-only and Date & time modes.
+- Second-level start/end precision.
+- Same-day and automatic overnight duration.
+- Multi-day date/time spans.
+- Total seconds, total minutes, decimal hours and formatted day/hour/minute/second output.
+- Optional break deduction with net duration floored at zero.
+- Start = now, End = now and Swap controls.
+- Clear timezone/DST limitation and browser-local calculation boundary.
+
+Repository/math verification:
+
+- DOM structural stack: PASS.
+- One H1: PASS.
+- Self-canonical `https://hostedtimesheets.com/time-duration-calculator/`: PASS.
+- FAQ schema/visible-answer parity: 7/7 exact PASS.
+- JavaScript syntax compilation: PASS.
+- 9:00:00 → 17:30:00 = 30,600 seconds / 510 minutes / 8.50 hours: PASS.
+- 13:20:15 → 17:05:45 = 13,530 seconds / 225.50 minutes / 3.7583 hours: PASS.
+- 22:00 → 06:00 time-only = 8 hours overnight: PASS.
+- 9:00 → 17:30 with 30-minute break = 8 hours net: PASS.
+- 2026-10-04 09:15 → 2026-10-06 12:45 = 2d 3h 30m / 51.50 hours: PASS.
+- End date/time earlier than start: rejected: PASS.
+- Break longer than gross duration floors net to zero: PASS.
+
+Editorial/content hard-gate metrics:
+
+- 1,056 words in main content.
+- Average sentence length: 15.53 words.
+- Maximum paragraph: 65 words.
+- 6+ explicit worked examples.
+- No structural/parser errors found.
+- Passive-voice heuristic hits were low and below the existing gate threshold.
+
+Migration coverage:
+
+- Old `elapsed-time-calculator/index.html` source removed from the feature branch.
+- Old `assets/js/elapsed-time.js` source removed from the feature branch.
+- New `time-duration-calculator/index.html` and `assets/js/time-duration.js` added.
+- Sitemap count remains 33; old canonical removed and new canonical present.
+- Site-search item renamed to Time Duration Calculator while retaining elapsed-time semantic keywords.
+- llms.txt canonical list updated.
+- All 32 active tracked HTML/content link files checked: no internal `/elapsed-time-calculator/` links remain.
+- Tracked production Nginx vhost adds exact 301 redirects for both `/elapsed-time-calculator` and `/elapsed-time-calculator/` in HTTP and HTTPS server blocks.
+- Production redirect layer was verified to be the persistent outer ZetoPanel vhost at `/var/lib/zetopanel/nginx/conf.d/hostedtimesheets.com.conf`; the inner preview container uses stock Nginx and does not mount `/opt/hostedtimesheets/nginx.conf`.
+
+Remaining before VERIFIED:
+
+- Content Quality CI.
+- Merge.
+- Controlled production deployment of new page/JS and active link/discovery changes.
+- Apply the tracked outer-vhost redirect with pre-change backup, `nginx -t`, reload and one-hop 301 verification.
+- Remove/archive the old production page/runtime only after the redirect is active.
+- Public HTTP 200/canonical/schema/JS/sitemap/search/internal-link verification.
+- Rendered desktop/mobile proofread when an allowed browser path is available.
