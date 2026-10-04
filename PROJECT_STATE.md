@@ -1,6 +1,6 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-05T00:07:40+05:00
+Last verified: 2026-10-05T00:10:00+05:00
 
 ## Objective
 
@@ -30,7 +30,7 @@ Complete a sitewide content re-audit against CONTENT-STANDARDS.md, then remediat
 
 ## Last completed task
 
-Completed the implementation-ready Salary Increase Calculator remediation specification from the verified architecture research and current runtime. No production code changed while GitHub Actions remains unable to execute the required Content Quality gate.
+Completed the implementation-ready homepage traffic reprioritization specification from verified U.S. demand and the current homepage markup. No production HTML changed while the required GitHub Actions gate remains unable to execute.
 
 ## Tests / evidence
 
@@ -59,6 +59,11 @@ Completed the implementation-ready Salary Increase Calculator remediation specif
 - Current homepage still features /timesheet-calculator-with-lunch/ (2,900 monthly searches) while Clock Out (135,000), Military Time (74,000) and Salary Increase (33,100; CPC $13.90; SD 16) lack equivalent prominence.
 - Current homepage H1 omits “Work Hours” even though Work Hours Calculator has 135,000 monthly U.S. searches and the page title already includes Work Hours.
 - Current homepage HTML does not directly link Clock Out Time Calculator or Military Time Converter in its tool links.
+- HOMEPAGE-REPRIORITIZATION-SPEC-2026-10-05.md freezes the post-Time-Card homepage H1, featured hero, Popular Tools order, category ownership, all-tools additions, mobile/performance constraints, measurement plan and rollback boundary.
+- Homepage future H1: “Free Timesheet, Work Hours & Payroll Calculators.”
+- Homepage future hero: Time Card & Timesheet Calculator, only after the broad-owner retarget is live-verified.
+- Homepage first-tier unique links after hero: Clock Out, Work Hours, Salary Increase, Overtime, Time Duration, Military Time; PTO remains prominent in its category and may occupy a seventh popular slot if mobile layout supports it.
+- Homepage rollout is a separate index.html release; calculator runtime changes must not be coupled to its rollback.
 
 - Time Card read-only pre-retarget audit: VERIFIED. Current runtime rounds final daily net minutes rather than individual punches; 08:07–17:08 with a 30-minute break and nearest-15 rounding yields 8.50 h under current logic versus 8.75 h under punch rounding.
 - Time Card precision check: 481 exact minutes displays as 8.02 h, but at $25/hour exact-minute pay is $200.42 while 8.02 × $25 = $200.50.
@@ -207,8 +212,8 @@ Completed the implementation-ready Salary Increase Calculator remediation specif
 
 ## In progress
 
-GitHub Actions runner remains externally BLOCKED before step 1. Production-bound changes remain frozen. Implementation-ready specifications now exist for Time Card, Decimal Hours and Salary Increase.
+GitHub Actions runner remains externally BLOCKED before step 1. Production-bound changes are frozen. The implementation queue is fully specified in dependency order: Time Card → Homepage reprioritization → Decimal Hours → Salary Increase.
 
 ## NEXT ACTION
 
-While Actions remains unavailable, prepare the implementation-ready homepage traffic reprioritization specification from HOMEPAGE-TRAFFIC-PRIORITY-2026-10-04.md, explicitly sequencing it after the Time Card retarget and preserving current URLs until the flagship changes are live. Continue periodic control reruns; only start production-bound code after a Content Quality job executes normally.
+Periodically run a previously successful Content Quality workflow as the runner-health control. When a control job executes real steps normally, revalidate the then-current Time Card SERP/GSC evidence and implement TIME-CARD-REMEDIATION-SPEC-2026-10-04.md on a fresh branch. Until that recovery, do not create production-bound calculator/homepage code changes.
