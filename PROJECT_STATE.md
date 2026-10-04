@@ -1,6 +1,6 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-05T00:11:59+05:00
+Last verified: 2026-10-05T00:25:18+05:00
 
 ## Objective
 
@@ -168,6 +168,11 @@ Completed all currently safe non-production preparation while GitHub Actions is 
 - Origin site-search Git blob: e1350fd156987c154b807e68479ae3dac06f3850; it contains Military Time, Clock Out and Time Duration discovery entries.
 - Military Time Converter public page: HTTP 200 and still references the unversioned shared search asset.
 - PR #62 Content Quality run #59 failed before step 1 on rerun (steps/logs null), confirming the GitHub Actions runner blocker remained external to content.
+- Actions run #59 second recovery rerun on 2026-10-05: rerun request accepted; job 111511287834 queued, then completed failure with `steps=null` before checkout. GitHub public status reported Actions operational, so the repository's hosted-runner execution path remains BLOCKED despite no platform-wide incident.
+- Windsor.ai Search Console connection for `sc-domain:hostedtimesheets.com` is VERIFIED available. Last 28 days for `/time-card-calculator/`: 0 rows. Last 90 days sitewide: only 2 query/page rows, 2 impressions total, 0 clicks; there is not yet enough first-party GSC data to justify changing the planned Time Card canonical ownership.
+- Fresh Ubersuggest revalidation: `time card calculator` 201,000 US searches / CPC $5.57 / SD 49; `timecard calculator` 201,000 / $4.96 / SD 48; `time sheet calculator` 90,500 / $4.70 / SD 50; `timesheet calculator` 49,500 / $3.255 / SD 52; `timesheet calculator free` 22,200 / $3.32 / SD 20.
+- Live Time Card source parity: production HTML Git blob `a165256198cfb22969457c97b47c5a7fc4b4ab0e` and runtime blob `b2f24b756bf7a7f211d393a7a2f403dbefd132e1` exactly match current GitHub main; both public page and JS return HTTP 200.
+- Current Time Card defects reconfirmed from the live-matching runtime: incomplete/equal punches silently become 0; break overrun is floored to 0; negative break is silently clamped; blank rate/threshold/multiplier are coerced to 0; decimal output is fixed at 2 places; page copy still inaccurately says the rounding selector controls how entered times are interpreted.
 - PR #62 closed unmerged after the stale-edge condition expired; no production HTML change was necessary.
 
 ## Affected pages / calculators
@@ -214,8 +219,8 @@ Completed all currently safe non-production preparation while GitHub Actions is 
 
 ## In progress
 
-BLOCKED on external GitHub Actions runner execution. Required Content Quality jobs still fail before step 1 with no steps/logs. No production-bound HTML/JS implementation is authorized while this condition persists.
+BLOCKED on repository GitHub Actions hosted-runner execution. A fresh 2026-10-05 recovery rerun was accepted but again failed before checkout with no job steps. Time Card search architecture and live source assumptions have been revalidated; no production-bound HTML/JS implementation is authorized while this gate is blocked.
 
 ## NEXT ACTION
 
-Re-run a Content Quality control after GitHub Actions runner service recovers. On the first control that executes real steps normally, revalidate the then-current Time Card SERP/GSC evidence and implement TIME-CARD-REMEDIATION-SPEC-2026-10-04.md on a fresh branch. Then execute the prepared dependency queue: Time Card → Homepage reprioritization → Decimal Hours → Salary Increase, each with CI, guarded deployment, rollback and live verification.
+Re-run a Content Quality control after the repository's GitHub Actions hosted-runner path recovers. On the first control that executes real steps normally, create a fresh Time Card feature branch from then-current main and implement TIME-CARD-REMEDIATION-SPEC-2026-10-04.md. Use the now-verified Windsor.ai Search Console connection to recheck first-party query/landing data before merge. Then execute the prepared dependency queue: Time Card → Homepage reprioritization → Decimal Hours → Salary Increase, each with CI, guarded deployment, rollback and live verification.
