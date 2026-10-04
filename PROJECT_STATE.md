@@ -1,6 +1,6 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-04T23:35:00+05:00
+Last verified: 2026-10-04T23:45:00+05:00
 
 ## Objective
 
@@ -33,6 +33,11 @@ Complete a sitewide content re-audit against CONTENT-STANDARDS.md, then remediat
 Military Time Converter source, production-origin and public page/runtime verification completed. The only remaining release issue is stale edge delivery of the shared unversioned site-search asset; the deterministic cache-bust PR is prepared but GitHub Actions is currently failing before exposing steps/logs.
 
 ## Tests / evidence
+
+- Time Card read-only pre-retarget audit: VERIFIED. Current runtime rounds final daily net minutes rather than individual punches; 08:07–17:08 with a 30-minute break and nearest-15 rounding yields 8.50 h under current logic versus 8.75 h under punch rounding.
+- Time Card precision check: 481 exact minutes displays as 8.02 h, but at $25/hour exact-minute pay is $200.42 while 8.02 × $25 = $200.50.
+- Time Card blank-setting checks: clearing overtime threshold coerces it to 0 and can classify all worked time as overtime; clearing the multiplier coerces it to 0 and can zero out overtime pay.
+- Time Card row-validation gaps: incomplete punches, equal punches, and break > gross shift can all silently resolve to 0.00 instead of a visible validation state.
 
 - TIMESHEET-ARCHITECTURE-2026-10-04.md records fresh U.S. Ubersuggest/SERP evidence and the canonical-ownership decision.
 - Broad cluster demand: time card calculator 201,000; time sheet calculator 90,500; timesheet calculator 49,500; timesheet calculator free 22,200 monthly U.S. searches.
@@ -167,8 +172,8 @@ Military Time Converter source, production-origin and public page/runtime verifi
 
 ## In progress
 
-Military shared-search cache remediation remains release-blocked by GitHub Actions runner execution. Non-production timesheet architecture research is complete.
+Military shared-search cache remediation remains release-blocked by GitHub Actions runner execution. Timesheet canonical architecture and the broad Time Card pre-retarget calculation/UX audit are complete.
 
 ## NEXT ACTION
 
-Do not merge/deploy PR #62 until GitHub Actions can execute the required Content Quality job. When the gate recovers, re-run PR #62, merge/deploy the 34 bounded shared-search version references and verify public delivery. Then retarget /time-card-calculator/ as the broad Time Card + Timesheet Calculator canonical owner according to TIMESHEET-ARCHITECTURE-2026-10-04.md; do not create /timesheet-calculator/ unless later GSC data demonstrates a genuinely distinct intent.
+Do not merge/deploy PR #62 until GitHub Actions can execute the required Content Quality job. When the gate recovers, re-run PR #62, merge/deploy the 34 bounded shared-search version references and verify public delivery. Then remediate the verified Time Card blockers documented in TIMESHEET-ARCHITECTURE-2026-10-04.md before retargeting /time-card-calculator/ as the broad Time Card + Timesheet Calculator canonical owner.
