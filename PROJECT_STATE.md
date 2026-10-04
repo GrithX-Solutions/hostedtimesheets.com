@@ -1,6 +1,6 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-05T00:10:00+05:00
+Last verified: 2026-10-05T00:11:59+05:00
 
 ## Objective
 
@@ -30,7 +30,7 @@ Complete a sitewide content re-audit against CONTENT-STANDARDS.md, then remediat
 
 ## Last completed task
 
-Completed the implementation-ready homepage traffic reprioritization specification from verified U.S. demand and the current homepage markup. No production HTML changed while the required GitHub Actions gate remains unable to execute.
+Completed all currently safe non-production preparation while GitHub Actions is runner-blocked: retired obsolete PR #62 after live cache recovery, and merged implementation-ready specifications for Time Card, Homepage reprioritization, Decimal Hours and Salary Increase. A fresh control rerun still failed before step 1.
 
 ## Tests / evidence
 
@@ -53,6 +53,8 @@ Completed the implementation-ready homepage traffic reprioritization specificati
 - Decimal Hours future validation: 60/-1/fractional minutes or seconds are invalid and must never be silently clamped.
 - Decimal Hours future pay rule: Time → Decimal uses exact unrounded source duration; Decimal → Time uses the exact decimal input; blank optional rate shows — rather than $0.00.
 - GitHub Actions control re-run of previously successful Content Quality run #48 failed again before step 1 with steps/logs null, confirming the external runner blocker persists.
+- Latest Actions control attempt: run #48 job 111509438914 queued, then completed failure with steps=null and logs=null; the runner still did not execute step 1.
+- Safe planning queue is complete: TIME-CARD-REMEDIATION-SPEC-2026-10-04.md, HOMEPAGE-REPRIORITIZATION-SPEC-2026-10-05.md, DECIMAL-HOURS-REMEDIATION-SPEC-2026-10-05.md and SALARY-INCREASE-REMEDIATION-SPEC-2026-10-05.md are merged to main.
 - Current calculator is one-way; current competitors commonly provide two-way conversion, seconds and selectable precision.
 
 - HOMEPAGE-TRAFFIC-PRIORITY-2026-10-04.md records verified U.S. demand/CPC/SD and the future homepage priority map.
@@ -212,8 +214,8 @@ Completed the implementation-ready homepage traffic reprioritization specificati
 
 ## In progress
 
-GitHub Actions runner remains externally BLOCKED before step 1. Production-bound changes are frozen. The implementation queue is fully specified in dependency order: Time Card → Homepage reprioritization → Decimal Hours → Salary Increase.
+BLOCKED on external GitHub Actions runner execution. Required Content Quality jobs still fail before step 1 with no steps/logs. No production-bound HTML/JS implementation is authorized while this condition persists.
 
 ## NEXT ACTION
 
-Periodically run a previously successful Content Quality workflow as the runner-health control. When a control job executes real steps normally, revalidate the then-current Time Card SERP/GSC evidence and implement TIME-CARD-REMEDIATION-SPEC-2026-10-04.md on a fresh branch. Until that recovery, do not create production-bound calculator/homepage code changes.
+Re-run a Content Quality control after GitHub Actions runner service recovers. On the first control that executes real steps normally, revalidate the then-current Time Card SERP/GSC evidence and implement TIME-CARD-REMEDIATION-SPEC-2026-10-04.md on a fresh branch. Then execute the prepared dependency queue: Time Card → Homepage reprioritization → Decimal Hours → Salary Increase, each with CI, guarded deployment, rollback and live verification.
