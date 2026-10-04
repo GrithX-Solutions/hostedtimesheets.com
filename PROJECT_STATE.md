@@ -1,6 +1,6 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-04T22:53:36+05:00
+Last verified: 2026-10-04T23:22:00+05:00
 
 ## Objective
 
@@ -162,8 +162,8 @@ Military Time Converter source, production-origin and public page/runtime verifi
 
 ## In progress
 
-Military Time Converter final release closure: shared site-search edge-cache remediation is BLOCKED on GitHub Actions execution for PR #60.
+Military Time Converter final release closure: shared site-search edge-cache remediation is BLOCKED by GitHub Actions runner execution. Superseded PR #60 is closed; clean current-main replacement PR #62 is open and remains unmerged.
 
 ## NEXT ACTION
 
-Do not merge or deploy PR #60 while the required Content Quality check is red. Re-run/inspect the GitHub Actions check when runner metadata becomes available; if the gate passes, merge and deploy the 34 bounded script-reference replacements with rollback preservation, verify the public versioned search asset from homepage/Military/Clock Out/Time Duration, then advance to the general /timesheet-calculator/ architecture.
+Do not merge or deploy PR #62 while the required Content Quality check is red. GitHub Actions is VERIFIED BLOCKED before step 1: PR #60 run #58 failed twice with zero steps/no log blob; clean PR #62 run #59 failed the same way; and a control re-run of previously successful Clock Out Content Quality run #48 also failed with zero steps. Continue non-production research for the general /timesheet-calculator/ architecture, but do not ship new production changes until the required Actions gate can execute normally. When Actions recovers, re-run PR #62, then merge/deploy the 34 bounded script-reference replacements with rollback preservation and verify versioned search delivery from homepage/Military/Clock Out/Time Duration.
