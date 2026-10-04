@@ -114,6 +114,7 @@ Completed U.S. SERP/competitor research and pre-release validation for /military
 - Military Time parser tests: 0000, 1200, 1730, 0730/730, 17:30, AM/PM, noon/midnight, flexible compact inputs and invalid 2400/2360 cases PASS.
 - Military Time DOM: PASS; one H1/self-canonical: PASS; FAQ schema/visible parity 7/7 PASS; Node JavaScript syntax: PASS.
 - Military Time content metrics: 865 words, 12.36 average sentence words, 50-word maximum paragraph, passive heuristic 0/1,000, 6 examples.
+- Military Time PR #57 review finding: print actions hid the chart because global print CSS hides `.content-grid`; page-scoped print override prepared on fix/military-time-print-20261004 and revalidated.
 - Sitemap/search/llms discovery present; Clock Out and Time Duration contain contextual links.
 
 ## Affected pages / calculators
