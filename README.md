@@ -1,48 +1,105 @@
 # HostedTimesheets.com
 
-Static HTML/CSS/JavaScript website for free timesheet and work-hours tools.
+Static HTML/CSS/JavaScript website for free timesheet, work-hours, payroll, salary, PTO and time-conversion tools.
 
 ## Architecture
 
-- Plain HTML pages for every indexable SEO URL
-- Shared CSS in `/assets/css/site.css`
-- Browser-only calculator logic in `/assets/js/`
-- No framework, database, API, account system, or build step required
-- Designed for Apache/cPanel or any static hosting
+- Plain HTML for every indexable public URL
+- Shared CSS in `/assets/css/`
+- Calculator-specific browser JavaScript in `/assets/js/`
+- No framework, database, account system or backend is required for the calculator arithmetic
+- Canonical production host: `https://hostedtimesheets.com`
 
-## Current pages
+## Current sitemap
+
+Verified repository sitemap: **34 public URLs**.
+
+### Core / trust
 
 - `/`
-- `/timesheet-calculator-with-lunch/`
 - `/about/`
+- `/contact/`
 - `/privacy/`
 - `/terms/`
+- `/disclaimer/`
+
+### Timesheets / time cards
+
+- `/time-card-calculator/`
+- `/weekly-timesheet-calculator/`
+- `/biweekly-timesheet-calculator/`
+- `/timesheet-calculator-with-lunch/`
+- `/timesheet-pay-calculator/`
+- `/timesheet-template/`
+- `/time-card-hours-with-lunch-break/`
+- `/how-to-calculate-time-card/`
+
+### Work hours / time
+
+- `/work-hours-calculator/`
+- `/clock-out-time-calculator/`
+- `/hours-and-minutes-calculator/`
+- `/time-duration-calculator/`
+- `/military-time-converter/`
+- `/decimal-hours-calculator/`
+- `/minutes-to-decimal-hours/`
+- `/how-to-calculate-hours-worked/`
+- `/billable-hours-calculator/`
+
+### Payroll / pay
+
+- `/overtime-calculator/`
+- `/payroll-hours-calculator/`
+- `/hourly-wage-calculator/`
+- `/salary-to-hourly-calculator/`
+- `/salary-increase-calculator/`
+- `/salary-calculator-with-bonus/`
+- `/biweekly-pay-calculator/`
+
+### PTO / leave
+
+- `/pto-accrual-calculator/`
+- `/pto-accrual-based-on-hours-worked/`
+- `/how-to-calculate-pto-accrual/`
+- `/time-off-tracker/`
+
+## Canonical intent decisions
+
+- `/time-card-calculator/` is the broad owner for the overlapping **time card calculator / timesheet calculator / time sheet calculator** intent cluster. Do not create a duplicate `/timesheet-calculator/` page without first-party GSC evidence of a distinct intent.
+- `/time-duration-calculator/` is the canonical start/end duration owner. The retired `/elapsed-time-calculator/` production path redirects to it.
+- `/decimal-hours-calculator/` owns interactive **hours/time to decimal** conversion. `/minutes-to-decimal-hours/` remains the chart/formula/spreadsheet guide.
+- Weekly, biweekly, lunch-specific and pay-specific timesheet URLs remain distinct specialist pages.
+
+See:
+- `DECISIONS.md`
+- `PROJECT_STATE.md`
+- `TIMESHEET-ARCHITECTURE-2026-10-04.md`
+- `DECIMAL-HOURS-ARCHITECTURE-2026-10-04.md`
+- `HOMEPAGE-TRAFFIC-PRIORITY-2026-10-04.md`
 
 ## Deployment
 
-Upload the repository contents to the web root (for example `public_html`).
-Make sure HTTPS is enabled and the canonical host is `https://hostedtimesheets.com`.
+Production is a static Nginx-served site. Verify the actual production source/deployment mechanism before any write; do not assume Apache/`.htaccess` controls the live site.
 
-After deployment:
+After a controlled release:
 
-1. Verify `https://hostedtimesheets.com/robots.txt`
-2. Verify `https://hostedtimesheets.com/sitemap.xml`
-3. Add the domain property to Google Search Console
-4. Submit the sitemap
-5. Request indexing for the homepage and flagship calculator
+1. Verify the exact tested source snapshot was deployed.
+2. Verify public HTTP status, canonical, schema and calculator assets.
+3. Verify relevant internal links, sitemap and site-search discovery.
+4. Verify redirects when a canonical migration is involved.
+5. Preserve a tested rollback.
+6. Update `PROJECT_STATE.md` with evidence and remaining blockers.
+7. Request indexing only for material shipped changes when appropriate.
 
-## Current tool pages
+## Release gates
 
-- Timesheet Calculator With Lunch
-- Biweekly Timesheet Calculator
-- Timesheet Template
-- Decimal Hours Calculator
-- Work Hours Calculator
+- Calculation accuracy is a release blocker.
+- Public content must meet `CONTENT-STANDARDS.md`.
+- Required GitHub Actions checks must execute and pass before production release.
+- Do not bypass a red required check merely because the failure appears infrastructural; record the blocker and keep production unchanged.
 
-## Next roadmap
+## Current release blocker
 
-- Weekly Timesheet Calculator
-- Hours & Minutes Calculator
-- Billable Hours Calculator
-- PTO Accrual Calculator
-- Weekly Timesheet Calculator
+GitHub Actions Content Quality execution is currently blocked before step 1 on the active shared site-search cache-bust release candidate. The blocker is documented in `PROJECT_STATE.md` and `DECISIONS.md`.
+
+Production changes dependent on that gate must remain unmerged/unreleased until Actions executes normally.
