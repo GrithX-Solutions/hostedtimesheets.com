@@ -80,3 +80,17 @@ Decision:
 - Keep /weekly-timesheet-calculator/, /biweekly-timesheet-calculator/, /timesheet-calculator-with-lunch/ and /timesheet-pay-calculator/ as specialist intent owners.
 - Do not redirect specialists without first-party GSC evidence of actual cannibalization.
 - Preserve one-shift-per-day on the broad Time Card page; split shifts remain a distinguishing feature of the Weekly specialist.
+
+
+## 2026-10-04 — Homepage traffic priority order
+
+Fresh U.S. demand and monetization research shows the homepage's current Lunch Timesheet emphasis is no longer traffic-optimal.
+
+Decision after release-gate recovery:
+- Time Card & Timesheet becomes the broad Timesheets owner and primary homepage timesheet link.
+- Clock Out and Work Hours receive first-tier prominence.
+- Time Duration and Military Time form an explicit Time Converters group.
+- Salary Increase is promoted ahead of Salary to Hourly because its verified demand/CPC/SD profile is materially stronger.
+- Overtime remains a first-tier payroll tool.
+- Timesheet With Lunch remains a specialist, not the homepage flagship.
+- Do not deploy these homepage changes until PR #62 and the broad Time Card owner are safely released.
