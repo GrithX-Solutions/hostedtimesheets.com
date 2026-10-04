@@ -1,6 +1,6 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-04T20:55:00+05:00
+Last verified: 2026-10-04T21:49:00+05:00
 
 ## Objective
 
@@ -30,7 +30,7 @@ Complete a sitewide content re-audit against CONTENT-STANDARDS.md, then remediat
 
 ## Last completed task
 
-Completed U.S. SERP/competitor research and pre-release validation for /military-time-converter/ on feature/military-time-converter-20261004.
+Military Time Converter source and live page/runtime verification completed. Public site-search discovery exposed a stale unversioned edge-cached shared search asset; a deterministic sitewide cache-bust is prepared on fix/site-search-cache-bust-v2-20261004.
 
 ## Tests / evidence
 
@@ -162,8 +162,8 @@ Completed U.S. SERP/competitor research and pre-release validation for /military
 
 ## In progress
 
-Military Time Converter release gate.
+Military Time Converter final release verification: shared site-search edge-cache remediation.
 
 ## NEXT ACTION
 
-Open the Military Time Converter PR, pass Content Quality CI, merge the exact tested branch, deploy the new page/runtime plus discovery/contextual-link changes with rollback preservation, and verify the public URL before moving to the general /timesheet-calculator/ architecture.
+Pass Content Quality CI for fix/site-search-cache-bust-v2-20261004, merge the mechanical versioned search-reference change, deploy the 34 HTML reference updates with rollback preservation, verify the public versioned site-search asset and Military discovery from the homepage/new flagship pages, then close Military Time and advance to the general /timesheet-calculator/ architecture.
