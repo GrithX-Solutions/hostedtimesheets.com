@@ -1,6 +1,6 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-05T00:25:18+05:00
+Last verified: 2026-10-05T00:31:00+05:00
 
 ## Objective
 
@@ -169,7 +169,13 @@ Completed all currently safe non-production preparation while GitHub Actions is 
 - Military Time Converter public page: HTTP 200 and still references the unversioned shared search asset.
 - PR #62 Content Quality run #59 failed before step 1 on rerun (steps/logs null), confirming the GitHub Actions runner blocker remained external to content.
 - Actions run #59 second recovery rerun on 2026-10-05: rerun request accepted; job 111511287834 queued, then completed failure with `steps=null` before checkout. GitHub public status reported Actions operational, so the repository's hosted-runner execution path remains BLOCKED despite no platform-wide incident.
+- Fresh control PR #77 from then-current main triggered Content Quality run #60. Run #60 also completed failure before checkout with job 111512715846 and `steps=null`; the control PR was closed unmerged as intended. This rules out a stale-run-only failure.
+- Root cause remains UNKNOWN from available APIs: GitHub public status reports Actions operational, but repository hosted-runner jobs fail before step 1; account quota/billing versus runner allocation cannot be verified with the current GitHub connector.
 - Windsor.ai Search Console connection for `sc-domain:hostedtimesheets.com` is VERIFIED available. Last 28 days for `/time-card-calculator/`: 0 rows. Last 90 days sitewide: only 2 query/page rows, 2 impressions total, 0 clicks; there is not yet enough first-party GSC data to justify changing the planned Time Card canonical ownership.
+- Search Console sitemap status: `https://hostedtimesheets.com/sitemap.xml` has 0 errors / 0 warnings, last submitted 2026-09-28, last downloaded 2026-10-02, and reports 26 submitted URLs.
+- Current origin/public sitemap is newer and healthy: 34 URLs, HTTP 200, Cloudflare `DYNAMIC`, Last-Modified 2026-10-04, and includes Clock Out, Time Duration and Military Time. Therefore the 26-URL GSC count is a stale Google fetch, not an origin/edge deployment defect.
+- Current Search Console connector exposes no write actions, so sitemap resubmission / URL-inspection push is BLOCKED from available tooling. No submission claim is made.
+- Ubersuggest domain overview currently reports 0 U.S. organic keywords and 0 estimated U.S. organic traffic for hostedtimesheets.com; a current external `site:hostedtimesheets.com` search also returned no results. Indexation/discovery remains a material acquisition risk.
 - Fresh Ubersuggest revalidation: `time card calculator` 201,000 US searches / CPC $5.57 / SD 49; `timecard calculator` 201,000 / $4.96 / SD 48; `time sheet calculator` 90,500 / $4.70 / SD 50; `timesheet calculator` 49,500 / $3.255 / SD 52; `timesheet calculator free` 22,200 / $3.32 / SD 20.
 - Live Time Card source parity: production HTML Git blob `a165256198cfb22969457c97b47c5a7fc4b4ab0e` and runtime blob `b2f24b756bf7a7f211d393a7a2f403dbefd132e1` exactly match current GitHub main; both public page and JS return HTTP 200.
 - Current Time Card defects reconfirmed from the live-matching runtime: incomplete/equal punches silently become 0; break overrun is floored to 0; negative break is silently clamped; blank rate/threshold/multiplier are coerced to 0; decimal output is fixed at 2 places; page copy still inaccurately says the rounding selector controls how entered times are interpreted.
@@ -211,6 +217,9 @@ Completed all currently safe non-production preparation while GitHub Actions is 
 
 - AGENTS.md was not present on the default branch when checked.
 - Rendered browser QA for the live page is BLOCKED in this environment by ERR_BLOCKED_BY_ADMINISTRATOR.
+- GitHub Actions hosted-runner execution is BLOCKED: fresh control PR #77 / run #60 failed before checkout with no steps. Exact cause (quota/billing vs runner allocation) is UNKNOWN from available APIs.
+- Search Console write actions are unavailable through the connected read-only Windsor connector. Current sitemap resubmission / URL-inspection push is BLOCKED from available tooling.
+- Search Console has not yet re-downloaded the current 34-URL sitemap; its latest recorded download (2026-10-02) still reports 26 submitted URLs.
 
 ## Technical debt
 
@@ -219,8 +228,8 @@ Completed all currently safe non-production preparation while GitHub Actions is 
 
 ## In progress
 
-BLOCKED on repository GitHub Actions hosted-runner execution. A fresh 2026-10-05 recovery rerun was accepted but again failed before checkout with no job steps. Time Card search architecture and live source assumptions have been revalidated; no production-bound HTML/JS implementation is authorized while this gate is blocked.
+BLOCKED on repository GitHub Actions hosted-runner execution. Fresh control PR #77 confirmed the failure is reproducible on a new run from current main. Parallel acquisition verification shows Search Console has almost no query data and has not yet re-fetched the current 34-URL sitemap, although the live sitemap is healthy.
 
 ## NEXT ACTION
 
-Re-run a Content Quality control after the repository's GitHub Actions hosted-runner path recovers. On the first control that executes real steps normally, create a fresh Time Card feature branch from then-current main and implement TIME-CARD-REMEDIATION-SPEC-2026-10-04.md. Use the now-verified Windsor.ai Search Console connection to recheck first-party query/landing data before merge. Then execute the prepared dependency queue: Time Card → Homepage reprioritization → Decimal Hours → Salary Increase, each with CI, guarded deployment, rollback and live verification.
+Do not implement production-bound Time Card HTML/JavaScript until a fresh Content Quality control executes real steps normally. Re-run a fresh control when the hosted-runner path recovers. On recovery, recheck Search Console landing/query data, then implement TIME-CARD-REMEDIATION-SPEC-2026-10-04.md on a fresh branch and require CI PASS before merge/deploy. Separately, recheck Search Console sitemap download/submitted count; if it remains stale once a write-capable GSC path is available, resubmit the existing sitemap rather than changing a healthy sitemap file.
