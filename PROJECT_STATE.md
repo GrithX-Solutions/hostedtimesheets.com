@@ -1,6 +1,6 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-05T00:05:37+05:00
+Last verified: 2026-10-05T00:07:40+05:00
 
 ## Objective
 
@@ -30,13 +30,17 @@ Complete a sitewide content re-audit against CONTENT-STANDARDS.md, then remediat
 
 ## Last completed task
 
-Completed the implementation-ready Decimal Hours Calculator remediation specification from the verified architecture research and current runtime defects. No production code changed because the GitHub Actions runner still fails before step 1.
+Completed the implementation-ready Salary Increase Calculator remediation specification from the verified architecture research and current runtime. No production code changed while GitHub Actions remains unable to execute the required Content Quality gate.
 
 ## Tests / evidence
 
 - SALARY-INCREASE-ARCHITECTURE-2026-10-04.md records verified U.S. keyword/SERP evidence, canonical ownership and the future product/validation plan.
 - Salary Increase synonym cluster: salary increase calculator 33,100 / CPC $13.90 / SD 16; pay raise calculator 33,100 / CPC $13.90 / SD 26; pay increase calculator 33,100 / CPC $13.90 / SD 19; wage increase calculator 33,100 / CPC $9.79 / SD 22.
 - Current Salary Increase runtime does not enforce the visible 53-week maximum in JavaScript and silently substitutes fallback values for blank hours/week and weeks/year inputs.
+- SALARY-INCREASE-REMEDIATION-SPEC-2026-10-05.md freezes the future three-mode contract (percentage, flat annual raise, compare salaries), explicit blank/invalid handling, 1–53 workweek validation, before/after/change period outputs and 40-case release matrix.
+- Salary Increase future schedule rule: invalid or blank hours/week and weeks/year disable only hourly-equivalent outputs; annual/monthly/biweekly/weekly salary arithmetic remains available.
+- Salary Increase comparison mode keeps negative changes valid and uses “change” labels rather than misleading “increase” labels.
+- Salary Increase flat mode handles zero baseline explicitly: 0 + positive raise returns percentage N/A.
 - Ranking competitor pages include PA 11–14 pages with zero backlinks/referring domains, so the opportunity is not exclusively backlink-driven.
 
 - README.md and TRAFFIC-GAP-ANALYSIS-2026-10-03.md reconciled against the current repository: sitemap has 34 URLs; Clock Out, Time Duration and Military Time are no longer marked missing; the obsolete plan to add /timesheet-calculator/ was removed in favor of the verified Time Card canonical-owner decision.
@@ -203,8 +207,8 @@ Completed the implementation-ready Decimal Hours Calculator remediation specific
 
 ## In progress
 
-GitHub Actions runner remains externally BLOCKED before step 1. Production-bound calculator changes stay frozen. Implementation-ready specifications now exist for Time Card and Decimal Hours.
+GitHub Actions runner remains externally BLOCKED before step 1. Production-bound changes remain frozen. Implementation-ready specifications now exist for Time Card, Decimal Hours and Salary Increase.
 
 ## NEXT ACTION
 
-While the required Actions gate remains unavailable, prepare the implementation-ready Salary Increase remediation specification from SALARY-INCREASE-ARCHITECTURE-2026-10-04.md and the current runtime. Continue periodic control reruns; only start production-bound implementation after a Content Quality job executes normally.
+While Actions remains unavailable, prepare the implementation-ready homepage traffic reprioritization specification from HOMEPAGE-TRAFFIC-PRIORITY-2026-10-04.md, explicitly sequencing it after the Time Card retarget and preserving current URLs until the flagship changes are live. Continue periodic control reruns; only start production-bound code after a Content Quality job executes normally.
