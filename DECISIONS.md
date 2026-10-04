@@ -43,3 +43,8 @@ Implementation order is:
 6. decimal-hours semantic retarget and remaining page reconciliation
 
 Production-only brand assets and broader regression CI are recorded as engineering debt, not reasons to delay the first traffic flagship.
+
+
+## 2026-10-04 — Persistent redirect layer
+
+Production URL migrations for hostedtimesheets.com must use the persistent outer ZetoPanel Nginx vhost at `/var/lib/zetopanel/nginx/conf.d/hostedtimesheets.com.conf`. The inner `hostedtimesheets-preview` container uses stock Nginx and mounts only the static site directory, so container-local config edits and `/opt/hostedtimesheets/nginx.conf` are not durable production redirect mechanisms. Before any redirect release: preserve the current vhost, apply the tracked config, run Nginx config validation, reload, verify the old URL is a one-hop 301 to the canonical destination, and keep rollback.
