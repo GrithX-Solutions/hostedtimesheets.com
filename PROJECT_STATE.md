@@ -1,6 +1,6 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-04T09:15:00+05:00
+Last verified: 2026-10-04T20:45:35+05:00
 
 ## Objective
 
@@ -25,11 +25,12 @@ Complete a sitewide content re-audit against CONTENT-STANDARDS.md, then remediat
 - Production content source for salary-bonus page + JS: main commit 4b17394d84cba000c256f2b1da6abb61c0793eb7
 - Production content source for hours-and-minutes page + JS: main commit 4cbada58d14c5e3a6417c4647b9b6b43961f178a
 - Production content source for clock-out page + JS/discovery links: main commit 718b1693d7c8f3fb55d6fe651c2d1342a90d8490
+- Production content source for time-duration migration + redirect config: main commit b4a7512680ff46ef09de1f4f8d15ec25b8598c98
 - Public sitemap: 33 URLs after adding /clock-out-time-calculator/; the current repository sitemap uses lastmod 2026-10-03 for the new flagship.
 
 ## Last completed task
 
-Completed pre-release research, build and repository QA for the Elapsed Time → Time Duration canonical migration.
+Completed and live-verified the Elapsed Time → Time Duration canonical migration, including second-precision calculator expansion, sitewide internal-link/search/sitemap updates, persistent outer-Nginx 301s and rollback preservation.
 
 ## Tests / evidence
 
@@ -84,6 +85,15 @@ Completed pre-release research, build and repository QA for the Elapsed Time →
 - Clock Out DOM structure: PASS; one H1/self-canonical: PASS; FAQ schema/visible parity 5/5 PASS; Node JS syntax: PASS.
 - Clock Out Content Quality run #46: FAILED only because the two worked scenarios did not use the literal word “example”; headings corrected without changing the underlying content or formula.
 - New URL added to sitemap and site-search; Work Hours and Time Card pages link contextually to it.
+- Time Duration Content Quality CI: PASS — run #52; authoritative source is main commit b4a7512680ff46ef09de1f4f8d15ec25b8598c98.
+- Time Duration origin HTML/JS, site-search, sitemap and llms Git blobs match current main.
+- Public /time-duration-calculator/ returned HTTP 200 with zero redirects; public JS returned HTTP 200.
+- Public HTTPS /elapsed-time-calculator/ returned HTTP 301 directly to /time-duration-calculator/ in one hop; the no-slash HTTPS form also resolves in one redirect.
+- Plain HTTP old URL takes two public hops because Cloudflare first enforces HTTPS; active internal links no longer use the old URL.
+- Active live-site scan found no old-path references except historical backup files.
+- ZetoPanel live vhost matches tracked ops/nginx/hostedtimesheets.com.conf; dockerized Nginx configuration test PASS.
+- Public Time Duration JS/site-search/sitemap edge hashes match origin exactly.
+- Pre-migration rollback tar and vhost backup verified; rollback tar contains the old Elapsed Time page and runtime.
 - Clock Out Content Quality rerun #48: PASS; PR #52 merged at 718b1693d7c8f3fb55d6fe651c2d1342a90d8490.
 - Clock Out production HTML Git blob ca423760b217ffebdcb1283439eda5e1cd3921fb and JS Git blob 3dfe35b3331a80d3b19a1ebccc3f8caf37aefc4a match merged GitHub.
 - Production sitemap Git blob 00cbe31499b240be822164e3183c57c981f2f28e and site-search Git blob fd0dcff56df684f70414897132231755ae41fe4b match merged GitHub.
@@ -113,6 +123,8 @@ Completed pre-release research, build and repository QA for the Elapsed Time →
 - /salary-calculator-with-bonus/ — repository + production HTML/JS verified; rendered browser proofread blocked by environment policy.
 - /hours-and-minutes-calculator/ — repository + production HTML/JS verified; rendered browser proofread blocked by environment policy.
 - /clock-out-time-calculator/ — repository + production HTML/JS/discovery verified; rendered browser proofread blocked by environment policy.
+- /time-duration-calculator/ — repository + production HTML/JS/redirect/discovery verified; rendered browser proofread blocked by environment policy.
+- /elapsed-time-calculator/ — retired canonical; live HTTPS path 301s directly to /time-duration-calculator/.
 - /time-card-calculator/ — reconciled to current main during Clock Out release; contextual link live and rollback preserved.
 - assets/js/hours-minutes.js — add/subtract modes, signed results and 4-place decimal display released.
 - assets/js/salary-bonus.js — zero-base N/A handling and 1–53 workweek validation released.
@@ -137,13 +149,13 @@ Completed pre-release research, build and repository QA for the Elapsed Time →
 ## Technical debt
 
 - README.md page inventory/roadmap is stale relative to the current 32-URL sitemap.
-- Main is ahead of the last full production reconciliation commit c2fb0f719c7922fc41aae1657cf1c07008c1dab8; 20 public HTML pages changed in that range. Eleven pre-existing pages — /timesheet-calculator-with-lunch/, /weekly-timesheet-calculator/, /biweekly-timesheet-calculator/, /work-hours-calculator/, /salary-increase-calculator/, /overtime-calculator/, /pto-accrual-calculator/, /hourly-wage-calculator/, /salary-calculator-with-bonus/, /hours-and-minutes-calculator/ and /time-card-calculator/ — have now been individually brought forward and live-content-verified in this resumed audit; 9 changed public HTML pages still need controlled reconciliation. The new /clock-out-time-calculator/ flagship is also live-verified.
+- Main is ahead of the last full production reconciliation commit c2fb0f719c7922fc41aae1657cf1c07008c1dab8; 20 public HTML pages changed in that range. Twelve pre-existing page intents — including the Elapsed Time → Time Duration migration — have now been individually brought forward and live-content-verified in this resumed audit; 8 changed public HTML pages still need controlled reconciliation. The new /clock-out-time-calculator/ flagship is also live-verified.
 - Manual editorial/SERP verification remains incomplete for the rest of the public pages.
 
 ## In progress
 
-Time Duration migration release gate.
+Traffic-first flagship expansion continues after the verified Time Duration migration.
 
 ## NEXT ACTION
 
-Open the Time Duration migration PR, pass Content Quality CI, merge the exact tested branch, deploy the new page/runtime and sitewide canonical links, apply the tracked outer-Nginx 301 with config test/rollback, then verify new URL HTTP 200 and old Elapsed Time URL one-hop 301 before moving to /military-time-converter/.
+Research the current U.S. `military time converter` SERP and competitor feature gap, define 12-hour↔24-hour conversion rules and edge cases, then build /military-time-converter/ as the next distinct no-signup flagship without overlapping Time Duration or Hours & Minutes.

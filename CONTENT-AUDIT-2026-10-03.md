@@ -930,12 +930,25 @@ Migration coverage:
 - Tracked production Nginx vhost adds exact 301 redirects for both `/elapsed-time-calculator` and `/elapsed-time-calculator/` in HTTP and HTTPS server blocks.
 - Production redirect layer was verified to be the persistent outer ZetoPanel vhost at `/var/lib/zetopanel/nginx/conf.d/hostedtimesheets.com.conf`; the inner preview container uses stock Nginx and does not mount `/opt/hostedtimesheets/nginx.conf`.
 
-Remaining before VERIFIED:
+Release evidence:
 
-- Content Quality CI.
-- Merge.
-- Controlled production deployment of new page/JS and active link/discovery changes.
-- Apply the tracked outer-vhost redirect with pre-change backup, `nginx -t`, reload and one-hop 301 verification.
-- Remove/archive the old production page/runtime only after the redirect is active.
-- Public HTTP 200/canonical/schema/JS/sitemap/search/internal-link verification.
-- Rendered desktop/mobile proofread when an allowed browser path is available.
+- Content Quality CI: PASS — run #52.
+- Authoritative source: `main` commit `b4a7512680ff46ef09de1f4f8d15ec25b8598c98`.
+- Redundant PR #55 was closed without merge after verification showed the same migration tree had already landed on `main`.
+- Origin parity: PASS for Time Duration HTML/JS, site-search, sitemap and llms; their Git blob SHAs match current `main`.
+- Old production source removal: PASS — the Elapsed Time page directory and old elapsed-time JavaScript are absent from the active live tree.
+- Active internal-link migration: PASS — the old path remains only inside historical backup files.
+- Persistent redirect config: PASS — the live ZetoPanel vhost matches tracked `ops/nginx/hostedtimesheets.com.conf`.
+- Nginx syntax: PASS — `docker exec zetopanel_nginx nginx -t` reports a successful configuration test.
+- New canonical: PASS — `https://hostedtimesheets.com/time-duration-calculator/` returns HTTP 200 with zero redirects.
+- Old HTTPS canonical: PASS — `https://hostedtimesheets.com/elapsed-time-calculator/` returns HTTP 301 directly to the new canonical in one hop. The no-trailing-slash HTTPS form also resolves in one redirect.
+- Plain HTTP old URL takes two public hops because Cloudflare first canonicalizes HTTP to HTTPS on the old path, then the HTTPS vhost performs the slug migration. Active internal links no longer use the old URL.
+- Public JavaScript: PASS — `/assets/js/time-duration.js` returns HTTP 200.
+- Public asset freshness: PASS — edge and origin SHA-256 hashes match for Time Duration JS, site-search JS and sitemap.
+- Served HTML checks: PASS — self-canonical, Time Duration structured data, migrated navigation label and updated internal links are present.
+- Sitemap/search discovery: PASS — public sitemap contains the new canonical and public site search indexes Time Duration Calculator.
+- Rollback preservation: PASS — `/opt/hostedtimesheets/archive/site-pre-time-duration-b4a75126-20261004.tar.gz` contains the old Elapsed Time page/runtime; SHA-256 `8936c36afe34a7d0f9f893ebd31ac561f368e49a19fe49112ea26171273ae631`.
+- Vhost rollback: PASS — `/opt/hostedtimesheets/archive/hostedtimesheets-vhost-pre-b4a75126-20261004.conf`; SHA-256 `d44743ea615b92ada055f4b682f19cce54dc636b63b24b6e4aa2f1827b396fca`.
+- Rendered desktop/mobile proofread: BLOCKED — available browser runtime still blocks the live domain with ERR_BLOCKED_BY_ADMINISTRATOR.
+
+Status remains PARTIALLY VERIFIED only because rendered visual QA is blocked; calculation, content, redirect, source-parity, rollback and live-response checks passed.
