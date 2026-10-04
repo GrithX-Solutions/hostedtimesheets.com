@@ -106,3 +106,15 @@ Decision:
 - Do not create another decimal-time calculator URL.
 - Future calculator remediation should add reverse conversion, seconds, selectable precision and explicit invalid-input handling while keeping exact source duration authoritative for pay.
 - Do not duplicate the full minute chart on the calculator; cross-link to the guide instead.
+
+
+## 2026-10-04 — Salary Increase owns the Pay Raise synonym cluster
+
+Fresh U.S. keyword/SERP research shows salary increase calculator, pay raise calculator, salary raise calculator, pay increase calculator and wage increase calculator substantially share the same product intent.
+
+Decision:
+- Keep /salary-increase-calculator/ as the single canonical owner.
+- Do not create separate pay-raise/pay-increase URLs.
+- Preserve the current title concept bridging Salary Increase and Pay Raise.
+- Future product work should focus on validation, flat-amount raises and before/after pay-period outputs.
+- Do not add tax, take-home-pay, jurisdictional deduction or automatic inflation conclusions to this calculator.
