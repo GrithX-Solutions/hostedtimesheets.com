@@ -1,6 +1,6 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-04T23:55:00+05:00
+Last verified: 2026-10-05T00:05:00+05:00
 
 ## Objective
 
@@ -33,6 +33,12 @@ Complete a sitewide content re-audit against CONTENT-STANDARDS.md, then remediat
 Military Time Converter source, production-origin and public page/runtime verification completed. The only remaining release issue is stale edge delivery of the shared unversioned site-search asset; the deterministic cache-bust PR is prepared but GitHub Actions is currently failing before exposing steps/logs.
 
 ## Tests / evidence
+
+- DECIMAL-HOURS-ARCHITECTURE-2026-10-04.md records fresh U.S. keyword/SERP evidence, competitor gaps, canonical ownership and a tested future calculation specification.
+- Decimal cluster opportunity: hours to decimal calculator 14,800 / CPC $8.62 / SD 16; time to decimal calculator 14,800 / CPC $8.62 / SD 19; decimal hours calculator 12,100 / CPC $5.48 / SD 46.
+- Current Decimal Hours runtime silently clamps minutes above 59 to 59 and negative minutes to 0 instead of surfacing invalid input.
+- Current Decimal Hours runtime displays only two decimals while optional pay uses the exact unrounded duration; e.g. 8h 1m displays 8.02 but exact-time pay at $25/hour is $200.42, while 8.02 × $25 = $200.50.
+- Current calculator is one-way; current competitors commonly provide two-way conversion, seconds and selectable precision.
 
 - HOMEPAGE-TRAFFIC-PRIORITY-2026-10-04.md records verified U.S. demand/CPC/SD and the future homepage priority map.
 - Current homepage still features /timesheet-calculator-with-lunch/ (2,900 monthly searches) while Clock Out (135,000), Military Time (74,000) and Salary Increase (33,100; CPC $13.90; SD 16) lack equivalent prominence.
@@ -177,8 +183,8 @@ Military Time Converter source, production-origin and public page/runtime verifi
 
 ## In progress
 
-GitHub Actions runner execution remains the hard release blocker for PR #62. Non-production research is complete for Time Card canonical ownership, Time Card calculation/UX blockers and homepage traffic prioritization.
+GitHub Actions runner execution remains the hard release blocker for PR #62. Non-production research is complete for Time Card canonical ownership, Time Card calculation/UX blockers, homepage traffic prioritization and Decimal Hours canonical/product architecture.
 
 ## NEXT ACTION
 
-Do not merge/deploy PR #62 until GitHub Actions can execute the required Content Quality job. When the gate recovers: re-run PR #62 → merge/deploy the 34 shared-search version references → verify public versioned search delivery → remediate the Time Card blockers → retarget /time-card-calculator/ as the broad Time Card + Timesheet owner → apply the homepage priority plan in HOMEPAGE-TRAFFIC-PRIORITY-2026-10-04.md.
+Do not merge/deploy PR #62 until GitHub Actions can execute the required Content Quality job. When the gate recovers: re-run PR #62 → merge/deploy the 34 shared-search version references → verify public versioned search delivery → remediate and retarget the broad Time Card owner → apply the homepage priority plan → then implement the Decimal Hours improvements in DECIMAL-HOURS-ARCHITECTURE-2026-10-04.md if still supported by current SERP/GSC evidence.
