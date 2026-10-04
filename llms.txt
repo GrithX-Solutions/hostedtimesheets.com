@@ -10,7 +10,7 @@
 - https://hostedtimesheets.com/pto-accrual-calculator/
 - https://hostedtimesheets.com/salary-to-hourly-calculator/
 - https://hostedtimesheets.com/hourly-wage-calculator/
-- https://hostedtimesheets.com/elapsed-time-calculator/
+- https://hostedtimesheets.com/time-duration-calculator/
 - https://hostedtimesheets.com/billable-hours-calculator/
 
 ## Identity

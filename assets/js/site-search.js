@@ -8,7 +8,7 @@
 {t:"Work Hours Calculator",u:"/work-hours-calculator/",c:"Hours & Payroll",i:"H",k:["work hours","hours worked calculator","free work hours calculator","shift hours"]},
 {t:"Clock Out Time Calculator",u:"/clock-out-time-calculator/",c:"Hours & Payroll",i:"H",k:["clock out time calculator","what time should i clock out","what time do i clock out","clock out calculator","leave work time","8 hour shift with lunch"]},
 {t:"Hours & Minutes Calculator",u:"/hours-and-minutes-calculator/",c:"Hours & Payroll",i:"H",k:["hours minutes","add hours and minutes","time duration"]},
-{t:"Elapsed Time Calculator",u:"/elapsed-time-calculator/",c:"Hours & Payroll",i:"H",k:["elapsed time","time between two times","duration calculator"]},
+{t:"Time Duration Calculator",u:"/time-duration-calculator/",c:"Hours & Payroll",i:"H",k:["time duration calculator","elapsed time calculator","date time duration calculator","hours between times","time between two times"]},
 {t:"Decimal Hours Calculator",u:"/decimal-hours-calculator/",c:"Hours & Payroll",i:"H",k:["decimal hours","minutes to decimal","payroll decimal time"]},
 {t:"Payroll Hours Calculator",u:"/payroll-hours-calculator/",c:"Hours & Payroll",i:"H",k:["payroll hours","decimal payroll hours","payroll overtime calculator"]},
 {t:"Overtime Calculator",u:"/overtime-calculator/",c:"Hours & Payroll",i:"H",k:["overtime calculator","payroll and overtime calculator","overtime pay"]},

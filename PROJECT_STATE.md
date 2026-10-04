@@ -29,7 +29,7 @@ Complete a sitewide content re-audit against CONTENT-STANDARDS.md, then remediat
 
 ## Last completed task
 
-Released and live-verified the new /clock-out-time-calculator/ flagship, including exact source deployment, sitemap/site-search discovery and contextual links from Time Card and Work Hours.
+Completed pre-release research, build and repository QA for the Elapsed Time → Time Duration canonical migration.
 
 ## Tests / evidence
 
@@ -92,6 +92,13 @@ Released and live-verified the new /clock-out-time-calculator/ flagship, includi
 - Public site-search SHA-256 f2101d5e81ac05dce75afb835125737e21ae6d6770f83578160c3b0ef1588527 exactly matches origin.
 - Public sitemap SHA-256 b69a3054ad4d161a620aa95b27b31773492fede824bbb0d185eba325652395c1 exactly matches origin.
 - Time Card and Work Hours public responses both contain the Clock Out contextual link; Time Card was reconciled to current main with exact pre-release rollback preserved.
+- Time Duration keyword: 135,000 US monthly searches, SD 34; related date/time variants show substantial additional demand.
+- Ubersuggest stored SERP includes PA 14/8/8/1/8 ranking pages with 0 backlinks/referring domains; stronger live-SERP utilities also exist, so no unsupported easy-ranking claim is made.
+- Time Duration pre-release math: standard, seconds precision, overnight, break, multi-day, negative-date rejection and break-floor cases PASS.
+- Time Duration DOM: PASS; one H1/self-canonical: PASS; FAQ schema/visible parity 7/7 PASS; JS syntax: PASS.
+- All 32 active tracked link files checked: no internal /elapsed-time-calculator/ links remain on the feature branch.
+- Sitemap remains 33 URLs with /time-duration-calculator/ replacing the old elapsed-time canonical.
+- Production redirect source-of-truth verified as the outer ZetoPanel Nginx vhost, not .htaccess or /opt/hostedtimesheets/nginx.conf.
 
 ## Affected pages / calculators
 
@@ -135,8 +142,8 @@ Released and live-verified the new /clock-out-time-calculator/ flagship, includi
 
 ## In progress
 
-Traffic-first flagship expansion: migrate the overlapping Elapsed Time implementation into the higher-demand Time Duration intent without creating a duplicate calculator.
+Time Duration migration release gate.
 
 ## NEXT ACTION
 
-Research the current `time duration calculator` SERP/competitor feature gap, rework the existing /elapsed-time-calculator/ implementation into /time-duration-calculator/, then perform a tested one-hop 301 migration with canonical/schema/sitemap/site-search/internal-link updates while preserving `elapsed time calculator` as a secondary semantic target.
+Open the Time Duration migration PR, pass Content Quality CI, merge the exact tested branch, deploy the new page/runtime and sitewide canonical links, apply the tracked outer-Nginx 301 with config test/rollback, then verify new URL HTTP 200 and old Elapsed Time URL one-hop 301 before moving to /military-time-converter/.
