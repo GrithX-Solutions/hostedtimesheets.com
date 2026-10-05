@@ -120,11 +120,20 @@ Existing same-day evidence remains current for the next planned pages:
 
 ## In progress
 
-No page is currently in implementation.
+Homepage work is PAUSED awaiting explicit user approval before any further implementation.
+
+A branch exists: `feature/homepage-reprioritization-20261005`.
+Draft homepage HTML changes and a page-specific HTML contract test were committed there, but the branch is NOT merged and NOTHING from it is deployed to production.
+
+User workflow rule from 2026-10-05:
+- Work on exactly one public page at a time.
+- Finish that page completely.
+- Report status/results.
+- Do not start or continue the next page until the user explicitly approves it.
 
 ## NEXT ACTION
 
-Start the homepage (`/`) as the next single-page release using `HOMEPAGE-REPRIORITIZATION-SPEC-2026-10-05.md`.
+Wait for explicit user approval before continuing homepage (`/`) work. When approved, continue only the existing homepage branch and do not begin another page in the same run.
 
 Before editing:
 1. Re-read current GitHub main homepage, live production homepage and the spec.
