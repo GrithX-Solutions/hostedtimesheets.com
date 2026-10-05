@@ -12,7 +12,7 @@ required_css = (
     ".header-all-tools{display:none!important}",
     ".mobile-search-toggle::after{content:\"Search\"}",
     ".site-header.search-open .site-search{display:block!important}",
-    ".brand-logo{",
+    ".site-header .brand-logo{",
 )
 for token in required_css:
     assert token in css, token
