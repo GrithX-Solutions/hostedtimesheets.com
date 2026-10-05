@@ -4,7 +4,7 @@ Last verified: 2026-10-05T16:55:00+05:00
 
 ## Objective
 
-Recover the required GitHub Actions Content Quality execution path, then implement the approved Time Card remediation. While production releases are blocked, continue evidence-driven non-production research/specification that can be safely committed without bypassing the release gate.
+Use the ZT MCP server as the temporary release-validation runner while GitHub Actions quota is exhausted, then implement and verify the approved Time Card remediation without weakening calculation, content, SEO, accessibility, rollback or live-verification gates.
 
 ## Source / deployment
 
@@ -243,8 +243,8 @@ Completed a first-party-traffic-driven Timesheet Template research/remediation s
 
 ## In progress
 
-BLOCKED on repository GitHub Actions hosted-runner execution. The 2026-10-05 afternoon rerun of Content Quality run #60 again failed before checkout with steps=null and no logs. Safe non-production research continues. Timesheet Template planning is now implementation-ready, but production HTML/JavaScript remains unchanged.
+GitHub Actions is BLOCKED by exhausted quota. User authorized the ZT MCP server as the temporary alternate validation runner. The existing server workspace is only a partial bootstrap, so it cannot be used as an authoritative full-site mirror; exact changed files and validation scripts must be synchronized from GitHub before each server-side gate.
 
 ## NEXT ACTION
 
-Do not implement production-bound Time Card or Timesheet Template HTML/JavaScript until a fresh Content Quality control executes real steps normally. Re-run a fresh control when the hosted-runner path recovers. On recovery, recheck Search Console query/page data, then implement TIME-CARD-REMEDIATION-SPEC-2026-10-04.md on a fresh branch and require CI PASS before merge/deploy. After the Time Card release, re-evaluate first-party GSC data and implement TIMESHEET-TEMPLATE-REMEDIATION-SPEC-2026-10-05.md next unless fresher evidence justifies a documented reprioritization. Separately, if Search Console's sitemap count remains stale once a write-capable GSC path is available, resubmit the existing healthy sitemap rather than changing its 34-URL contents.
+Create a fresh Time Card remediation branch from current GitHub main. Implement TIME-CARD-REMEDIATION-SPEC-2026-10-04.md, synchronize the exact changed HTML/JavaScript plus validation scripts to the ZT MCP runner, run the targeted content-quality/syntax/calculation/schema checks, and proceed to controlled merge/deployment only if all alternate-gate checks pass. Record GitHub Actions as BLOCKED (quota), never as PASS.
