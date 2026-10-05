@@ -1,12 +1,18 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-05T18:18:00+05:00
+Last verified: 2026-10-05T23:05:00+05:00
 
 ## Objective
 
 Execute remediation one public page at a time. A page must complete research/evidence review, implementation, tests, alternate release validation, merge, rollback preservation, controlled deployment, live verification and state update before another page enters implementation.
 
-GitHub Actions remains BLOCKED because the Actions quota is exhausted. The user authorized the ZT MCP server as the temporary alternate validation runner. Never record Actions as PASS while the quota blocker remains.
+User workflow rule:
+- Work on exactly one public page at a time.
+- Finish that page completely.
+- Report results.
+- Do not start the next page until the user explicitly approves it.
+
+GitHub Actions remains BLOCKED because the Actions quota is exhausted. The ZT MCP server is the temporary alternate validation runner. Never record Actions as PASS while the quota blocker remains.
 
 ## Source / deployment
 
@@ -18,127 +24,111 @@ GitHub Actions remains BLOCKED because the Actions quota is exhausted. The user 
 - ZT workspace: `hostedtimesheets`.
 - ZT workspace is a partial bootstrap, not an authoritative Git mirror. Exact changed files must be synchronized from GitHub and parity-checked before using it as a release gate.
 - GitHub Actions: BLOCKED (quota).
-- Public/repository sitemap: 34 canonical URLs; no sitemap change required for the two completed existing URLs below.
+- Public/repository sitemap: 34 canonical URLs.
+- Strict page-by-page remediation completed: 3 / 34 pages.
 
 ## Last completed task
 
-### /timesheet-template/ — VERIFIED release
+### Homepage `/` — VERIFIED release
 
-PR #81 merged the Timesheet Template remediation at code commit `df6c9673cc366eb12aaac0a2ede2d9eded81195e`.
+PR #82 merged at code commit `6d285ee8d17379588e519e01fc427f96adbf5f17`.
 
-The production page now supports:
-- Weekly 7-day and biweekly 14-day modes.
-- Consecutive dates from Period Start with synchronized weekdays.
-- Break minutes defaulting to 0 instead of assuming 30 minutes.
-- Exact integer-minute daily calculations and overnight shifts.
-- Visible validation for incomplete/equal punches and invalid breaks.
-- Week 1, Week 2 and combined biweekly totals.
-- In-session data preservation when switching weekly/biweekly modes.
-- Print / browser Save as PDF workflow.
-- CSV export with week, date, day, punches, break minutes, exact net minutes and 4-place decimal hours.
-- Browser-local calculation/export boundary and no-signup workflow.
-- Correct contextual links to weekly, biweekly and lunch-specific calculators.
+The production homepage now:
+- keeps the existing title and self-canonical;
+- uses H1 `Free Timesheet, Work Hours & Payroll Calculators`;
+- features `Time Card & Timesheet Calculator` instead of the lunch-specific calculator;
+- gives first-tier category prominence to Time Card, Work Hours, Time Duration, Overtime, Salary Increase and PTO Accrual;
+- gives Popular Tools prominence to Clock Out, Work Hours, Salary Increase, Overtime, Time Duration and Military Time;
+- directly links Clock Out and Military Time in the all-tools inventory;
+- keeps weekly, biweekly, lunch-specific, pay and template specialist pages discoverable;
+- explains broad Time Card vs split-shift Weekly vs Biweekly vs lunch-specific vs Clock Out use cases;
+- introduces no new framework, third-party library or shared calculator runtime change.
 
 ## Tests / evidence
 
-### Timesheet Template
-- GitHub main <-> ZT changed-file parity: VERIFIED before deployment.
+### Homepage
+- GitHub main <-> ZT homepage/test-file parity: VERIFIED before merge/deployment.
 - Content Quality: PASS.
-  - Main-content words: 1,045.
-  - Average sentence length: 15.6 words.
-  - Maximum paragraph: 49 words.
-  - Passive heuristic: 4.8/1,000 words.
-  - Visible FAQs: 4.
+  - Main-content words: 1,028.
+  - Average sentence length: 15.8 words.
+  - Maximum paragraph: 68 words.
+  - Passive heuristic: 4.9 / 1,000 words.
 - Python syntax: PASS.
-- HTML/canonical/FAQ-schema/accessibility contract: PASS.
-- JavaScript syntax: PASS with Node v22.23.3.
-- Calculation/date/CSV suite: PASS.
-- Rendered Chromium interaction test at 390x844: PASS.
-  - 7/14 row modes and two biweekly week groups.
-  - Zero-default breaks.
-  - Blank-date behavior.
-  - Month-boundary date population.
-  - Daily/weekly/biweekly totals.
-  - Invalid-row exclusion and aria-invalid.
-  - Week 2 restoration after switching Biweekly -> Weekly -> Biweekly.
-  - Print metadata and print-only CSS.
-  - No document-level mobile horizontal overflow.
-- Production origin HTML SHA-256: `633d40a7f8cce3d8485674f1580d6037f127caeb1ab2fb47eefe0fa997c516ec`.
-- Production origin JS SHA-256: `dc64570be58ae40c101478e4e297970a5f171aaf4431c6868bdddb259c3e21a3`.
-- Rollback HTML SHA-256: `9ee062551cda70db4ca36bb03713da14c4d61d17e696837605dbf4e8550e4570`.
-- Rollback JS SHA-256: `9757022b19d5e955abbc000b0cb867a0330be50a3609cec435b1705569eae49b`.
-- Rollback paths:
-  - `/opt/hostedtimesheets/rollback/timesheet-template/index.html`
-  - `/opt/hostedtimesheets/rollback/assets/js/timesheet-template.js`
-- Public page: HTTP 200; Cloudflare cache status DYNAMIC.
-- Public versioned JS: HTTP 200; first verification MISS; public SHA exactly matches production/GitHub JS.
-- Public HTML contains the expected title, self-canonical, H1, total UI and versioned JS URL.
-- Cloudflare Rocket Loader rewrites public script tags, so public HTML byte parity is not expected.
-- Public rendered-browser verification from the Lighthouse container is BLOCKED by that container's outbound networking. Exact-source rendered Chromium tests plus public HTTP/asset verification are the current evidence.
+- Homepage HTML/canonical/schema/internal-link contract: PASS.
+- Exact-source Chromium regression: PASS.
+  - 390x844 mobile: six category cards, six Popular Tools cards, one-column Popular Tools, Time Card hero, no document-level horizontal overflow.
+  - Mobile Tools menu: PASS.
+  - Mobile site search returns Military Time Converter: PASS.
+  - All-tools disclosure includes Clock Out and Military Time: PASS.
+  - 1280px desktop: six-column Popular Tools, six category columns, no document-level overflow, featured calculator visible in initial viewport.
+- Every promoted destination was live HTTP 200 without an unnecessary redirect before merge:
+  - Time Card Calculator.
+  - Clock Out Time Calculator.
+  - Work Hours Calculator.
+  - Time Duration Calculator.
+  - Military Time Converter.
+  - Salary Increase Calculator.
+  - Overtime Calculator.
+  - PTO Accrual Calculator.
+- Previous production homepage SHA-256: `66f4abf7af384e9429c5dff5ea21c11cf3d43c65b356c305d4ed7c79f1e734b2`.
+- Tested/deployed homepage SHA-256: `dd8c7a0426593025221ec8f891620da3e4b3f3dae0566b64d61aaddb06919b47`.
+- Rollback: `/opt/hostedtimesheets/rollback/homepage/index.html`, exact previous SHA preserved.
+- Public homepage: HTTP 200; Cloudflare cache status DYNAMIC; last-modified 2026-10-05 18:02:26 GMT.
+- Public response verification: correct H1, self-canonical, six category cards, six Popular Tools cards, Time Card hero, Clock Out link and Military Time link.
+- True public mobile Chromium render through an ephemeral host-network container: PASS.
+- Live mobile Lighthouse performance run:
+  - Performance score: 88.
+  - FCP: 1.83 s.
+  - LCP: 2.19 s.
+  - CLS: 0.
+  - TBT: 404 ms.
+  - Speed Index: 1.83 s.
+- No sitemap-file change was required because the homepage URL already exists and no new URL was introduced.
 
-### /time-card-calculator/ — VERIFIED release
+### Timesheet Template `/timesheet-template/` — VERIFIED release
+- PR #81 code commit: `df6c9673cc366eb12aaac0a2ede2d9eded81195e`.
+- Content, calculation/date/CSV, HTML/schema/accessibility and rendered Chromium gates: PASS.
+- Production and public versioned JS verification: PASS.
+- Rollback preserved.
 
-- Full remediation PR #79 merged at `29e5ea18482c05ad9ad1a826f4a903ae33ff8f31`.
-- Cache-bust PR #80 merged at code commit `bebc8535d804540256d09c374315759e59f2c77d`.
-- Content, JS syntax, calculation, HTML/schema/accessibility and local rendered-mobile gates: PASS.
-- Public page and versioned JS: HTTP 200.
-- Public JS SHA matches production/GitHub source.
-- Rollback preserved under `/opt/hostedtimesheets/rollback/time-card-calculator/` and `/opt/hostedtimesheets/rollback/assets/js/timesheet-calculator.js`.
+### Time Card `/time-card-calculator/` — VERIFIED release
+- Remediation PR #79: `29e5ea18482c05ad9ad1a826f4a903ae33ff8f31`.
+- Cache-bust PR #80: `bebc8535d804540256d09c374315759e59f2c77d`.
+- Content, JS syntax, calculation, HTML/schema/accessibility and rendered-mobile gates: PASS.
+- Public page/versioned JS verification: PASS.
+- Rollback preserved.
 
 ## Traffic / research status
 
-Existing same-day evidence remains current for the next planned pages:
-- Timesheet Template first-party GSC evidence: 31 of 62 observed impressions in the 2026-09-29 to 2026-10-02 cached window.
-- Homepage reprioritization spec is implementation-ready now that the Time Card broad-intent retarget is live.
-- Homepage demand evidence already captured:
-  - Clock Out Time Calculator: 135,000 US monthly searches.
-  - Work Hours Calculator: 135,000.
-  - Military Time Converter: 74,000.
-  - Salary Increase Calculator: 33,100; CPC $13.90; SD 16.
-- Current homepage still gives disproportionate prominence to lower-demand lunch-specific intent and does not surface all high-demand tools equivalently.
-- Decimal Hours and Salary Increase remediation specs also remain ready for later single-page releases.
+Existing same-day research remains available for future explicitly approved single-page work:
+- Decimal Hours remediation spec is implementation-ready.
+- Salary Increase remediation spec is implementation-ready.
+- Other pages must still be treated as separate release units and must not be started without user approval.
 
 ## Deployment / indexing status
 
-- Time Card and Timesheet Template changes are deployed.
-- Both existing canonical URLs remain in the 34-URL sitemap; no sitemap-file edits were required.
-- No new URL was introduced.
+- Homepage, Time Card and Timesheet Template strict remediation releases are deployed.
+- All three were existing canonical URLs; no new URL was introduced.
+- Sitemap remains 34 canonical URLs.
 - No indexing request should be represented as completed unless a write-capable Search Console action is actually executed and verified.
 
 ## Blockers / unknowns
 
 - GitHub Actions: BLOCKED by exhausted quota.
-- Public Chromium access from the current Lighthouse container: BLOCKED by outbound DNS/network routing.
 - The ZT workspace is partial; full-site results from it must not be treated as a complete repository mirror.
-- Search Console's previously observed submitted sitemap count lagged the 34-URL live sitemap; the sitemap itself had no errors/warnings in the last verified data.
+- Standard Lighthouse-container outbound DNS/networking is restricted, but true public Chromium/Lighthouse can be run with an ephemeral host-network container; this method was VERIFIED for the homepage.
+- Search Console's previously observed submitted sitemap count lagged the 34-URL live sitemap; the live sitemap itself had no errors/warnings in the last verified data.
 
 ## Technical debt
 
 - Restore normal GitHub Actions as the required CI path when quota/capacity returns.
-- Correct private-repo authentication/bootstrap if the ZT workspace is ever expected to become a full authoritative checkout.
-- Continue replacing legacy calculator edge-case behavior only through page-specific tested releases; do not batch unrelated calculator changes.
+- Correct private-repo authentication/bootstrap if the ZT workspace is expected to become a full authoritative checkout.
+- Continue page-specific remediation only; do not batch unrelated calculator/content changes.
 
 ## In progress
 
-Homepage work is PAUSED awaiting explicit user approval before any further implementation.
-
-A branch exists: `feature/homepage-reprioritization-20261005`.
-Draft homepage HTML changes and a page-specific HTML contract test were committed there, but the branch is NOT merged and NOTHING from it is deployed to production.
-
-User workflow rule from 2026-10-05:
-- Work on exactly one public page at a time.
-- Finish that page completely.
-- Report status/results.
-- Do not start or continue the next page until the user explicitly approves it.
+No page is currently in implementation.
 
 ## NEXT ACTION
 
-Wait for explicit user approval before continuing homepage (`/`) work. When approved, continue only the existing homepage branch and do not begin another page in the same run.
-
-Before editing:
-1. Re-read current GitHub main homepage, live production homepage and the spec.
-2. Preserve the homepage-only rollback boundary; do not couple calculator runtime changes.
-3. Reconfirm title/H1/internal-link ownership and the Time Card hero dependency now that Time Card is live.
-4. Validate desktop/mobile navigation, internal links, accessibility, content quality and rendered behavior on the ZT runner.
-5. Merge/deploy only the homepage if all applicable alternate-gate checks pass.
-6. Live-verify and update this state before selecting the next page.
+Wait for explicit user approval before starting or continuing any next public page. Do not begin another page automatically after this homepage report.
