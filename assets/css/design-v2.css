@@ -467,7 +467,7 @@ th{background:#f5f8fc}
   .nav-panel{right:-116px!important;grid-template-columns:repeat(3,minmax(155px,1fr))!important}
 }
 @media(max-width:760px){
-  .container{width:min(100% - 24px,1240px)}
+  .site-header .container{width:min(100% - 24px,1240px)}
   .header-inner{
     grid-template-columns:minmax(0,1fr) auto auto;
     grid-template-areas:"brand tools search";
