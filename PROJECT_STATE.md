@@ -1,38 +1,47 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-05T16:55:00+05:00
+Last verified: 2026-10-05T17:56:00+05:00
 
 ## Objective
 
-Use the ZT MCP server as the temporary release-validation runner while GitHub Actions quota is exhausted, then implement and verify the approved Time Card remediation without weakening calculation, content, SEO, accessibility, rollback or live-verification gates.
+Execute remediation one page at a time. Fully research, implement, validate, merge, deploy, live-verify, preserve rollback, and update project state for the current page before starting another page. GitHub Actions remains unavailable because its quota is exhausted, so the ZT MCP server is the temporary alternate validation runner.
 
 ## Source / deployment
 
 - Repository: GrithX-Solutions/hostedtimesheets.com
 - Default branch: main
-- Active production-bound branch: none; implementation is blocked until GitHub Actions executes real steps normally.
-- Latest pre-session authoritative main snapshot: 805d19fe93db01876623fada3f2daf3bc04041c7; subsequent 2026-10-05 commits are documentation/state only.
-- ZT MCP workspace `hostedtimesheets` exists but remains a partial unauthenticated bootstrap and is not authoritative for Git sync/push.
-- Production content source for flagship page: main commit 989c0bca676f6ba5132503b624531a6c3ad8f1c2
-- Production content source for weekly page: main commit c3622544baecd8409e82bdb8825a84d6ec38ea92
-- Production content source for biweekly page: main commit e0f20fd4dcabfd97cb5daac1aa33031756a4e6ae
-- Production content source for work-hours page: main commit edd62236e79d4e075a44d8087700546051921d58
-- Production content source for salary-increase page + JS: main commit 4764f055de1fd86a63800af69a0c47d91482d2a3
-- Production content source for overtime page: main commit 822b535a61500e6f2730147cac5463b9a376ed01
-- Production content source for PTO accrual JS hotfix: main commit 2de2e22b738be027e4b47f20abcebec25fa1d7c9
-- Production content source for PTO accrual page/cache-bust: main commit 4d1cc063e9d31de8ce1f10cbfff668c26e01970a
-- Production content source for hourly wage page + JS: main commit de976055a430e4b9aa01fb2d1883d7f328ba009a
-- Production content source for salary-bonus page + JS: main commit 4b17394d84cba000c256f2b1da6abb61c0793eb7
-- Production content source for hours-and-minutes page + JS: main commit 4cbada58d14c5e3a6417c4647b9b6b43961f178a
-- Production content source for clock-out page + JS/discovery links: main commit 718b1693d7c8f3fb55d6fe651c2d1342a90d8490
-- Production content source for time-duration migration + redirect config: main commit b4a7512680ff46ef09de1f4f8d15ec25b8598c98
-- Public and repository sitemap: 34 canonical URLs, verified 2026-10-05. Search Console currently reports 33 submitted URLs with 0 errors and 0 warnings, so its submitted-count field lags the healthy live sitemap.
+- Current authoritative main SHA: bebc8535d804540256d09c374315759e59f2c77d.
+- Active production-bound branch: none.
+- GitHub Actions: BLOCKED (quota); no PASS claim.
+- ZT MCP workspace `hostedtimesheets` remains a partial bootstrap and is used only after exact changed-file synchronization from GitHub.
+- Production static-site mount: `/opt/hostedtimesheets/site` → Nginx `/usr/share/nginx/html`.
+- Time Card production source: main SHA bebc8535d804540256d09c374315759e59f2c77d.
+- Time Card rollback copy: `/opt/hostedtimesheets/rollback/time-card-calculator/index.html` and `/opt/hostedtimesheets/rollback/assets/js/timesheet-calculator.js`.
+- Public and repository sitemap remains 34 canonical URLs; no sitemap change was required for the existing Time Card URL.
 
 ## Last completed task
 
-Completed a first-party-traffic-driven Timesheet Template research/remediation specification while the production release gate remains blocked. Verified current GSC query ownership, U.S. Ubersuggest demand/SERPs, current competitors, public sitemap state, public page HTTP status and the live template runtime defect. Added TIMESHEET-TEMPLATE-REMEDIATION-SPEC-2026-10-05.md and recorded the canonical-intent decision without changing production HTML/JavaScript.
+Completed the Time Card & Timesheet Calculator remediation and controlled production release for `/time-card-calculator/`.
+
+PR #79 implemented the full remediation and merged at `29e5ea18482c05ad9ad1a826f4a903ae33ff8f31`. PR #80 added a versioned Time Card JavaScript URL to avoid the verified four-hour public asset-cache window and merged at `bebc8535d804540256d09c374315759e59f2c77d`.
+
+The live page now owns the broad Time Card + Timesheet intent, exposes visible invalid-row states, preserves documented daily net-duration rounding, uses minute-derived 2–4 decimal precision, avoids blank-setting coercion to zero, shows total unpaid break time, includes Copy Monday to Tue–Fri, and exports reproducible CSV values.
 
 ## Tests / evidence
+
+- 2026-10-05 Time Card release: exact GitHub main ↔ ZT synchronized HTML/JS parity VERIFIED before deployment.
+- Time Card content-quality gate: PASS; page measured 850 main-content words, average sentence 18.9 words, max paragraph 49 words, passive heuristic 2.4/1k and 3 visible FAQs.
+- Time Card JavaScript syntax: PASS using Node v22.23.3 in the existing Lighthouse container.
+- Time Card calculation/edge-case suite: PASS, including normal, overnight, incomplete/equal punches, invalid break, 15-minute rounding, exact 481-minute precision, overtime boundary, blank/zero settings and invalid-row exclusion.
+- Time Card HTML/canonical/FAQ-schema/accessibility contract: PASS.
+- Headless Chromium local rendered smoke at 390×844: PASS; runtime executed and blank rows initialized to `data-state="empty"`.
+- Public Time Card page: HTTP 200, Cloudflare `cf-cache-status: DYNAMIC`, last-modified 2026-10-05 12:51:14 GMT; live response contains the correct title, canonical, H1 and versioned calculator asset URL.
+- Public versioned Time Card JS: HTTP 200, Cloudflare MISS on first verification, SHA-256 `573634199e6b81e82d97a0c5716a5fc10cbea3fd320f7b787833114a38490a0d`, exactly matching production/GitHub source.
+- Production origin Time Card HTML SHA-256: `6035a9c96e46c350509ca964cd61a3868d0e6dbafd4269994477622d42cd94d0`; production JS SHA-256: `573634199e6b81e82d97a0c5716a5fc10cbea3fd320f7b787833114a38490a0d`.
+- Rollback integrity VERIFIED: previous HTML SHA-256 `e98af4b4df6075e8866b5f56adac01ed2f5ee5b48b9557f054a2345b1d94791a`; previous JS SHA-256 `21c205d0c6d303ea1d6d0454f78454a8337bbe4572b600b5c3273b8708a31da0`.
+- Cloudflare Rocket Loader modifies the public HTML response, so public-body SHA differs from origin while critical content fields are verified.
+- Live public Chromium from the Lighthouse container remains BLOCKED by that container's outbound route/DNS path (`ERR_NAME_NOT_RESOLVED` / `ERR_ADDRESS_UNREACHABLE`). Do not claim a public rendered-browser PASS; local exact-source rendered smoke plus public HTTP/asset verification are the current evidence.
+
 
 - Search Console cached daily performance now shows 3 impressions on 2026-09-29, 9 on 2026-09-30, 9 on 2026-10-01 and 41 on 2026-10-02; 62 total impressions and 0 clicks across those four dates.
 - /timesheet-template/ received 31 of those 62 impressions. Template-specific biweekly/printable/weekly queries resolve to /timesheet-template/, while calculator-specific two-week queries resolve to /biweekly-timesheet-calculator/, so current first-party data does not show template/calculator cannibalization.
@@ -243,8 +252,9 @@ Completed a first-party-traffic-driven Timesheet Template research/remediation s
 
 ## In progress
 
-GitHub Actions is BLOCKED by exhausted quota. User authorized the ZT MCP server as the temporary alternate validation runner. The existing server workspace is only a partial bootstrap, so it cannot be used as an authoritative full-site mirror; exact changed files and validation scripts must be synchronized from GitHub before each server-side gate.
+No page is currently in implementation. The workflow is now locked to one page at a time: do not batch unrelated page changes into the same release.
 
 ## NEXT ACTION
 
-Create a fresh Time Card remediation branch from current GitHub main. Implement TIME-CARD-REMEDIATION-SPEC-2026-10-04.md, synchronize the exact changed HTML/JavaScript plus validation scripts to the ZT MCP runner, run the targeted content-quality/syntax/calculation/schema checks, and proceed to controlled merge/deployment only if all alternate-gate checks pass. Record GitHub Actions as BLOCKED (quota), never as PASS.
+Start `/timesheet-template/` as the next single-page remediation. Use the existing TIMESHEET-TEMPLATE-REMEDIATION-SPEC-2026-10-05.md and re-verify the exact current main/live source before editing. Keep the scope limited to that page and its dedicated JavaScript, run the ZT alternate release gate, deploy only after PASS, then live-verify and update state before selecting another page.
+
