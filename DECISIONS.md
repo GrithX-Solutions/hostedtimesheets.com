@@ -136,3 +136,17 @@ Decision:
 - Do not add cache-busting query strings when the currently referenced unversioned asset is already fresh.
 - Treat future stale-edge incidents as deployment/cache-delivery issues to verify against origin and public hashes before changing every HTML page.
 - Continue to require a real GitHub Actions Content Quality pass before any future production-bound HTML release.
+
+
+## 2026-10-05 — Timesheet Template owns weekly/biweekly printable template intent
+
+Fresh first-party Search Console data shows template-specific queries such as `biweekly timesheet template`, `bi-weekly timesheet template`, printable biweekly variants and weekly printable variants resolving to `/timesheet-template/`, while calculator-specific two-week queries resolve separately to `/biweekly-timesheet-calculator/`.
+
+U.S. Ubersuggest research also shows meaningful template demand, including `timesheet template` (4,400), `free timesheet template` (590 / SD 28 / CPC $7.82), `weekly timesheet template` (590 / SD 32), and `biweekly timesheet template` (320 / SD 26 / CPC $10.73).
+
+Decision:
+- Keep `/timesheet-template/` as the single canonical owner for free, printable, weekly and biweekly template intent.
+- Do not create separate weekly-template or biweekly-template URLs without first-party evidence of a distinct intent that the canonical page cannot satisfy.
+- Keep weekly/biweekly calculator pages as distinct calculation-intent owners.
+- Future template remediation must fix the verified blank Hours/date behavior and add accurate browser-side daily/period totals before metadata or copy claims are strengthened.
+- Do not claim native Excel/PDF/Google Sheets downloads unless those formats actually exist; CSV compatibility and browser print-to-PDF must be described accurately.
