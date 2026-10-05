@@ -59,6 +59,9 @@ document.addEventListener("keydown",e=>{
   if(menu&&menu.open){menu.open=false;return}
   if(header.classList.contains("search-open"))setSearch(false);
 });
+document.addEventListener("pointerdown",e=>{
+  if(header.classList.contains("search-open")&&!header.contains(e.target))setSearch(false);
+});
 window.addEventListener("resize",()=>{
   if(window.innerWidth>700){
     header.classList.remove("search-open");
