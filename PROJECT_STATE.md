@@ -1,6 +1,6 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-05T00:52:00+05:00
+Last verified: 2026-10-05T16:41:00+05:00
 
 ## Objective
 
@@ -33,6 +33,10 @@ Complete a sitewide content re-audit against CONTENT-STANDARDS.md, then remediat
 Completed all currently safe non-production preparation while GitHub Actions is runner-blocked: retired obsolete PR #62 after live cache recovery, and merged implementation-ready specifications for Time Card, Homepage reprioritization, Decimal Hours and Salary Increase. A fresh control rerun still failed before step 1.
 
 ## Tests / evidence
+
+- 2026-10-05 afternoon Actions recovery recheck: rerun of Content Quality run #60 (run id 37228391998) was accepted, but latest job 111745952295 again completed failure before checkout with `steps=null` and no logs. The required GitHub Actions execution gate remains BLOCKED; production-bound Time Card implementation is still not allowed.
+- ZT MCP developer workspace `hostedtimesheets` is present, but it is only a partial bootstrap snapshot on branch `bootstrap/github-main-805d19f` at seed SHA `85b8c6952d062267a16d54067bbe71994e365b88`. The worktree contains copied site files as untracked content, `PROJECT_STATE.md` is absent locally, and `git fetch` fails against the private GitHub remote with terminal authentication unavailable. Treat this workspace as PARTIALLY VERIFIED and non-authoritative for Git sync/push until private-repo authentication/bootstrap is corrected; GitHub main remains authoritative.
+
 
 - SALARY-INCREASE-ARCHITECTURE-2026-10-04.md records verified U.S. keyword/SERP evidence, canonical ownership and the future product/validation plan.
 - Salary Increase synonym cluster: salary increase calculator 33,100 / CPC $13.90 / SD 16; pay raise calculator 33,100 / CPC $13.90 / SD 26; pay increase calculator 33,100 / CPC $13.90 / SD 19; wage increase calculator 33,100 / CPC $9.79 / SD 22.
