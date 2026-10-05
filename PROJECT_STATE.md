@@ -1,260 +1,135 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-05T17:56:00+05:00
+Last verified: 2026-10-05T18:18:00+05:00
 
 ## Objective
 
-Execute remediation one page at a time. Fully research, implement, validate, merge, deploy, live-verify, preserve rollback, and update project state for the current page before starting another page. GitHub Actions remains unavailable because its quota is exhausted, so the ZT MCP server is the temporary alternate validation runner.
+Execute remediation one public page at a time. A page must complete research/evidence review, implementation, tests, alternate release validation, merge, rollback preservation, controlled deployment, live verification and state update before another page enters implementation.
+
+GitHub Actions remains BLOCKED because the Actions quota is exhausted. The user authorized the ZT MCP server as the temporary alternate validation runner. Never record Actions as PASS while the quota blocker remains.
 
 ## Source / deployment
 
 - Repository: GrithX-Solutions/hostedtimesheets.com
 - Default branch: main
-- Current authoritative main SHA: bebc8535d804540256d09c374315759e59f2c77d.
-- Active production-bound branch: none.
-- GitHub Actions: BLOCKED (quota); no PASS claim.
-- ZT MCP workspace `hostedtimesheets` remains a partial bootstrap and is used only after exact changed-file synchronization from GitHub.
-- Production static-site mount: `/opt/hostedtimesheets/site` → Nginx `/usr/share/nginx/html`.
-- Time Card production source: main SHA bebc8535d804540256d09c374315759e59f2c77d.
-- Time Card rollback copy: `/opt/hostedtimesheets/rollback/time-card-calculator/index.html` and `/opt/hostedtimesheets/rollback/assets/js/timesheet-calculator.js`.
-- Public and repository sitemap remains 34 canonical URLs; no sitemap change was required for the existing Time Card URL.
+- Production: static Nginx site.
+- Verified production mount: `/opt/hostedtimesheets/site` -> `/usr/share/nginx/html`.
+- ZT server id: `c59425e31c304e608dac60224a064dbd`.
+- ZT workspace: `hostedtimesheets`.
+- ZT workspace is a partial bootstrap, not an authoritative Git mirror. Exact changed files must be synchronized from GitHub and parity-checked before using it as a release gate.
+- GitHub Actions: BLOCKED (quota).
+- Public/repository sitemap: 34 canonical URLs; no sitemap change required for the two completed existing URLs below.
 
 ## Last completed task
 
-Completed the Time Card & Timesheet Calculator remediation and controlled production release for `/time-card-calculator/`.
+### /timesheet-template/ — VERIFIED release
 
-PR #79 implemented the full remediation and merged at `29e5ea18482c05ad9ad1a826f4a903ae33ff8f31`. PR #80 added a versioned Time Card JavaScript URL to avoid the verified four-hour public asset-cache window and merged at `bebc8535d804540256d09c374315759e59f2c77d`.
+PR #81 merged the Timesheet Template remediation at code commit `df6c9673cc366eb12aaac0a2ede2d9eded81195e`.
 
-The live page now owns the broad Time Card + Timesheet intent, exposes visible invalid-row states, preserves documented daily net-duration rounding, uses minute-derived 2–4 decimal precision, avoids blank-setting coercion to zero, shows total unpaid break time, includes Copy Monday to Tue–Fri, and exports reproducible CSV values.
+The production page now supports:
+- Weekly 7-day and biweekly 14-day modes.
+- Consecutive dates from Period Start with synchronized weekdays.
+- Break minutes defaulting to 0 instead of assuming 30 minutes.
+- Exact integer-minute daily calculations and overnight shifts.
+- Visible validation for incomplete/equal punches and invalid breaks.
+- Week 1, Week 2 and combined biweekly totals.
+- In-session data preservation when switching weekly/biweekly modes.
+- Print / browser Save as PDF workflow.
+- CSV export with week, date, day, punches, break minutes, exact net minutes and 4-place decimal hours.
+- Browser-local calculation/export boundary and no-signup workflow.
+- Correct contextual links to weekly, biweekly and lunch-specific calculators.
 
 ## Tests / evidence
 
-- 2026-10-05 Time Card release: exact GitHub main ↔ ZT synchronized HTML/JS parity VERIFIED before deployment.
-- Time Card content-quality gate: PASS; page measured 850 main-content words, average sentence 18.9 words, max paragraph 49 words, passive heuristic 2.4/1k and 3 visible FAQs.
-- Time Card JavaScript syntax: PASS using Node v22.23.3 in the existing Lighthouse container.
-- Time Card calculation/edge-case suite: PASS, including normal, overnight, incomplete/equal punches, invalid break, 15-minute rounding, exact 481-minute precision, overtime boundary, blank/zero settings and invalid-row exclusion.
-- Time Card HTML/canonical/FAQ-schema/accessibility contract: PASS.
-- Headless Chromium local rendered smoke at 390×844: PASS; runtime executed and blank rows initialized to `data-state="empty"`.
-- Public Time Card page: HTTP 200, Cloudflare `cf-cache-status: DYNAMIC`, last-modified 2026-10-05 12:51:14 GMT; live response contains the correct title, canonical, H1 and versioned calculator asset URL.
-- Public versioned Time Card JS: HTTP 200, Cloudflare MISS on first verification, SHA-256 `573634199e6b81e82d97a0c5716a5fc10cbea3fd320f7b787833114a38490a0d`, exactly matching production/GitHub source.
-- Production origin Time Card HTML SHA-256: `6035a9c96e46c350509ca964cd61a3868d0e6dbafd4269994477622d42cd94d0`; production JS SHA-256: `573634199e6b81e82d97a0c5716a5fc10cbea3fd320f7b787833114a38490a0d`.
-- Rollback integrity VERIFIED: previous HTML SHA-256 `e98af4b4df6075e8866b5f56adac01ed2f5ee5b48b9557f054a2345b1d94791a`; previous JS SHA-256 `21c205d0c6d303ea1d6d0454f78454a8337bbe4572b600b5c3273b8708a31da0`.
-- Cloudflare Rocket Loader modifies the public HTML response, so public-body SHA differs from origin while critical content fields are verified.
-- Live public Chromium from the Lighthouse container remains BLOCKED by that container's outbound route/DNS path (`ERR_NAME_NOT_RESOLVED` / `ERR_ADDRESS_UNREACHABLE`). Do not claim a public rendered-browser PASS; local exact-source rendered smoke plus public HTTP/asset verification are the current evidence.
+### Timesheet Template
+- GitHub main <-> ZT changed-file parity: VERIFIED before deployment.
+- Content Quality: PASS.
+  - Main-content words: 1,045.
+  - Average sentence length: 15.6 words.
+  - Maximum paragraph: 49 words.
+  - Passive heuristic: 4.8/1,000 words.
+  - Visible FAQs: 4.
+- Python syntax: PASS.
+- HTML/canonical/FAQ-schema/accessibility contract: PASS.
+- JavaScript syntax: PASS with Node v22.23.3.
+- Calculation/date/CSV suite: PASS.
+- Rendered Chromium interaction test at 390x844: PASS.
+  - 7/14 row modes and two biweekly week groups.
+  - Zero-default breaks.
+  - Blank-date behavior.
+  - Month-boundary date population.
+  - Daily/weekly/biweekly totals.
+  - Invalid-row exclusion and aria-invalid.
+  - Week 2 restoration after switching Biweekly -> Weekly -> Biweekly.
+  - Print metadata and print-only CSS.
+  - No document-level mobile horizontal overflow.
+- Production origin HTML SHA-256: `633d40a7f8cce3d8485674f1580d6037f127caeb1ab2fb47eefe0fa997c516ec`.
+- Production origin JS SHA-256: `dc64570be58ae40c101478e4e297970a5f171aaf4431c6868bdddb259c3e21a3`.
+- Rollback HTML SHA-256: `9ee062551cda70db4ca36bb03713da14c4d61d17e696837605dbf4e8550e4570`.
+- Rollback JS SHA-256: `9757022b19d5e955abbc000b0cb867a0330be50a3609cec435b1705569eae49b`.
+- Rollback paths:
+  - `/opt/hostedtimesheets/rollback/timesheet-template/index.html`
+  - `/opt/hostedtimesheets/rollback/assets/js/timesheet-template.js`
+- Public page: HTTP 200; Cloudflare cache status DYNAMIC.
+- Public versioned JS: HTTP 200; first verification MISS; public SHA exactly matches production/GitHub JS.
+- Public HTML contains the expected title, self-canonical, H1, total UI and versioned JS URL.
+- Cloudflare Rocket Loader rewrites public script tags, so public HTML byte parity is not expected.
+- Public rendered-browser verification from the Lighthouse container is BLOCKED by that container's outbound networking. Exact-source rendered Chromium tests plus public HTTP/asset verification are the current evidence.
 
+### /time-card-calculator/ — VERIFIED release
 
-- Search Console cached daily performance now shows 3 impressions on 2026-09-29, 9 on 2026-09-30, 9 on 2026-10-01 and 41 on 2026-10-02; 62 total impressions and 0 clicks across those four dates.
-- /timesheet-template/ received 31 of those 62 impressions. Template-specific biweekly/printable/weekly queries resolve to /timesheet-template/, while calculator-specific two-week queries resolve to /biweekly-timesheet-calculator/, so current first-party data does not show template/calculator cannibalization.
-- Search Console sitemap row now reports 33 submitted URLs, 0 errors, 0 warnings, last submitted 2026-09-28 and last downloaded 2026-10-04. Repository and public production sitemap each contain 34 canonical URLs; no sitemap-file change is justified.
-- Timesheet Template U.S. keyword evidence: timesheet template 4,400 / CPC $5.41 / SD 50; timesheet template excel 2,400 / CPC $6.77 / SD 22; free timesheet template 590 / CPC $7.82 / SD 28; weekly timesheet template 590 / SD 32; biweekly timesheet template 320 / CPC $10.73 / SD 26; timesheet template bi weekly 390 / CPC $7.80 / SD 14.
-- Current U.S. SERPs show strong downloadable-template domains for the generic head term, but lower-authority specialist pages also surface for biweekly intent; no unsupported easy-ranking claim is made.
-- Public /timesheet-template/ returned HTTP 200 on 2026-10-05.
-- Live timesheet-template.js confirms a verified product/content defect: the Hours cell is always empty, no daily hour calculation runs, CSV exports blank Hours values, Period Start does not populate per-row dates, every row defaults to a 30-minute break, and mode changes discard entered row data.
-- TIMESHEET-TEMPLATE-REMEDIATION-SPEC-2026-10-05.md freezes the future single-URL product contract: weekly/biweekly modes, populated dates, zero-default explicit breaks, exact-minute duration arithmetic, overnight handling, visible invalid states, weekly/biweekly totals, reproducible CSV, print/PDF behavior, privacy boundary and a 30-case release matrix.
-- Durable canonical decision: /timesheet-template/ owns free/printable/weekly/biweekly template intent; do not create separate weekly-template or biweekly-template URLs without first-party evidence of a distinct intent.
+- Full remediation PR #79 merged at `29e5ea18482c05ad9ad1a826f4a903ae33ff8f31`.
+- Cache-bust PR #80 merged at code commit `bebc8535d804540256d09c374315759e59f2c77d`.
+- Content, JS syntax, calculation, HTML/schema/accessibility and local rendered-mobile gates: PASS.
+- Public page and versioned JS: HTTP 200.
+- Public JS SHA matches production/GitHub source.
+- Rollback preserved under `/opt/hostedtimesheets/rollback/time-card-calculator/` and `/opt/hostedtimesheets/rollback/assets/js/timesheet-calculator.js`.
 
+## Traffic / research status
 
-- 2026-10-05 afternoon Actions recovery recheck: rerun of Content Quality run #60 (run id 37228391998) was accepted, but latest job 111745952295 again completed failure before checkout with `steps=null` and no logs. The required GitHub Actions execution gate remains BLOCKED; production-bound Time Card implementation is still not allowed.
-- ZT MCP developer workspace `hostedtimesheets` is present, but it is only a partial bootstrap snapshot on branch `bootstrap/github-main-805d19f` at seed SHA `85b8c6952d062267a16d54067bbe71994e365b88`. The worktree contains copied site files as untracked content, `PROJECT_STATE.md` is absent locally, and `git fetch` fails against the private GitHub remote with terminal authentication unavailable. Treat this workspace as PARTIALLY VERIFIED and non-authoritative for Git sync/push until private-repo authentication/bootstrap is corrected; GitHub main remains authoritative.
+Existing same-day evidence remains current for the next planned pages:
+- Timesheet Template first-party GSC evidence: 31 of 62 observed impressions in the 2026-09-29 to 2026-10-02 cached window.
+- Homepage reprioritization spec is implementation-ready now that the Time Card broad-intent retarget is live.
+- Homepage demand evidence already captured:
+  - Clock Out Time Calculator: 135,000 US monthly searches.
+  - Work Hours Calculator: 135,000.
+  - Military Time Converter: 74,000.
+  - Salary Increase Calculator: 33,100; CPC $13.90; SD 16.
+- Current homepage still gives disproportionate prominence to lower-demand lunch-specific intent and does not surface all high-demand tools equivalently.
+- Decimal Hours and Salary Increase remediation specs also remain ready for later single-page releases.
 
+## Deployment / indexing status
 
-- SALARY-INCREASE-ARCHITECTURE-2026-10-04.md records verified U.S. keyword/SERP evidence, canonical ownership and the future product/validation plan.
-- Salary Increase synonym cluster: salary increase calculator 33,100 / CPC $13.90 / SD 16; pay raise calculator 33,100 / CPC $13.90 / SD 26; pay increase calculator 33,100 / CPC $13.90 / SD 19; wage increase calculator 33,100 / CPC $9.79 / SD 22.
-- Current Salary Increase runtime does not enforce the visible 53-week maximum in JavaScript and silently substitutes fallback values for blank hours/week and weeks/year inputs.
-- SALARY-INCREASE-REMEDIATION-SPEC-2026-10-05.md freezes the future three-mode contract (percentage, flat annual raise, compare salaries), explicit blank/invalid handling, 1–53 workweek validation, before/after/change period outputs and 40-case release matrix.
-- Salary Increase future schedule rule: invalid or blank hours/week and weeks/year disable only hourly-equivalent outputs; annual/monthly/biweekly/weekly salary arithmetic remains available.
-- Salary Increase comparison mode keeps negative changes valid and uses “change” labels rather than misleading “increase” labels.
-- Salary Increase flat mode handles zero baseline explicitly: 0 + positive raise returns percentage N/A.
-- Ranking competitor pages include PA 11–14 pages with zero backlinks/referring domains, so the opportunity is not exclusively backlink-driven.
-
-- README.md and TRAFFIC-GAP-ANALYSIS-2026-10-03.md reconciled against the current repository: sitemap has 34 URLs; Clock Out, Time Duration and Military Time are no longer marked missing; the obsolete plan to add /timesheet-calculator/ was removed in favor of the verified Time Card canonical-owner decision.
-
-- DECIMAL-HOURS-ARCHITECTURE-2026-10-04.md records fresh U.S. keyword/SERP evidence, competitor gaps, canonical ownership and a tested future calculation specification.
-- Decimal cluster opportunity: hours to decimal calculator 14,800 / CPC $8.62 / SD 16; time to decimal calculator 14,800 / CPC $8.62 / SD 19; decimal hours calculator 12,100 / CPC $5.48 / SD 46.
-- Current Decimal Hours runtime silently clamps minutes above 59 to 59 and negative minutes to 0 instead of surfacing invalid input.
-- Current Decimal Hours runtime displays only two decimals while optional pay uses the exact unrounded duration; e.g. 8h 1m displays 8.02 but exact-time pay at $25/hour is $200.42, while 8.02 × $25 = $200.50.
-- DECIMAL-HOURS-REMEDIATION-SPEC-2026-10-05.md freezes the two-way Time ↔ Decimal product contract, seconds support, 2/3/4-place display precision, explicit invalid-input handling, optional-rate behavior, reverse nearest-second normalization and 36-case release matrix.
-- Decimal Hours future validation: 60/-1/fractional minutes or seconds are invalid and must never be silently clamped.
-- Decimal Hours future pay rule: Time → Decimal uses exact unrounded source duration; Decimal → Time uses the exact decimal input; blank optional rate shows — rather than $0.00.
-- GitHub Actions control re-run of previously successful Content Quality run #48 failed again before step 1 with steps/logs null, confirming the external runner blocker persists.
-- Latest Actions control attempt: run #48 job 111509438914 queued, then completed failure with steps=null and logs=null; the runner still did not execute step 1.
-- Safe planning queue is complete: TIME-CARD-REMEDIATION-SPEC-2026-10-04.md, HOMEPAGE-REPRIORITIZATION-SPEC-2026-10-05.md, DECIMAL-HOURS-REMEDIATION-SPEC-2026-10-05.md and SALARY-INCREASE-REMEDIATION-SPEC-2026-10-05.md are merged to main.
-- Current calculator is one-way; current competitors commonly provide two-way conversion, seconds and selectable precision.
-
-- HOMEPAGE-TRAFFIC-PRIORITY-2026-10-04.md records verified U.S. demand/CPC/SD and the future homepage priority map.
-- Current homepage still features /timesheet-calculator-with-lunch/ (2,900 monthly searches) while Clock Out (135,000), Military Time (74,000) and Salary Increase (33,100; CPC $13.90; SD 16) lack equivalent prominence.
-- Current homepage H1 omits “Work Hours” even though Work Hours Calculator has 135,000 monthly U.S. searches and the page title already includes Work Hours.
-- Current homepage HTML does not directly link Clock Out Time Calculator or Military Time Converter in its tool links.
-- HOMEPAGE-REPRIORITIZATION-SPEC-2026-10-05.md freezes the post-Time-Card homepage H1, featured hero, Popular Tools order, category ownership, all-tools additions, mobile/performance constraints, measurement plan and rollback boundary.
-- Homepage future H1: “Free Timesheet, Work Hours & Payroll Calculators.”
-- Homepage future hero: Time Card & Timesheet Calculator, only after the broad-owner retarget is live-verified.
-- Homepage first-tier unique links after hero: Clock Out, Work Hours, Salary Increase, Overtime, Time Duration, Military Time; PTO remains prominent in its category and may occupy a seventh popular slot if mobile layout supports it.
-- Homepage rollout is a separate index.html release; calculator runtime changes must not be coupled to its rollback.
-
-- Time Card read-only pre-retarget audit: VERIFIED. Current runtime rounds final daily net minutes rather than individual punches; 08:07–17:08 with a 30-minute break and nearest-15 rounding yields 8.50 h under current logic versus 8.75 h under punch rounding.
-- Time Card precision check: 481 exact minutes displays as 8.02 h, but at $25/hour exact-minute pay is $200.42 while 8.02 × $25 = $200.50.
-- Time Card blank-setting checks: clearing overtime threshold coerces it to 0 and can classify all worked time as overtime; clearing the multiplier coerces it to 0 and can zero out overtime pay.
-- TIME-CARD-REMEDIATION-SPEC-2026-10-04.md freezes the future formula order, validation states, daily net-duration rounding semantics, decimal/pay precision, total-break summary, Copy Monday shortcut, CSV/print behavior, SEO retarget and 28-case release test matrix.
-- Time Card remediation decision: preserve current daily net-duration rounding after break deduction and rename/document it accurately; do not silently switch to punch rounding.
-- Time Card future validation: incomplete/equal punches and break > gross shift are invalid and excluded from totals with visible accessible errors.
-- Blank overtime threshold/multiplier must not coerce to zero; explicit numeric 0 remains a valid user-entered value.
-- Decimal-hour outputs should use 2–4 places so minute-derived pay can be reproduced from visible hours.
-- Time Card row-validation gaps: incomplete punches, equal punches, and break > gross shift can all silently resolve to 0.00 instead of a visible validation state.
-
-- TIMESHEET-ARCHITECTURE-2026-10-04.md records fresh U.S. Ubersuggest/SERP evidence and the canonical-ownership decision.
-- Broad cluster demand: time card calculator 201,000; time sheet calculator 90,500; timesheet calculator 49,500; timesheet calculator free 22,200 monthly U.S. searches.
-- Fresh SERPs repeatedly rank Time Card pages for Timesheet queries, confirming strong synonym overlap rather than a separate product intent.
-- Current HostedTimesheets runtimes confirm a new general /timesheet-calculator/ would substantially duplicate /time-card-calculator/.
-
-- Existing repository measurable content audit: 32/32 pages pass the calibrated hard gate.
-- Ubersuggest authenticated Tier 3 account verified.
-- U.S. keyword evidence for `timesheet calculator with lunch`: 2,900 monthly volume, $8.58 CPC, SD 50, informational intent.
-- Current competitor/SERP review completed for the flagship lunch-break timesheet intent.
-- Documented 30-minute, 60-minute and overnight examples checked against assets/js/timesheet-calculator.js.
-- U.S. Department of Labor Fact Sheet #22 checked for the limited meal/rest-period statement.
-- FAQPage schema mismatch found and remediated in the working branch.
-- Rounding sequence and edge-case behavior documented without changing calculator JavaScript.
-- Manual repository content score after remediation: 97/100.
-- Content Quality CI: PASS — run #21 on the final PR head; run #19 also passed after the active-voice correction.
-- Production filesystem content exactly matches GitHub main for the flagship page (24,520 characters).
-- Public HTTPS check: HTTP 200 with correct title, canonical, dateModified, FAQ schema/visible-answer parity and rounding/edge-case methodology text.
-- Cloudflare/Rocket Loader rewrites script tags in the public response, so public-body SHA differs from the origin file while the verified content fields match.
-- Rendered desktop/mobile QA: BLOCKED in the available browser runtime by ERR_BLOCKED_BY_ADMINISTRATOR; no visual-pass claim made.
-- Weekly Timesheet Content Quality CI: PASS — run #23.
-- Weekly production origin exactly matches GitHub main; public HTTPS returned 200 with correct title, canonical, dateModified, rounding/formula content and FAQ schema/visible parity.
-- Biweekly Timesheet Content Quality CI: PASS — run #25.
-- Biweekly production origin exactly matches GitHub main; public HTTPS returned 200 with correct title, canonical, dateModified, rounding methodology, gross-pay formula and DOL references.
-- Work Hours Content Quality CI: PASS — run #27.
-- Work-hours production origin exactly matches GitHub main; public HTTPS returned 200 with correct title, canonical, dateModified, no-rounding methodology, zero-floor behavior, gross-pay formula and Total-minutes explanation.
-- Salary Increase Content Quality CI: initial run #29 FAILED on a 93-word paragraph; rerun #30 PASS after a skimmability-only split.
-- Salary Increase production HTML + JS exactly match GitHub main; public page and JS asset both returned HTTP 200; served JS contains the zero-baseline N/A fix and matches the deployed asset byte-for-byte.
-- Overtime Content Quality CI: PASS — run #32.
-- Overtime production origin exactly matches GitHub main; public HTTPS returned 200 with correct title, canonical, dateModified, DOL regular-rate source, effective-rate formula, IRS qualified-overtime tax boundary and FAQ schema/visible parity.
-- PTO Accrual Content Quality CI: PASS — run #34.
-- PTO production HTML + JS exactly match GitHub main; public page and JS asset both returned HTTP 200; served JS contains the fixed-mode formula-display correction and matches the deployed asset byte-for-byte.
-- PTO follow-up hotfix validation: JS syntax PASS; 1.5 pay periods × 4.50 displays 1.50 periods and 6.75 earned; FAQ schema/visible parity 7/7 exact PASS.
-- PTO follow-up Content Quality CI: PASS — run #36; PR #41 merged at 2de2e22b738be027e4b47f20abcebec25fa1d7c9.
-- PTO cache-delivery Content Quality CI: PASS — run #38; PR #43 merged at 4d1cc063e9d31de8ce1f10cbfff668c26e01970a.
-- PTO final origin HTML exactly matches 4d1cc063; public page returned HTTP 200 and references /assets/js/pto-accrual.js?v=2de2e22.
-- Versioned PTO JavaScript returned HTTP 200 with SHA d2c06af8f13acfa51450df4ee21f4686eb8faeea622f7cd7c8217c15858662df and contains the decimal pay-period display fix.
-- Hourly Wage Content Quality CI: PASS — run #40; PR #45 merged at de976055a430e4b9aa01fb2d1883d7f328ba009a.
-- Hourly Wage production HTML + JS exactly match GitHub main; public page and JS asset both returned HTTP 200.
-- Public hourly-wage JS SHA d08a5bfe68b587b0266ee2ab6d6b421853875086515a88638554d3890a19de4d matches the corrected origin asset; canonical/date/schema/regular-hours labels and overtime double-count guidance all passed live checks.
-- Salary Bonus Content Quality CI: PASS — run #42; PR #47 merged at 4b17394d84cba000c256f2b1da6abb61c0793eb7.
-- Salary Bonus production HTML + JS exactly match GitHub main; public page and JS asset both returned HTTP 200.
-- Public salary-bonus JS SHA f36a63674dc93c3a36c98322d7cab97aeaeb192db7ed3c947639dfca119553cc matches the corrected origin asset; canonical/date/zero-base FAQ/schema/schedule labels/gross-only boundary all passed live checks.
-- Hours & Minutes Content Quality CI: PASS — run #44; PR #49 merged at 4cbada58d14c5e3a6417c4647b9b6b43961f178a.
-- Hours & Minutes production HTML + JS exactly match GitHub main; public page and JS asset both returned HTTP 200.
-- Public hours-minutes JS SHA c2902b21a9aa468095dc6770ad2f7d6ffdbe3b0fabb773ad6d82343399cb84e1 matches the corrected origin asset; add/subtract modes and signed-result content passed live checks.
-- Fresh PageSpeed mobile: LCP 2.4 s, FCP 2.1 s, Speed Index 2.1 s, TBT 39 ms, CLS 0; desktop LCP 673 ms.
-- Canonical HTTPS production fetch: 0 redirects; HTTP/www variants correctly redirect once to https://hostedtimesheets.com/.
-- AdSense loader measured ~206 KB versus ~8.4 KB shared site-search JS; it is the dominant evidence-backed candidate behind the ~149 KB unused-JS audit finding.
-- Google PageSpeed API exact-LCP-element lookup: BLOCKED by quota 429; rendered browser path remains blocked, so exact LCP DOM element is UNKNOWN.
-- Fresh U.S. Ubersuggest: clock out time calculator 135,000 / SD 29 / CPC $4.56; time duration calculator 135,000 / SD 34; military time converter 74,000 / SD 22.
-- TRAFFIC-GAP-ANALYSIS-2026-10-03.md records the repository/site gap matrix and dependency order.
-- Clock Out keyword: 135,000 US monthly searches, SD 29, CPC $4.56; #1 MTS page PA 15 with 0 backlinks/referring domains.
-- Clock Out pre-release formula tests: standard shift, partial-hour shift, overnight, midnight boundary, zero/negative clamp and max-boundary cases PASS.
-- Clock Out DOM structure: PASS; one H1/self-canonical: PASS; FAQ schema/visible parity 5/5 PASS; Node JS syntax: PASS.
-- Clock Out Content Quality run #46: FAILED only because the two worked scenarios did not use the literal word “example”; headings corrected without changing the underlying content or formula.
-- New URL added to sitemap and site-search; Work Hours and Time Card pages link contextually to it.
-- Time Duration Content Quality CI: PASS — run #52; authoritative source is main commit b4a7512680ff46ef09de1f4f8d15ec25b8598c98.
-- Time Duration origin HTML/JS, site-search, sitemap and llms Git blobs match current main.
-- Public /time-duration-calculator/ returned HTTP 200 with zero redirects; public JS returned HTTP 200.
-- Public HTTPS /elapsed-time-calculator/ returned HTTP 301 directly to /time-duration-calculator/ in one hop; the no-slash HTTPS form also resolves in one redirect.
-- Plain HTTP old URL takes two public hops because Cloudflare first enforces HTTPS; active internal links no longer use the old URL.
-- Active live-site scan found no old-path references except historical backup files.
-- ZetoPanel live vhost matches tracked ops/nginx/hostedtimesheets.com.conf; dockerized Nginx configuration test PASS.
-- Public Time Duration JS/site-search/sitemap edge hashes match origin exactly.
-- Pre-migration rollback tar and vhost backup verified; rollback tar contains the old Elapsed Time page and runtime.
-- Clock Out Content Quality rerun #48: PASS; PR #52 merged at 718b1693d7c8f3fb55d6fe651c2d1342a90d8490.
-- Clock Out production HTML Git blob ca423760b217ffebdcb1283439eda5e1cd3921fb and JS Git blob 3dfe35b3331a80d3b19a1ebccc3f8caf37aefc4a match merged GitHub.
-- Production sitemap Git blob 00cbe31499b240be822164e3183c57c981f2f28e and site-search Git blob fd0dcff56df684f70414897132231755ae41fe4b match merged GitHub.
-- Public Clock Out page/JS, site-search, sitemap, Time Card and Work Hours all returned HTTP 200.
-- Public Clock Out JS SHA-256 52e17a2ca90e2d4738558a35975386bdc7eeb9ef43c251b9e99daa242513051c exactly matches origin.
-- Public site-search SHA-256 f2101d5e81ac05dce75afb835125737e21ae6d6770f83578160c3b0ef1588527 exactly matches origin.
-- Public sitemap SHA-256 b69a3054ad4d161a620aa95b27b31773492fede824bbb0d185eba325652395c1 exactly matches origin.
-- Time Card and Work Hours public responses both contain the Clock Out contextual link; Time Card was reconciled to current main with exact pre-release rollback preserved.
-- Time Duration keyword: 135,000 US monthly searches, SD 34; related date/time variants show substantial additional demand.
-- Ubersuggest stored SERP includes PA 14/8/8/1/8 ranking pages with 0 backlinks/referring domains; stronger live-SERP utilities also exist, so no unsupported easy-ranking claim is made.
-- Time Duration pre-release math: standard, seconds precision, overnight, break, multi-day, negative-date rejection and break-floor cases PASS.
-- Time Duration DOM: PASS; one H1/self-canonical: PASS; FAQ schema/visible parity 7/7 PASS; JS syntax: PASS.
-- All 32 active tracked link files checked: no internal /elapsed-time-calculator/ links remain on the feature branch.
-- Sitemap remains 33 URLs with /time-duration-calculator/ replacing the old elapsed-time canonical.
-- Production redirect source-of-truth verified as the outer ZetoPanel Nginx vhost, not .htaccess or /opt/hostedtimesheets/nginx.conf.
-- Military Time keyword: 74,000 US monthly searches, SD 22, CPC $0.11; Military Time Chart: 135,000 monthly, SD 28, CPC $0.31.
-- Low-authority competitor evidence: TimeRewards PA 20 / 0 backlinks; ASA PA 17 / 0 backlinks; Shifton PA 23 / 1 backlink.
-- Military Time parser tests: 0000, 1200, 1730, 0730/730, 17:30, AM/PM, noon/midnight, flexible compact inputs and invalid 2400/2360 cases PASS.
-- Military Time DOM: PASS; one H1/self-canonical: PASS; FAQ schema/visible parity 7/7 PASS; Node JavaScript syntax: PASS.
-- Military Time content metrics: 865 words, 12.36 average sentence words, 50-word maximum paragraph, passive heuristic 0/1,000, 6 examples.
-- Military Time PR #57 review finding: print actions hid the chart because global print CSS hides `.content-grid`; page-scoped print override prepared on fix/military-time-print-20261004 and revalidated.
-- Sitemap/search/llms discovery present; Clock Out and Time Duration contain contextual links.
-- Shared site-search cache recovery: VERIFIED — unversioned and ?v=e1350fd public responses both returned HTTP 200 with SHA-256 c9ba209dd32d7dc9f790835b439b7492ac02038f15d71494de9bf25c46da099a, exactly matching origin.
-- Origin site-search Git blob: e1350fd156987c154b807e68479ae3dac06f3850; it contains Military Time, Clock Out and Time Duration discovery entries.
-- Military Time Converter public page: HTTP 200 and still references the unversioned shared search asset.
-- PR #62 Content Quality run #59 failed before step 1 on rerun (steps/logs null), confirming the GitHub Actions runner blocker remained external to content.
-- Actions run #59 second recovery rerun on 2026-10-05: rerun request accepted; job 111511287834 queued, then completed failure with `steps=null` before checkout. GitHub public status reported Actions operational, so the repository's hosted-runner execution path remains BLOCKED despite no platform-wide incident.
-- Fresh control PR #77 from then-current main triggered Content Quality run #60. Its original attempt completed failure before checkout with job 111512715846 and `steps=null`; the control PR was closed unmerged as intended. A new failed-jobs rerun was accepted on 2026-10-05 and again completed before checkout with job 111517427788, `steps=null`, and no logs. This rules out a stale-run-only failure and confirms the hosted-runner execution blocker still persists.
-- Root cause remains UNKNOWN from available APIs: GitHub public status reports Actions operational, but repository hosted-runner jobs fail before step 1; account quota/billing versus runner allocation cannot be verified with the current GitHub connector.
-- Windsor.ai Search Console connection for `sc-domain:hostedtimesheets.com` is VERIFIED available. Last 28 days for `/time-card-calculator/`: 0 rows. Last 90 days sitewide: only 2 query/page rows, 2 impressions total, 0 clicks; there is not yet enough first-party GSC data to justify changing the planned Time Card canonical ownership.
-- Search Console sitemap status rechecked from raw non-aggregated rows: `https://hostedtimesheets.com/sitemap.xml` has 0 errors / 0 warnings, last submitted 2026-09-28, last downloaded 2026-10-02, and still reports 26 submitted URLs. A 52-URL aggregate result was rejected as a double-summed connector artifact after raw rows confirmed 26.
-- Current origin/public sitemap is newer and healthy: 34 URLs, HTTP 200, Cloudflare `DYNAMIC`, Last-Modified 2026-10-04, and includes Clock Out, Time Duration and Military Time. Therefore the 26-URL GSC count is a stale Google fetch, not an origin/edge deployment defect.
-- Current Search Console connector exposes no write actions, so sitemap resubmission / URL-inspection push is BLOCKED from available tooling. No submission claim is made.
-- Ubersuggest domain overview currently reports 0 U.S. organic keywords and 0 estimated U.S. organic traffic for hostedtimesheets.com; a current external `site:hostedtimesheets.com` search also returned no results. Indexation/discovery remains a material acquisition risk.
-- Fresh Ubersuggest revalidation: `time card calculator` 201,000 US searches / CPC $5.57 / SD 49; `timecard calculator` 201,000 / $4.96 / SD 48; `time sheet calculator` 90,500 / $4.70 / SD 50; `timesheet calculator` 49,500 / $3.255 / SD 52; `timesheet calculator free` 22,200 / $3.32 / SD 20.
-- Live Time Card source parity: production HTML Git blob `a165256198cfb22969457c97b47c5a7fc4b4ab0e` and runtime blob `b2f24b756bf7a7f211d393a7a2f403dbefd132e1` exactly match current GitHub main; both public page and JS return HTTP 200.
-- Current Time Card defects reconfirmed from the live-matching runtime: incomplete/equal punches silently become 0; break overrun is floored to 0; negative break is silently clamped; blank rate/threshold/multiplier are coerced to 0; decimal output is fixed at 2 places; page copy still inaccurately says the rounding selector controls how entered times are interpreted.
-- PR #62 closed unmerged after the stale-edge condition expired; no production HTML change was necessary.
-
-## Affected pages / calculators
-
-- /timesheet-calculator-with-lunch/ — repository + production content verified; rendered browser proofread blocked by environment policy.
-- /weekly-timesheet-calculator/ — repository + production content verified; rendered browser proofread blocked by environment policy.
-- /biweekly-timesheet-calculator/ — repository + production content verified; rendered browser proofread blocked by environment policy.
-- /work-hours-calculator/ — repository + production content verified; rendered browser proofread blocked by environment policy.
-- /salary-increase-calculator/ — repository + production HTML/JS verified; rendered browser proofread blocked by environment policy.
-- /overtime-calculator/ — repository + production content verified; rendered browser proofread blocked by environment policy.
-- /pto-accrual-calculator/ — repository + production HTML/JS verified; rendered browser proofread blocked by environment policy.
-- /hourly-wage-calculator/ — repository + production HTML/JS verified; rendered browser proofread blocked by environment policy.
-- /salary-calculator-with-bonus/ — repository + production HTML/JS verified; rendered browser proofread blocked by environment policy.
-- /hours-and-minutes-calculator/ — repository + production HTML/JS verified; rendered browser proofread blocked by environment policy.
-- /clock-out-time-calculator/ — repository + production HTML/JS/discovery verified; rendered browser proofread blocked by environment policy.
-- /time-duration-calculator/ — repository + production HTML/JS/redirect/discovery verified; rendered browser proofread blocked by environment policy.
-- /military-time-converter/ — repository + production HTML/JS verified; public page/runtime/sitemap/search discovery verified; shared site-search edge cache has recovered.
-- /elapsed-time-calculator/ — retired canonical; live HTTPS path 301s directly to /time-duration-calculator/.
-- /time-card-calculator/ — reconciled to current main during Clock Out release; contextual link live and rollback preserved.
-- assets/js/hours-minutes.js — add/subtract modes, signed results and 4-place decimal display released.
-- assets/js/salary-bonus.js — zero-base N/A handling and 1–53 workweek validation released.
-- assets/js/hourly-wage.js — weeks/year and workdays/week validation aligned with visible HTML limits and released.
-- assets/js/pto-accrual.js — fixed-accrual and decimal pay-period formula-display defects released; PTO page uses a versioned asset URL to bypass stale edge cache.
-- CONTENT-AUDIT-2026-10-03.md updated.
-
-## Deployment / indexing / content status
-
-- Flagship repository remediation: MERGED via PR #27 at 989c0bca676f6ba5132503b624531a6c3ad8f1c2.
-- CI: PASS — Content Quality run #21.
-- Flagship production deployment: VERIFIED on origin filesystem and public HTTP 200 response.
-- Live canonical/schema/content checks: VERIFIED.
-- Rendered desktop/mobile visual proofread: BLOCKED by browser network policy in this session.
-- Indexing request: not needed until a material production content change is shipped and verified.
+- Time Card and Timesheet Template changes are deployed.
+- Both existing canonical URLs remain in the 34-URL sitemap; no sitemap-file edits were required.
+- No new URL was introduced.
+- No indexing request should be represented as completed unless a write-capable Search Console action is actually executed and verified.
 
 ## Blockers / unknowns
 
-- AGENTS.md was not present on the default branch when checked.
-- Rendered browser QA for the live page is BLOCKED in this environment by ERR_BLOCKED_BY_ADMINISTRATOR.
-- GitHub Actions hosted-runner execution is BLOCKED: fresh control PR #77 / run #60 failed before checkout with no steps. Exact cause (quota/billing vs runner allocation) is UNKNOWN from available APIs.
-- Search Console write actions are unavailable through the connected read-only Windsor connector. Current sitemap resubmission / URL-inspection push is BLOCKED from available tooling.
-- Search Console has not yet re-downloaded the current 34-URL sitemap; its latest recorded download (2026-10-02) still reports 26 submitted URLs.
+- GitHub Actions: BLOCKED by exhausted quota.
+- Public Chromium access from the current Lighthouse container: BLOCKED by outbound DNS/network routing.
+- The ZT workspace is partial; full-site results from it must not be treated as a complete repository mirror.
+- Search Console's previously observed submitted sitemap count lagged the 34-URL live sitemap; the sitemap itself had no errors/warnings in the last verified data.
 
 ## Technical debt
 
-- Main is ahead of the last full production reconciliation commit c2fb0f719c7922fc41aae1657cf1c07008c1dab8; 20 public HTML pages changed in that range. Twelve pre-existing page intents — including the Elapsed Time → Time Duration migration — have now been individually brought forward and live-content-verified in this resumed audit; 8 changed public HTML pages still need controlled reconciliation. The new /clock-out-time-calculator/ flagship is also live-verified.
-- Manual editorial/SERP verification remains incomplete for the rest of the public pages.
+- Restore normal GitHub Actions as the required CI path when quota/capacity returns.
+- Correct private-repo authentication/bootstrap if the ZT workspace is ever expected to become a full authoritative checkout.
+- Continue replacing legacy calculator edge-case behavior only through page-specific tested releases; do not batch unrelated calculator changes.
 
 ## In progress
 
-No page is currently in implementation. The workflow is now locked to one page at a time: do not batch unrelated page changes into the same release.
+No page is currently in implementation.
 
 ## NEXT ACTION
 
-Start `/timesheet-template/` as the next single-page remediation. Use the existing TIMESHEET-TEMPLATE-REMEDIATION-SPEC-2026-10-05.md and re-verify the exact current main/live source before editing. Keep the scope limited to that page and its dedicated JavaScript, run the ZT alternate release gate, deploy only after PASS, then live-verify and update state before selecting another page.
+Start the homepage (`/`) as the next single-page release using `HOMEPAGE-REPRIORITIZATION-SPEC-2026-10-05.md`.
 
+Before editing:
+1. Re-read current GitHub main homepage, live production homepage and the spec.
+2. Preserve the homepage-only rollback boundary; do not couple calculator runtime changes.
+3. Reconfirm title/H1/internal-link ownership and the Time Card hero dependency now that Time Card is live.
+4. Validate desktop/mobile navigation, internal links, accessibility, content quality and rendered behavior on the ZT runner.
+5. Merge/deploy only the homepage if all applicable alternate-gate checks pass.
+6. Live-verify and update this state before selecting the next page.
