@@ -8,7 +8,7 @@ js = (ROOT / "assets" / "js" / "site-search.js").read_text()
 required_css = (
     "/* Global header simplification — 2026-10-05 */",
     'grid-template-areas:"brand tools search"',
-    ".main-nav>a{display:none!important}",
+    ".site-header .main-nav>a{display:none!important}",
     ".header-all-tools{display:none!important}",
     ".mobile-search-toggle::after{content:\"Search\"}",
     ".site-header.search-open .site-search{display:block!important}",
