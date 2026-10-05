@@ -94,7 +94,7 @@ async function assertHeader(pathname,width,height,mobile){
   check(opened.expanded==="true"&&opened.form!=="none",pathname+" Search did not open");
   check(opened.result,pathname+" Search results did not work");
 
-  const menu=await evaluate('(()=>{document.querySelector(".nav-menu>summary").click();return {open:document.querySelector(".nav-menu").open,searchOpen:document.querySelector(".site-header").classList.contains("search-open"),panel:getComputedStyle(document.querySelector(".nav-panel")).display};})()');
+  const menu=await evaluate('(async()=>{document.querySelector(".nav-menu>summary").click();await new Promise(resolve=>setTimeout(resolve,60));return {open:document.querySelector(".nav-menu").open,searchOpen:document.querySelector(".site-header").classList.contains("search-open"),panel:getComputedStyle(document.querySelector(".nav-panel")).display};})()');
   check(menu.open===true&&menu.searchOpen===false&&menu.panel!=="none",pathname+" Tools menu/search mutual exclusion failed");
   await evaluate('document.querySelector(".nav-menu>summary").click()');
 
