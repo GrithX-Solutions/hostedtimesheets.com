@@ -95,9 +95,17 @@ async function assertHeader(pathname,width,height,mobile){
   check(opened.expanded==="true"&&opened.form!=="none",pathname+" Search did not open");
   check(opened.result,pathname+" Search results did not work");
 
-  const menu=await evaluate('(async()=>{document.querySelector(".nav-menu>summary").click();await new Promise(resolve=>setTimeout(resolve,60));return {open:document.querySelector(".nav-menu").open,searchOpen:document.querySelector(".site-header").classList.contains("search-open"),panel:getComputedStyle(document.querySelector(".nav-panel")).display};})()');
-  check(menu.open===true&&menu.searchOpen===false&&menu.panel!=="none",pathname+" Tools menu/search mutual exclusion failed");
-  await evaluate('document.querySelector(".nav-menu>summary").click()');
+  const menu=await evaluate('(async()=>{const m=document.querySelector(".nav-menu");const s=m.querySelector(":scope > summary");s.click();await new Promise(resolve=>setTimeout(resolve,80));const panel=document.querySelector(".nav-panel");const style=getComputedStyle(panel);const rect=panel.getBoundingClientRect();return {open:m.open,classOpen:m.classList.contains("is-open"),expanded:s.getAttribute("aria-expanded"),searchOpen:document.querySelector(".site-header").classList.contains("search-open"),panel:style.display,position:style.position,left:Math.round(rect.left),right:Math.round(rect.right),width:Math.round(rect.width),viewport:window.innerWidth,top:Math.round(rect.top),height:Math.round(rect.height)};})()');
+  check(menu.open===true&&menu.classOpen===true&&menu.expanded==="true",pathname+" explicit Tools state did not open");
+  check(menu.searchOpen===false&&menu.panel!=="none",pathname+" Tools menu/search mutual exclusion failed");
+  if(width<=760){
+    check(menu.position==="absolute",pathname+" mobile Tools panel is not iOS-safe absolute positioning");
+    check(Math.abs(menu.left)<=2&&Math.abs(menu.right-menu.viewport)<=2,pathname+" mobile Tools panel is not viewport aligned: "+JSON.stringify(menu));
+  }
+  check(menu.height>100,pathname+" Tools panel has insufficient rendered height: "+menu.height);
+
+  const toolsOutside=await evaluate('(()=>{document.querySelector("main").dispatchEvent(new PointerEvent("pointerdown",{bubbles:true}));const m=document.querySelector(".nav-menu");const s=m.querySelector(":scope > summary");return {open:m.open,classOpen:m.classList.contains("is-open"),expanded:s.getAttribute("aria-expanded")};})()');
+  check(toolsOutside.open===false&&toolsOutside.classOpen===false&&toolsOutside.expanded==="false",pathname+" outside click did not close Tools");
 
   const outside=await evaluate('(()=>{document.querySelector(".mobile-search-toggle").click();document.querySelector("main").dispatchEvent(new PointerEvent("pointerdown",{bubbles:true}));return {open:document.querySelector(".site-header").classList.contains("search-open")};})()');
   check(outside.open===false,pathname+" outside click did not close Search");
