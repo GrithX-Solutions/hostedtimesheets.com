@@ -476,6 +476,7 @@ th{background:#f5f8fc}
     gap:8px;
   }
   .site-header .brand-logo{height:34px!important;max-width:170px!important}
+  .nav-menu{position:static}
   .nav-menu>summary{
     min-width:78px;
     min-height:42px;
