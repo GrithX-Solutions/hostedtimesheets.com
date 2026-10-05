@@ -1,6 +1,6 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-05T16:41:00+05:00
+Last verified: 2026-10-05T16:55:00+05:00
 
 ## Objective
 
@@ -30,9 +30,20 @@ Complete a sitewide content re-audit against CONTENT-STANDARDS.md, then remediat
 
 ## Last completed task
 
-Completed all currently safe non-production preparation while GitHub Actions is runner-blocked: retired obsolete PR #62 after live cache recovery, and merged implementation-ready specifications for Time Card, Homepage reprioritization, Decimal Hours and Salary Increase. A fresh control rerun still failed before step 1.
+Completed a first-party-traffic-driven Timesheet Template research/remediation specification while the production release gate remains blocked. Verified current GSC query ownership, U.S. Ubersuggest demand/SERPs, current competitors, public sitemap state, public page HTTP status and the live template runtime defect. Added TIMESHEET-TEMPLATE-REMEDIATION-SPEC-2026-10-05.md and recorded the canonical-intent decision without changing production HTML/JavaScript.
 
 ## Tests / evidence
+
+- Search Console cached daily performance now shows 3 impressions on 2026-09-29, 9 on 2026-09-30, 9 on 2026-10-01 and 41 on 2026-10-02; 62 total impressions and 0 clicks across those four dates.
+- /timesheet-template/ received 31 of those 62 impressions. Template-specific biweekly/printable/weekly queries resolve to /timesheet-template/, while calculator-specific two-week queries resolve to /biweekly-timesheet-calculator/, so current first-party data does not show template/calculator cannibalization.
+- Search Console sitemap row now reports 33 submitted URLs, 0 errors, 0 warnings, last submitted 2026-09-28 and last downloaded 2026-10-04. Repository and public production sitemap each contain 34 canonical URLs; no sitemap-file change is justified.
+- Timesheet Template U.S. keyword evidence: timesheet template 4,400 / CPC $5.41 / SD 50; timesheet template excel 2,400 / CPC $6.77 / SD 22; free timesheet template 590 / CPC $7.82 / SD 28; weekly timesheet template 590 / SD 32; biweekly timesheet template 320 / CPC $10.73 / SD 26; timesheet template bi weekly 390 / CPC $7.80 / SD 14.
+- Current U.S. SERPs show strong downloadable-template domains for the generic head term, but lower-authority specialist pages also surface for biweekly intent; no unsupported easy-ranking claim is made.
+- Public /timesheet-template/ returned HTTP 200 on 2026-10-05.
+- Live timesheet-template.js confirms a verified product/content defect: the Hours cell is always empty, no daily hour calculation runs, CSV exports blank Hours values, Period Start does not populate per-row dates, every row defaults to a 30-minute break, and mode changes discard entered row data.
+- TIMESHEET-TEMPLATE-REMEDIATION-SPEC-2026-10-05.md freezes the future single-URL product contract: weekly/biweekly modes, populated dates, zero-default explicit breaks, exact-minute duration arithmetic, overnight handling, visible invalid states, weekly/biweekly totals, reproducible CSV, print/PDF behavior, privacy boundary and a 30-case release matrix.
+- Durable canonical decision: /timesheet-template/ owns free/printable/weekly/biweekly template intent; do not create separate weekly-template or biweekly-template URLs without first-party evidence of a distinct intent.
+
 
 - 2026-10-05 afternoon Actions recovery recheck: rerun of Content Quality run #60 (run id 37228391998) was accepted, but latest job 111745952295 again completed failure before checkout with `steps=null` and no logs. The required GitHub Actions execution gate remains BLOCKED; production-bound Time Card implementation is still not allowed.
 - ZT MCP developer workspace `hostedtimesheets` is present, but it is only a partial bootstrap snapshot on branch `bootstrap/github-main-805d19f` at seed SHA `85b8c6952d062267a16d54067bbe71994e365b88`. The worktree contains copied site files as untracked content, `PROJECT_STATE.md` is absent locally, and `git fetch` fails against the private GitHub remote with terminal authentication unavailable. Treat this workspace as PARTIALLY VERIFIED and non-authoritative for Git sync/push until private-repo authentication/bootstrap is corrected; GitHub main remains authoritative.
@@ -232,8 +243,8 @@ Completed all currently safe non-production preparation while GitHub Actions is 
 
 ## In progress
 
-BLOCKED on repository GitHub Actions hosted-runner execution. Fresh control PR #77 confirmed the failure is reproducible on a new run from current main, and a new rerun again failed before checkout with `steps=null`. Parallel acquisition verification shows Search Console has almost no query data and has not yet re-fetched the current 34-URL sitemap; the raw sitemap row still reports 26 submitted URLs, 0 errors and 0 warnings.
+BLOCKED on repository GitHub Actions hosted-runner execution. The 2026-10-05 afternoon rerun of Content Quality run #60 again failed before checkout with steps=null and no logs. Safe non-production research continues. Timesheet Template planning is now implementation-ready, but production HTML/JavaScript remains unchanged.
 
 ## NEXT ACTION
 
-Do not implement production-bound Time Card HTML/JavaScript until a fresh Content Quality control executes real steps normally. Re-run a fresh control when the hosted-runner path recovers. On recovery, recheck Search Console landing/query data, then implement TIME-CARD-REMEDIATION-SPEC-2026-10-04.md on a fresh branch and require CI PASS before merge/deploy. Separately, recheck Search Console sitemap download/submitted count; if it remains stale once a write-capable GSC path is available, resubmit the existing sitemap rather than changing a healthy sitemap file.
+Do not implement production-bound Time Card or Timesheet Template HTML/JavaScript until a fresh Content Quality control executes real steps normally. Re-run a fresh control when the hosted-runner path recovers. On recovery, recheck Search Console query/page data, then implement TIME-CARD-REMEDIATION-SPEC-2026-10-04.md on a fresh branch and require CI PASS before merge/deploy. After the Time Card release, re-evaluate first-party GSC data and implement TIMESHEET-TEMPLATE-REMEDIATION-SPEC-2026-10-05.md next unless fresher evidence justifies a documented reprioritization. Separately, if Search Console's sitemap count remains stale once a write-capable GSC path is available, resubmit the existing healthy sitemap rather than changing its 34-URL contents.
