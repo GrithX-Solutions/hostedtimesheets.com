@@ -13,6 +13,7 @@ required_css = (
     ".mobile-search-toggle::after{content:\"Search\"}",
     ".site-header.search-open .site-search{display:block!important}",
     ".site-header .brand-logo{",
+    ".nav-menu{position:static}",
     "position:absolute!important;",
     "max-height:calc(100dvh - 70px)!important;",
     ".nav-menu.is-open .nav-panel{display:grid!important}",
