@@ -150,3 +150,19 @@ Decision:
 - Keep weekly/biweekly calculator pages as distinct calculation-intent owners.
 - Future template remediation must fix the verified blank Hours/date behavior and add accurate browser-side daily/period totals before metadata or copy claims are strengthened.
 - Do not claim native Excel/PDF/Google Sheets downloads unless those formats actually exist; CSV compatibility and browser print-to-PDF must be described accurately.
+
+
+## 2026-10-05 — ZT MCP server is the temporary release-validation runner while GitHub Actions quota is exhausted
+
+The repository's GitHub Actions allowance is currently exhausted. The pre-checkout failures are therefore treated as quota/capacity unavailability, not as evidence that HostedTimesheets content or code failed its validation logic.
+
+Temporary decision until GitHub Actions capacity is restored:
+- GitHub remains the authoritative source repository and release history.
+- Do not claim GitHub Actions PASS while the quota is unavailable; record it as BLOCKED (quota).
+- Production-bound changes may proceed only when the exact GitHub branch snapshot is validated on the ZT MCP server with an equivalent documented gate.
+- For a changed calculator, the server gate must include the repository content-quality audit for the changed page, language/runtime syntax validation, the calculator's calculation/edge-case test matrix, schema/canonical/internal-link checks applicable to the change, and pre/post-deployment source parity/live HTTP verification.
+- A partial or stale server workspace must not be treated as authoritative. Sync the exact changed files and gate scripts from GitHub before testing.
+- Preserve rollback material and do not deploy if any alternate-gate test fails.
+- When GitHub Actions capacity returns, restore the normal required CI path for subsequent releases.
+
+This supersedes the temporary 2026-10-04 decision that prohibited all production releases while the hosted runner could not execute; the quality gate itself remains mandatory, but the approved runner is temporarily the ZT MCP server.
