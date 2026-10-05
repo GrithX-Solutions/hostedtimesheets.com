@@ -27,7 +27,6 @@ for token in (
     assert token in source, token
 
 assert 'value="30"' not in source
-assert 'value="0"' not in source or True
 
 json_ld = [
     json.loads(block)
