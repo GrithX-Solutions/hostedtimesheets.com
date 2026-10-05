@@ -175,3 +175,26 @@ HostedTimesheets remediation work will proceed one public page at a time. A page
 This avoids cross-page ambiguity while GitHub Actions is quota-blocked and makes failures, rollback scope and verification evidence attributable to one URL.
 
 The next page after the completed Time Card release is `/timesheet-template/`, selected from existing first-party evidence and its already verified product defect. Homepage reprioritization and other calculator remediations remain separate future page releases.
+
+
+## 2026-10-06 — Explicit shared site-shell changes are global release units
+
+The one-page-at-a-time rule applies to public-page remediation. When the user explicitly requests a shared site-shell component such as the global header, navigation or footer, that component may be released across all existing pages as one tightly scoped shared release unit.
+
+Requirements:
+- The change must stay limited to the shared component and must not bundle unrelated page copy, calculator logic, schema, canonical, sitemap or SEO changes.
+- Representative mobile/desktop rendered tests must cover at least the homepage and a calculator page.
+- Shared asset/source parity, cross-page markup compatibility, rollback preservation and live public verification remain mandatory.
+- The page-remediation completion count does not increase for a shared shell-only release.
+
+For the 2026-10-06 header release:
+- PR #83 introduced the shared header implementation at `edd665471cdd1b68b504ca131da0b105b21c2ada`.
+- PR #84 changed only the shared CSS/JS references on the 34 canonical HTML pages and merged at `5cd534808580524ec144bb8ffabbd525c1b442e5`.
+- The cache-reference follow-up was justified because public unversioned Cloudflare assets were VERIFIED stale: their public hashes matched the pre-release rollback assets while production-origin hashes already matched the new GitHub assets.
+- Versioned public assets then returned MISS and matched the new origin/GitHub hashes exactly.
+
+Durable cache rule:
+- Do not add or rotate asset-version query strings merely because a deployment occurred.
+- First compare public and origin hashes.
+- Use a new asset version only when stale edge delivery is actually VERIFIED or when the repository already uses an explicit versioning policy that requires the change.
+- Keep the version update mechanical and limited to the affected shared asset references.
