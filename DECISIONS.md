@@ -166,3 +166,12 @@ Temporary decision until GitHub Actions capacity is restored:
 - When GitHub Actions capacity returns, restore the normal required CI path for subsequent releases.
 
 This supersedes the temporary 2026-10-04 decision that prohibited all production releases while the hosted runner could not execute; the quality gate itself remains mandatory, but the approved runner is temporarily the ZT MCP server.
+
+
+## 2026-10-05 — One page at a time is the release unit
+
+HostedTimesheets remediation work will proceed one public page at a time. A page must complete its research/evidence check, implementation, calculator tests where applicable, content/SEO/schema/accessibility gate, exact GitHub-to-ZT synchronization, merge, rollback preservation, controlled production deployment, live verification and PROJECT_STATE update before unrelated page implementation starts.
+
+This avoids cross-page ambiguity while GitHub Actions is quota-blocked and makes failures, rollback scope and verification evidence attributable to one URL.
+
+The next page after the completed Time Card release is `/timesheet-template/`, selected from existing first-party evidence and its already verified product defect. Homepage reprioritization and other calculator remediations remain separate future page releases.
