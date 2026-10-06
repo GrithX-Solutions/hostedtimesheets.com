@@ -1,6 +1,6 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-06T11:18:00+05:00
+Last verified: 2026-10-06T11:45:36+05:00
 
 ## Objective
 
@@ -48,6 +48,39 @@ The production shared header now:
 - changes no calculator math, page copy, metadata, schema, canonical URL, sitemap URL or framework.
 
 ## Tests / evidence
+
+### Fresh production re-verification — 2026-10-06 11:45 +05
+
+- Completed release set rechecked: homepage `/`, `/time-card-calculator/`, `/timesheet-template/`, and the shared header/search assets.
+- Exact GitHub main -> temporary verification snapshot -> production byte parity: **7 / 7 PASS**.
+  - `index.html`: SHA-256 `1bfa626ca585f70d77d11a50320a91560461ed7be45cb44327a9d15c5b9f1dc9`.
+  - `time-card-calculator/index.html`: SHA-256 `7a19108861b27056d02453f396928ea3dd4210116bca22991999c5f2e3376e3d`.
+  - `assets/js/timesheet-calculator.js`: SHA-256 `573634199e6b81e82d97a0c5716a5fc10cbea3fd320f7b787833114a38490a0d`.
+  - `timesheet-template/index.html`: SHA-256 `f3ed71ff078db9d9a300ff1576cfb0105373fae496e70402ded66e01e3afdcb4`.
+  - `assets/js/timesheet-template.js`: SHA-256 `dc64570be58ae40c101478e4e297970a5f171aaf4431c6868bdddb259c3e21a3`.
+  - `assets/css/design-v2.css`: SHA-256 `f17f9a1ff53ddc9c6e96ec407c39b1315c97a52b16e38d0e4b64e8bb265dbd97`.
+  - `assets/js/site-search.js`: SHA-256 `d1f4f9fe5143401766aa3f8c24cd8e9d064d7e2e9df1feecafc2eb2f83518b9f`.
+- Public HTTPS: homepage, Time Card and Timesheet Template all HTTP 200, self-canonical present, and final `ee22a3c` shared CSS/JS references present.
+- Public shared CSS and search JS: HTTP 200 via Cloudflare and current bytes remain the verified production assets.
+- Live iPhone 13 WebKit header re-verification: **PASS on all three completed pages**.
+  - viewport / document width: 390 / 390 px; no horizontal overflow.
+  - header logo: 150 x 30 px.
+  - Tools: 72 x 40 px.
+  - Search: 80 x 40 px.
+  - Tools opens as an absolute 390 x 600 px sheet with 26 visible links.
+  - Search opens correctly, returns Military Time Converter, and closes Tools.
+  - browser console errors: 0; page errors: 0.
+- Live desktop Chromium homepage/header: **PASS** at 1366 x 900.
+  - logo: 260 x 52 px.
+  - Tools: 96 x 46 px.
+  - Search: 104 x 46 px.
+  - no document-level horizontal overflow.
+  - homepage hero still targets `/time-card-calculator/`.
+- Live calculator functionality smoke:
+  - Time Card Load Example -> 40.00 total hours, 2h 30m unpaid breaks, $1,000.00 gross pay, 0 invalid fields: PASS.
+  - Timesheet Template 2026-10-05, 09:00-17:00, 30-minute break -> Monday, Oct 5 2026, 7h 30m row/period total, 1 completed row: PASS.
+- Deployment decision: **no production rewrite was performed during this re-verification because exact deployed parity was already proven**. Avoiding an unnecessary redeploy preserved the known-good production state and rollback chain.
+- Temporary verification files were removed after testing.
 
 ### Global header / shared navigation
 - User-reported iPhone/Safari defect: VERIFIED and reproduced in Playwright WebKit with an iPhone 13 profile.
@@ -160,7 +193,7 @@ Existing same-day research remains available for future explicitly approved sing
 
 - The global header/navigation shared release, including the iPhone/Safari Tools correction, is deployed across all 34 canonical pages.
 - All 34 live canonical URLs reference the verified `ee22a3c` header CSS and search JS; public asset bytes match origin exactly.
-- Homepage, Time Card and Timesheet Template strict remediation releases are deployed.
+- Homepage, Time Card and Timesheet Template strict remediation releases are deployed and were freshly re-verified on 2026-10-06 with exact source parity and live functionality checks.
 - All three were existing canonical URLs; no new URL was introduced.
 - Sitemap remains 34 canonical URLs.
 - No indexing request should be represented as completed unless a write-capable Search Console action is actually executed and verified.
