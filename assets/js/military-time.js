@@ -46,7 +46,7 @@ const numberWords=n=>{
   return u?`${tens[t]}-${ones[u]}`:tens[t];
 };
 const spoken=(h,m)=>{
-  const hour=h<10?`zero ${numberWords(h)}`:numberWords(h);
+  const hour=h===0?"zero":h<10?`zero ${numberWords(h)}`:numberWords(h);
   const minute=m===0?"hundred":m<10?`zero ${numberWords(m)}`:numberWords(m);
   const value=`${hour} ${minute} hours`;
   return value.charAt(0).toUpperCase()+value.slice(1);
