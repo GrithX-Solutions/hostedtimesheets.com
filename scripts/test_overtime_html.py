@@ -64,7 +64,7 @@ for error_id in (
 json_ld = [
     json.loads(block)
     for block in re.findall(
-        r'<script type="application/ld\\+json">(.*?)</script>', source, re.S
+        r'<script type="application/ld\+json">(.*?)</script>', source, re.S
     )
 ]
 types = []
