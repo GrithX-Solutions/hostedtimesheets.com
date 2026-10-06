@@ -7,7 +7,7 @@ import re
 ROOT = Path(__file__).resolve().parents[1]
 source = (ROOT / "overtime-calculator" / "index.html").read_text()
 
-assert len(re.findall(r"<h1\\b", source, re.I)) == 1
+assert len(re.findall(r"<h1\b", source, re.I)) == 1
 assert "<title>Overtime Calculator — Pay, Time-and-a-Half &amp; Double Time</title>" not in source
 assert "<title>Overtime Calculator — Pay, Time-and-a-Half & Double Time</title>" in source
 assert "<h1>Overtime Calculator</h1>" in source
