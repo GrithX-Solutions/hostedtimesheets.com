@@ -218,3 +218,23 @@ Decision:
 - GitHub-side infrastructure trouble alone is not a reason to stop; inability to establish an exact tested source snapshot or a failing required test is.
 
 This rule applies to future project work without requiring a new decision each time GitHub or Actions has an infrastructure-only failure.
+
+## 2026-10-06 — Work Hours owns repeated-shift hours-with-break intent
+
+Fresh U.S. demand and SERP research confirms that `work hours calculator` / `hours worked calculator` are high-demand calculator-first intents, while the site's variable-day, split-shift, generic-duration and decimal-conversion workflows already have distinct canonical owners.
+
+Evidence:
+- Ubersuggest U.S. `work hours calculator`: 135,000 monthly searches, $2.89 CPC, SD 49.
+- Ubersuggest U.S. `hours worked calculator`: 135,000 monthly searches, $2.89 CPC, SD 49.
+- Ubersuggest U.S. `work time calculator`: 33,100 monthly searches, $3.82 CPC, SD 47.
+- Current SERP competitors commonly expose start/end arithmetic, unpaid breaks, overnight handling, decimal totals and optional pay; richer variable-day or split-shift grids belong to a different workflow.
+- The existing `/work-hours-calculator/` canonical already owns this intent and the homepage links to it directly.
+
+Decision:
+- Keep `/work-hours-calculator/` as the single canonical owner for one repeated shift pattern: start time + end time + unpaid break + repeated workdays + optional one-rate gross-pay arithmetic.
+- Do not create separate synonym URLs for work hours / hours worked / work time.
+- Keep variable daily punches on `/time-card-calculator/`, split-shift weekly entry on `/weekly-timesheet-calculator/`, generic elapsed duration on `/time-duration-calculator/`, and time/decimal conversion on `/decimal-hours-calculator/`.
+- Same start and end mean zero elapsed time; an earlier end means next day; a break longer than the shift floors net worked time at zero.
+- Hourly rate remains optional. Blank means no pay estimate, explicit zero is valid, and an invalid rate must not suppress otherwise-valid time results.
+- This calculator performs arithmetic only and must not infer paid-break status, overtime eligibility, taxes, deductions, employment policy or jurisdictional requirements.
+
