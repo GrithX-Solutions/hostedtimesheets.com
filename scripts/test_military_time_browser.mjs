@@ -168,7 +168,7 @@ try{
   await expectInvalid("-100","28 negative");
   await expectInvalid("1260 PM","29 invalid pm minute");
 
-  await evaluate('document.querySelector("[data-mt-preset=\"1430\"]").click()');
+  await evaluate(`document.querySelector('[data-mt-preset="1430"]').click()`);
   await sleep(20);
   s=await snap();
   check(s.input==="1430"&&s.military==="1430"&&s.standard==="2:30 PM","30 preset");
