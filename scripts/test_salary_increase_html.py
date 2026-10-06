@@ -93,6 +93,6 @@ assert "/salary-calculator-with-bonus/" in source
 assert "/salary-to-hourly-calculator/" in source
 assert "weeks per year must be a whole number from 1 through 53" in source.lower()
 assert "only hourly-equivalent outputs become unavailable" in source
-assert "compare mode can produce positive, zero or negative change" in source
+assert "compare mode can produce positive, zero or negative change" in source.lower()
 
 print("Salary Increase HTML/schema/accessibility contract: PASS")
