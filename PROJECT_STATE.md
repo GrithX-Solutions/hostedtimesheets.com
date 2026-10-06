@@ -1,6 +1,6 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-06T00:28:00+05:00
+Last verified: 2026-10-06T11:18:00+05:00
 
 ## Objective
 
@@ -13,13 +13,13 @@ User workflow rule:
 - Do not start the next page until the user explicitly approves it.
 - An explicitly requested shared site-shell component such as the global header/navigation may be treated as one shared release unit across existing pages, but it must not bundle unrelated page content or calculator changes.
 
-GitHub Actions remains BLOCKED because the Actions quota is exhausted. The ZT MCP server is the temporary alternate validation runner. Never record Actions as PASS while the quota blocker remains.
+GitHub Actions remains BLOCKED because the Actions quota is exhausted. ZT MCP is the permanent contingency validation/execution path for GitHub-side infrastructure failures. GitHub-side quota/outage/service trouble alone must not stop approved project work. Never record Actions as PASS while the quota blocker remains; record the ZT evidence separately.
 
 ## Source / deployment
 
 - Repository: GrithX-Solutions/hostedtimesheets.com
 - Default branch: main
-- Current repository main after the shared-header delivery fix: `5cd534808580524ec144bb8ffabbd525c1b442e5`.
+- Current repository main after the iPhone/Safari Tools fix and cache-delivery follow-up: `2723ac026acf846394003585c8686aa54f119f11`.
 - Production: static Nginx site.
 - Verified production mount: `/opt/hostedtimesheets/site` -> `/usr/share/nginx/html`.
 - ZT server id: `c59425e31c304e608dac60224a064dbd`.
@@ -34,7 +34,7 @@ GitHub Actions remains BLOCKED because the Actions quota is exhausted. The ZT MC
 
 ### Global header / navigation — VERIFIED shared release
 
-PR #83 merged the header implementation at `edd665471cdd1b68b504ca131da0b105b21c2ada`. PR #84 merged the cache-delivery follow-up at `5cd534808580524ec144bb8ffabbd525c1b442e5`.
+The original shared-header release was PR #83 / PR #84. A user-reported real iPhone regression then proved the Tools panel was not usable in Safari/WebKit. PR #86 merged the iPhone/Safari Tools fix at `ee22a3ca3b06715fd35e761476ce34e21f3743fc`. PR #87 merged the 34-page shared-asset cache-key refresh at `2723ac026acf846394003585c8686aa54f119f11`.
 
 The production shared header now:
 - presents only the prominent Hosted Timesheets logo, Tools and Search controls;
@@ -42,13 +42,17 @@ The production shared header now:
 - removes the duplicate All Tools header CTA while retaining the categorized Tools menu;
 - uses equal-height, aligned Tools and Search controls on desktop and mobile;
 - opens Search directly below the sticky header;
-- keeps Tools and Search mutually exclusive and closes Search on outside click;
+- keeps Tools and Search mutually exclusive, keeps explicit `aria-expanded` state, and closes the open control on outside interaction;
+- uses an iOS-safe absolute mobile Tools sheet instead of the WebKit-problematic fixed descendant;
 - enlarges only the header logo; the footer logo remains unchanged;
 - changes no calculator math, page copy, metadata, schema, canonical URL, sitemap URL or framework.
 
 ## Tests / evidence
 
 ### Global header / shared navigation
+- User-reported iPhone/Safari defect: VERIFIED and reproduced in Playwright WebKit with an iPhone 13 profile.
+  - OLD production behavior: `details.open=true`, 26 links present, panel `display:grid`, but rendered fixed-panel height only **41 px**.
+  - NEW behavior: explicit `.is-open` + `aria-expanded=true`, panel `position:absolute`, left 0 / right 390 / width 390, rendered height **600 px**.
 - GitHub branch <-> ZT exact parity for changed CSS, JS and header tests: VERIFIED before merge.
 - Global header static contract: PASS.
 - `site-search.js` Node syntax: PASS.
@@ -67,16 +71,24 @@ The production shared header now:
   - CSS SHA-256 `6b2c3e7a37b412da71ae413d3696844f12f1817e5bb73ff7fe7f63c2fc9a3ea9`.
   - JS SHA-256 `c9ba209dd32d7dc9f790835b439b7492ac02038f15d71494de9bf25c46da099a`.
   - Preserved at `/opt/hostedtimesheets/rollback/assets/css/design-v2.css` and `/opt/hostedtimesheets/rollback/assets/js/site-search.js`.
-- New production shared assets:
+- Current production shared assets after PR #86:
+  - CSS SHA-256 `f17f9a1ff53ddc9c6e96ec407c39b1315c97a52b16e38d0e4b64e8bb265dbd97`.
+  - JS SHA-256 `d1f4f9fe5143401766aa3f8c24cd8e9d064d7e2e9df1feecafc2eb2f83518b9f`.
+- Safari-regression rollback preserves the immediately prior shared assets:
   - CSS SHA-256 `849872b454f9a51fb65c1946b1884648b20a6fb754d217e18f2c4f2d68c83ece`.
   - JS SHA-256 `1ee68d37ad49af470cddfa70b7c8c4a908bfabe0e86c26a569af6cb21d8fb6b8`.
+  - Path: `/opt/hostedtimesheets/rollback/mobile-tools-safari-20261006/`.
 - Cloudflare initially served the old unversioned asset hashes from HIT cache with `max-age=14400`; origin files were already correct.
-- PR #84 therefore versioned only the two shared asset references on all 34 canonical HTML pages:
-  - `/assets/css/design-v2.css?v=edd6654`
-  - `/assets/js/site-search.js?v=edd6654`
-- Public versioned CSS and JS both returned Cloudflare MISS on first verification and their SHA-256 hashes exactly matched the new production/GitHub assets.
-- Production HTML reference audit after deployment: 34 URLs, 0 missing versioned CSS/JS references.
-- HTML rollback for the cache-reference change: `/opt/hostedtimesheets/rollback/header-html-cache-20261005`.
+- PR #87 mechanically refreshed the two shared asset references on all 34 canonical HTML pages:
+  - `/assets/css/design-v2.css?v=ee22a3c`
+  - `/assets/js/site-search.js?v=ee22a3c`
+- Public CDN CSS and JS returned HTTP 200 and their SHA-256 hashes exactly matched the current production-origin files.
+- Live sitemap/reference audit: 34 URLs, **34 PASS**, 0 missing new refs, 0 old `edd6654` refs.
+- Live WebKit iPhone 13 verification on `/` and `/time-card-calculator/`: PASS.
+  - Tools: 390 px viewport width, 600 px usable panel height, 26 visible links, no horizontal overflow.
+  - Search/Tools mutual exclusion: PASS.
+  - Console errors: 0; page errors: 0.
+- HTML rollback for the PR #87 cache-reference refresh: `/opt/hostedtimesheets/rollback/mobile-tools-safari-20261006/html-before-cache-refresh`.
 - True-public Chromium regression on the live homepage and Time Card page at mobile and desktop widths: PASS.
 - Public post-release Lighthouse samples were noisy (scores 80 and 66 with materially different network/TBT patterns), so they were not used to attribute a regression to the header.
 - Deterministic local old-vs-new A/B Lighthouse comparison, same homepage/server with AdSense removed from both fixtures:
@@ -146,8 +158,8 @@ Existing same-day research remains available for future explicitly approved sing
 
 ## Deployment / indexing status
 
-- The global header/navigation shared release is deployed across all 34 canonical pages.
-- All 34 production canonical HTML files reference the verified versioned header CSS and search JS.
+- The global header/navigation shared release, including the iPhone/Safari Tools correction, is deployed across all 34 canonical pages.
+- All 34 live canonical URLs reference the verified `ee22a3c` header CSS and search JS; public asset bytes match origin exactly.
 - Homepage, Time Card and Timesheet Template strict remediation releases are deployed.
 - All three were existing canonical URLs; no new URL was introduced.
 - Sitemap remains 34 canonical URLs.
@@ -155,7 +167,7 @@ Existing same-day research remains available for future explicitly approved sing
 
 ## Blockers / unknowns
 
-- GitHub Actions: BLOCKED by exhausted quota.
+- GitHub Actions: BLOCKED by exhausted quota. Under the permanent contingency rule this is a CI-status blocker, not by itself a work/deployment blocker; ZT evidence is required for production-bound changes.
 - The ZT workspace is partial; full-site results from it must not be treated as a complete repository mirror.
 - Standard Lighthouse-container outbound DNS/networking is restricted, but true public Chromium/Lighthouse can be run with an ephemeral host-network container; this method was VERIFIED for the homepage and the shared-header release.
 - Immediate public Lighthouse scores after the header release were high-variance, so short-run public lab scores are not treated as causal evidence; deterministic isolated A/B performance passed. Fresh field CWV impact remains UNKNOWN until real field data is available.
@@ -163,7 +175,7 @@ Existing same-day research remains available for future explicitly approved sing
 
 ## Technical debt
 
-- Restore normal GitHub Actions as the required CI path when quota/capacity returns.
+- Restore GitHub Actions as the normal primary CI runner when quota/capacity returns; keep ZT MCP as the permanent contingency path for future GitHub-side infrastructure failures.
 - Correct private-repo authentication/bootstrap if the ZT workspace is expected to become a full authoritative checkout.
 - Continue page-specific remediation only; do not batch unrelated calculator/content changes.
 
@@ -173,4 +185,4 @@ No page is currently in implementation.
 
 ## NEXT ACTION
 
-Wait for explicit user approval before starting or continuing any next public page. The shared-header task is complete; do not begin another page automatically after this report.
+The shared-header/iPhone Tools task is complete and VERIFIED live. For the next explicitly approved public-page task, proceed one page at a time without stopping for GitHub-side infrastructure problems: use GitHub normally when available, otherwise use the permanent ZT contingency gate and synchronize the exact tested change back to GitHub as soon as service permits.
