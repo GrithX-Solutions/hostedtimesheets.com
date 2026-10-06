@@ -277,3 +277,27 @@ Decision:
 - Keep duration arithmetic on `/time-duration-calculator/`, known-duration arithmetic on `/hours-and-minutes-calculator/`, and projected shift-end arithmetic on `/clock-out-time-calculator/`.
 - Invalid or malformed values must surface an explicit invalid state and suppress converted outputs rather than being silently normalized.
 - The chart remains printable; print styling must keep the article/chart visible while suppressing the interactive calculator and sidebar.
+
+
+## 2026-10-06 — Time Duration owns endpoint-to-endpoint duration and elapsed-time intent
+
+Fresh U.S. demand and SERP research confirms that time-duration and elapsed-time calculation belong on one canonical endpoint-to-endpoint calculator rather than separate near-duplicate URLs.
+
+Evidence:
+- Ubersuggest U.S. `time duration calculator`: 135,000 monthly searches, SD 34.
+- Ubersuggest U.S. `elapsed time calculator`: 12,100 monthly searches, SD 16.
+- Ubersuggest U.S. `time difference calculator`: 18,100 monthly searches, SD 71.
+- Ubersuggest U.S. `hours between two times`: 2,400 monthly searches, SD 30.
+- Ubersuggest U.S. `time calculator with break`: 1,300 monthly searches, $3.46 CPC, SD 35.
+- The primary SERP includes CalcShelf at position 1 with DA 10 / PA 14 and 0 backlinks / 0 referring domains, plus several DA 1–6 specialist tools.
+
+Decision:
+- Keep `/time-duration-calculator/` as the single canonical owner for duration between two times, elapsed time, hours between two times and date/time duration between endpoints.
+- Keep the retired `/elapsed-time-calculator/` as a permanent redirect to the canonical Time Duration URL; do not recreate a second indexable elapsed-time page.
+- Time only mode treats an earlier end as the next day. Matching start and end times mean zero duration; they do not imply 24 hours.
+- Date & time mode requires real calendar dates and rejects an endpoint earlier than the start instead of silently reversing values.
+- Optional break minutes may be blank or a whole nonnegative number. Negative or fractional break values remain invalid rather than being clamped or coerced.
+- Break deduction affects only the net result. Gross duration remains visible, and net duration floors at zero if break exceeds gross duration.
+- Keep seconds precision, decimal hours, total units, Start/End = now, Swap and copy output in scope.
+- Keep add/subtract-known-duration arithmetic on `/hours-and-minutes-calculator/`, repeated work-shift/pay arithmetic on `/work-hours-calculator/`, projected finish time on `/clock-out-time-calculator/`, and punch/timesheet workflows on their specialist URLs.
+- Do not add timezone/UTC/DST-aware elapsed-time conversion, payroll rounding, countdown or multi-interval timesheet modes to this URL without separate intent evidence.
