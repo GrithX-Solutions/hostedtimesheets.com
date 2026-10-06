@@ -95,11 +95,14 @@ After a controlled release:
 
 - Calculation accuracy is a release blocker.
 - Public content must meet `CONTENT-STANDARDS.md`.
-- Required GitHub Actions checks must execute and pass before production release.
-- Do not bypass a red required check merely because the failure appears infrastructural; record the blocker and keep production unchanged.
+- GitHub Actions is the normal CI runner when it is available and able to execute jobs.
+- A real test/content/calculation failure remains a release blocker. An alternate runner may not be used to override a failing quality result.
+- If GitHub Actions, GitHub-hosted runners, or GitHub itself is unavailable because of quota, outage, platform/account capacity, or another verified infrastructure problem, work must not stop solely for that reason. Use the ZT MCP server as the approved contingency runner.
+- The contingency gate must test the exact source snapshot intended for release, verify GitHub-to-ZT parity when GitHub is reachable, run the same required repository audits plus all change-specific syntax/calculation/browser/live checks, preserve rollback, and require every applicable test to pass.
+- Never describe a ZT result as a GitHub Actions PASS. Record GitHub CI as BLOCKED/UNAVAILABLE and record the alternate evidence separately.
+- GitHub remains the durable source of truth. If GitHub writes are temporarily unavailable, keep the tested ZT change isolated, record exact hashes/diff/evidence, deploy only after the alternate gate passes, then push the exact tested change to GitHub as soon as GitHub recovers and verify repository parity.
+- If an exact tested source snapshot cannot be established, the release is BLOCKED even if ZT itself is available.
 
-## Current release blocker
+## Current CI status
 
-GitHub Actions Content Quality execution is currently blocked before step 1 on the active shared site-search cache-bust release candidate. The blocker is documented in `PROJECT_STATE.md` and `DECISIONS.md`.
-
-Production changes dependent on that gate must remain unmerged/unreleased until Actions executes normally.
+GitHub Actions is currently **BLOCKED by exhausted quota**, but this is not by itself a production-work blocker under the approved ZT contingency path. Current status and alternate-gate evidence are recorded in `PROJECT_STATE.md` and `DECISIONS.md`.
