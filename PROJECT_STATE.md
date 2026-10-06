@@ -1,6 +1,6 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-06T15:44:45+05:00
+Last verified: 2026-10-06T17:09:00+05:00
 
 ## Objective
 
@@ -19,7 +19,7 @@ GitHub Actions remains BLOCKED because the Actions quota is exhausted. ZT MCP is
 
 - Repository: GrithX-Solutions/hostedtimesheets.com
 - Default branch: main
-- Current deployed production-code commit after Work Hours remediation: `a4fa8201ce43df00ef82b4a3dd9ed0d5df147bcc`. Subsequent docs/state-only continuity commits do not change production bytes.
+- Current deployed production-code commit after Overtime remediation: `3fee8a9b514cf4a7450eafcea634b7fedb294af6`. Subsequent docs/state-only continuity commits do not change production bytes.
 - Production: static Nginx site.
 - Verified production mount: `/opt/hostedtimesheets/site` -> `/usr/share/nginx/html`.
 - ZT server id: `c59425e31c304e608dac60224a064dbd`.
@@ -27,10 +27,67 @@ GitHub Actions remains BLOCKED because the Actions quota is exhausted. ZT MCP is
 - ZT workspace is a partial bootstrap, not an authoritative Git mirror. Exact changed files must be synchronized from GitHub and parity-checked before using it as a release gate.
 - GitHub Actions: BLOCKED (quota).
 - Public/repository sitemap: 34 canonical URLs.
-- Strict page-by-page remediation completed: 6 / 34 pages.
+- Strict page-by-page remediation completed: 7 / 34 pages.
 - Shared site-shell releases are tracked separately from the page-remediation count.
 
 ## Last completed task
+
+### Overtime Calculator `/overtime-calculator/` — VERIFIED release
+
+PR #96 squash-merged the remediation at `3fee8a9b514cf4a7450eafcea634b7fedb294af6`.
+
+Research / ownership:
+- Ubersuggest U.S. `overtime calculator`: 22,200 monthly searches, $5.83 CPC, SD 20.
+- Ubersuggest U.S. `time and a half calculator`: 14,800 monthly searches, $4.11 CPC, SD 20.
+- Ubersuggest U.S. `overtime pay calculator`: 4,400 monthly searches, $4.73 CPC, SD 24.
+- Current U.S. SERP remains calculator-first and includes both high-authority publishers and low-authority specialist calculators; Ubersuggest reported specialist domains at DA 3-4 and LogMyHours PA 20 with 0 backlinks/referring domains.
+- Canonical decision: this URL owns ordinary overtime-pay / overtime-rate / time-and-a-half arithmetic. Payroll-hours conversion, punch reconstruction, state-specific eligibility and the federal qualified-overtime tax deduction remain separate intents.
+- Tax-intent demand around “no tax on overtime calculator” was deliberately not merged into this calculator because it requires separate eligibility, reporting and limit logic.
+
+Product / calculation:
+- Added two explicit arithmetic modes:
+  - Total hours + user-selected threshold.
+  - Already-classified regular / overtime / double-time hours.
+- Added editable overtime and double-time multipliers without deciding which legal rule applies.
+- Blank, invalid and negative active inputs are rejected explicitly rather than silently coerced to zero.
+- Explicit zero hours and zero hourly rate remain valid arithmetic values.
+- Standard example: 45 hours at $25/hour, 40-hour threshold, 1.5× -> $1,187.50 gross.
+- Classified example: 40 regular + 5 overtime + 2 double-time hours at $25/hour, 1.5× / 2× -> $1,287.50 gross.
+- Current DOL Fact Sheets #23 and #56A plus IRS FS-2026-13 boundaries are explained without turning the tool into legal, payroll or tax advice.
+
+Pre-release / merged-source gate:
+- GitHub `main` -> ZT exact content parity: VERIFIED 4 / 4 for Overtime HTML, runtime JS and both dedicated tests.
+- Content Quality: PASS, 0 hard failures.
+  - 1,098 main-content words.
+  - Average sentence length: 14.8 words.
+  - Maximum paragraph: 61 words.
+  - Passive heuristic: 3.6 / 1,000 words.
+  - 7 visible FAQs.
+- HTML/schema/accessibility contract: PASS.
+- Exact repository Chromium calculation/UI matrix: PASS, 37 cases at 390px mobile and 1280px desktop.
+- Matrix covered default/decimal/zero/boundary inputs, blank and negative validation, hidden-mode isolation, classified-hours switching, double-time math, currencies, examples/reset/copy, canonical/scope checks and horizontal overflow.
+- GitHub Actions Content Quality run #81 failed before executable steps: 0 steps, `runner_id=0`. Actions remains BLOCKED under the known quota/infrastructure condition; this was not recorded as a content failure or a test PASS. ZT contingency evidence supplied the release gate.
+
+Production / public:
+- Production origin already contained the final merged candidate bytes when final verification resumed, so no unnecessary rewrite was performed.
+- Production-origin HTML SHA-256: `2cd5c82d37ef23a74e6efffab8c3addcf6fd3768b9955ba973a28474016ac3ad`.
+- Production-origin JS SHA-256: `2c8aeb914bbe0d3f98bdfed81c9b43806750c4f39dc0a3a49394511f79598c41`.
+- Public page: HTTP 200, Cloudflare `DYNAMIC`, correct title, self-canonical, 7-FAQ schema, schema `dateModified` 2026-10-06 and runtime `/assets/js/overtime-calculator.js?v=20261006-remediation1`.
+- Public versioned JS bytes exactly match GitHub `main`.
+- True-public Chromium mobile + desktop smoke: PASS.
+  - 390x844 standard example -> $1,187.50 gross / 5.00 overtime hours.
+  - 390x844 classified double-time example -> $1,287.50 gross / 2.00 double-time hours.
+  - Blank hourly rate -> visible invalid state and result suppression.
+  - Mobile Tools panel -> 26 links, 390px width, no document overflow.
+  - 1280x900 -> $1,000.00 default gross, 8 result metrics, no horizontal overflow.
+  - Browser runtime errors: 0; console errors: 0.
+- No new URL was introduced and no sitemap-file change was required.
+
+Rollback / cleanup:
+- Rollback path: `/opt/hostedtimesheets/rollback/overtime-20261006/`.
+- Previous HTML SHA-256: `8cfd4a2e71a89172148b0808663473e82a19198a7fe75d1a8d46628636b1266d`.
+- Previous JS SHA-256: `36fd2691906f3e38d24756b2668487ed88e6f33aafa7d1f73410c3e27404a135`.
+- Temporary live-browser verification script was removed after verification.
 
 ### Work Hours Calculator `/work-hours-calculator/` — VERIFIED release
 
@@ -377,15 +434,15 @@ Existing same-day research remains available for future explicitly approved sing
 - Decimal Hours remediation is complete and deployed.
 - Salary Increase remediation is complete and deployed.
 - Work Hours remediation is complete and deployed.
-- Overtime is the next planned traffic-priority calculator remediation, but it must not start without explicit user approval.
-- Other pages must still be treated as separate release units.
+- Overtime remediation is complete and deployed.
+- The next public page must still be treated as a separate release unit and researched before implementation; do not infer a new intent owner from keyword difficulty alone.
 
 ## Deployment / indexing status
 
 - The global header/navigation shared release, including the iPhone/Safari Tools correction, is deployed across all 34 canonical pages.
 - All 34 live canonical URLs reference the verified `ee22a3c` header CSS and search JS; public asset bytes match origin exactly.
-- Homepage, Time Card, Timesheet Template, Decimal Hours, Salary Increase and Work Hours strict remediation releases are deployed and VERIFIED live.
-- All six completed pages use existing canonical URLs; no new URL was introduced.
+- Homepage, Time Card, Timesheet Template, Decimal Hours, Salary Increase, Work Hours and Overtime strict remediation releases are deployed and VERIFIED live.
+- All seven completed pages use existing canonical URLs; no new URL was introduced.
 - Sitemap remains 34 canonical URLs.
 - No indexing request should be represented as completed unless a write-capable Search Console action is actually executed and verified.
 
@@ -405,8 +462,8 @@ Existing same-day research remains available for future explicitly approved sing
 
 ## In progress
 
-No page is currently in implementation. Work Hours is complete. 28 of the 34 sitemap pages remain for strict page-by-page remediation.
+No page is currently in implementation. Overtime is complete. 27 of the 34 sitemap pages remain for strict page-by-page remediation.
 
 ## NEXT ACTION
 
-Wait for explicit user approval before starting the next public page. The next planned page in the traffic-priority remediation queue is `/overtime-calculator/`. Continue one page at a time and use the permanent ZT contingency gate whenever GitHub-side infrastructure cannot execute.
+Wait for explicit user approval before starting the next public page. Select the next remaining page using fresh traffic/intent/competitor evidence, continue one page at a time, and use the permanent ZT contingency gate whenever GitHub-side infrastructure cannot execute.
