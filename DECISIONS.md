@@ -238,3 +238,20 @@ Decision:
 - Hourly rate remains optional. Blank means no pay estimate, explicit zero is valid, and an invalid rate must not suppress otherwise-valid time results.
 - This calculator performs arithmetic only and must not infer paid-break status, overtime eligibility, taxes, deductions, employment policy or jurisdictional requirements.
 
+## 2026-10-06 — Clock Out owns projected shift-end intent
+
+Fresh U.S. keyword and SERP research confirms that `clock out time calculator` is a distinct high-demand shift-planning intent rather than a generic hours-worked calculator.
+
+Evidence:
+- Ubersuggest U.S. `clock out time calculator`: 135,000 monthly searches, $4.56 CPC, SD 29.
+- Ubersuggest U.S. `clock out calculator`: 4,400 monthly searches, $5.67 CPC, SD 29.
+- The current primary SERP is calculator-first and includes MTS Calculators at position 1 with DA 8 / PA 15 and 0 backlinks / 0 referring domains reported for the ranking URL.
+- Competitor review shows clock-in + target-hours + breaks + overnight handling as the core workflow; some competitors also expose reverse hours-worked modes.
+
+Decision:
+- Keep `/clock-out-time-calculator/` as the canonical owner for projected clock-out time from clock-in time + paid-work target + user-identified unpaid breaks.
+- Do not add reverse hours-worked/start-time modes here. Those workflows remain owned by `/work-hours-calculator/` and `/time-card-calculator/`.
+- Supporting multiple unpaid breaks is in-scope because it preserves the exact shift-end planning intent and removes mental addition.
+- Blank, malformed, decimal-in-whole-number, negative or out-of-range values must remain invalid rather than being silently clamped.
+- The calculator performs local wall-clock arithmetic only. It must not determine break entitlement, paid/unpaid status, overtime eligibility, payroll rounding, wage compliance, time-zone offsets or daylight-saving rules.
+
