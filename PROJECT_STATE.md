@@ -19,7 +19,7 @@ GitHub Actions remains BLOCKED because the Actions quota is exhausted. ZT MCP is
 
 - Repository: GrithX-Solutions/hostedtimesheets.com
 - Default branch: main
-- Current repository main after the iPhone/Safari Tools fix and cache-delivery follow-up: `2723ac026acf846394003585c8686aa54f119f11`.
+- Current deployed production-code commit after the iPhone/Safari Tools fix and cache-delivery follow-up: `2723ac026acf846394003585c8686aa54f119f11`. Subsequent docs/state-only continuity commits do not change production bytes.
 - Production: static Nginx site.
 - Verified production mount: `/opt/hostedtimesheets/site` -> `/usr/share/nginx/html`.
 - ZT server id: `c59425e31c304e608dac60224a064dbd`.
