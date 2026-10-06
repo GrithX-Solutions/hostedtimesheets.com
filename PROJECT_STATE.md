@@ -1,6 +1,6 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-06T18:14:00+05:00
+Last verified: 2026-10-06T19:26:00+05:00
 
 ## Objective
 
@@ -19,7 +19,7 @@ GitHub Actions remains BLOCKED because the Actions quota is exhausted. ZT MCP is
 
 - Repository: GrithX-Solutions/hostedtimesheets.com
 - Default branch: main
-- Current deployed production-code commit after Clock Out remediation: `bab8af2db62497b2b2e3199fc0adc0ee6a586816`. Subsequent docs/state-only continuity commits do not change production bytes.
+- Current deployed production-code commit after Military Time remediation: `9cef5762738ac85ed703cb23ee115cf751e4b414`. Subsequent docs/state-only continuity commits do not change production bytes.
 - Production: static Nginx site.
 - Verified production mount: `/opt/hostedtimesheets/site` -> `/usr/share/nginx/html`.
 - ZT server id: `c59425e31c304e608dac60224a064dbd`.
@@ -27,10 +27,72 @@ GitHub Actions remains BLOCKED because the Actions quota is exhausted. ZT MCP is
 - ZT workspace is a partial bootstrap, not an authoritative Git mirror. Exact changed files must be synchronized from GitHub and parity-checked before using it as a release gate.
 - GitHub Actions: BLOCKED (quota).
 - Public/repository sitemap: 34 canonical URLs.
-- Strict page-by-page remediation completed: 8 / 34 pages.
+- Strict page-by-page remediation completed: 9 / 34 pages.
 - Shared site-shell releases are tracked separately from the page-remediation count.
 
 ## Last completed task
+
+### Military Time Converter `/military-time-converter/` — VERIFIED release
+
+PR #98 squash-merged the strict remediation at `9cef5762738ac85ed703cb23ee115cf751e4b414`.
+
+Research / ownership:
+- Ubersuggest U.S. `military time converter`: 74,000 monthly searches, $0.11 CPC, SD 22.
+- Ubersuggest U.S. `military time chart`: 135,000 monthly searches, $0.31 CPC, SD 28.
+- Ubersuggest U.S. `standard time to military time`: 1,600 monthly searches, SD 25.
+- Ubersuggest U.S. `military time to standard time`: 1,600 monthly searches, SD 38.
+- Current SERP remains converter/chart-first and includes both high-authority domains and lower-authority specialist tools.
+- Canonical decision: this URL owns military/24-hour/standard notation conversion plus the military-time chart. Timezone/UTC/Zulu conversion, elapsed duration and shift-end planning remain separate intents.
+
+Product / conversion:
+- Preserved the existing smart parser for compact military values, colon-form 24-hour values, AM/PM values, `noon` and `midnight`.
+- Added explicit `aria-invalid` field state, visible error messaging and live conversion status instead of output-only failure behavior.
+- Added a tested plain-English spoken form, e.g. 1730 -> “Seventeen thirty hours” and 1700 -> “Seventeen hundred hours”.
+- Preserved the deliberate 0000–2359 input contract; `2400` is rejected with a specific explanation.
+- Added explicit clock-notation versus timezone/Zulu boundary copy.
+- Fixed a real 390px mobile overflow caused by the chart's intrinsic table width without changing shared CSS.
+- Preserved current-time, presets, copy and page-scoped printable chart behavior.
+
+Pre-release / merged-source gate:
+- GitHub branch -> ZT exact content parity: VERIFIED 4 / 4 for Military Time HTML, runtime JS and both dedicated tests.
+- Content Quality: PASS, 0 hard failures.
+  - 993 main-content words.
+  - Average sentence length: 12.9 words.
+  - Maximum paragraph: 57 words.
+  - Passive heuristic: 2.0 / 1,000 words.
+  - 8 visible FAQs.
+- HTML/schema/accessibility contract: PASS.
+- `military-time.js` Node syntax: PASS.
+- Exact repository Chromium conversion/UI/print matrix: PASS, 40 cases at 390px mobile and 1280px desktop.
+- Matrix covered 0000, 1200, 1730, 0730/730, colon-form 24-hour, AM/PM, noon/midnight words, 2359, spoken forms, blank/2400/invalid minute/invalid hour/malformed input rejection, presets, current time, reset, copy suppression, canonical/scope checks, print visibility and horizontal overflow.
+- The first browser run correctly caught a real mobile content overflow; the page-scoped fix was applied and the full matrix was rerun from zero to PASS.
+- A later intermediate browser interruption was a test-selector quoting defect; only the test harness was corrected and the full matrix then passed.
+- GitHub Actions remained BLOCKED by the known quota condition. PR #98 had no executable workflow run/status; this was not recorded as a CI PASS. ZT contingency evidence supplied the release gate.
+
+Production / public:
+- Previous production HTML SHA-256: `a727d235dab452ea05fb8c9d1c9a3d6ae2e9715d8529b06d38fce9a0b0744b11`.
+- Previous production JS SHA-256: `e2b37b74ba3a7cc55e64ff05840be4ae60028e2911787c23fdb018a2ed19a0d5`.
+- Current production HTML SHA-256: `a59d6ed31d43f6715254755df909f44b222342bb3197e59be18e3719f0f0ae4d`.
+- Current production JS SHA-256: `64bbb23ec4e984550a0dc7db2a5103114c2fb2ab52b341e21291d55b675d214a`.
+- Production origin bytes exactly match the tested ZT/GitHub snapshot.
+- Public page: HTTP 200, Cloudflare `DYNAMIC`, title `Military Time Converter & Chart — 12-Hour ↔ 24-Hour`, self-canonical, 8-FAQ schema, schema `dateModified` 2026-10-06 and runtime `/assets/js/military-time.js?v=20261006-remediation1`.
+- Public versioned JS bytes exactly match GitHub `main`.
+- True-public Chromium mobile + desktop smoke: PASS.
+  - 390x844 default -> 1730 / 5:30 PM / 17:30 / “Seventeen thirty hours”.
+  - 0730 -> 7:30 AM with the expected spoken form.
+  - 2400 -> explicit invalid state and converted-output suppression.
+  - `noon` -> 1200 / 12:00 PM.
+  - Mobile Tools panel -> 26 links, 390px width, no document overflow.
+  - Print media -> calculator hidden, article/chart visible, sidebar hidden, table overflow visible.
+  - 1280x900 -> 1730 default, 5 result metrics, no horizontal overflow.
+  - Browser runtime exceptions: 0; console errors: 0.
+- No new URL was introduced and no sitemap-file change was required.
+
+Rollback / cleanup:
+- Rollback path: `/opt/hostedtimesheets/rollback/military-time-strict-20261006/`.
+- Rollback HTML SHA-256: `a727d235dab452ea05fb8c9d1c9a3d6ae2e9715d8529b06d38fce9a0b0744b11`.
+- Rollback JS SHA-256: `e2b37b74ba3a7cc55e64ff05840be4ae60028e2911787c23fdb018a2ed19a0d5`.
+- Temporary live-browser and overflow-diagnostic scripts were removed after verification.
 
 ### Clock Out Time Calculator `/clock-out-time-calculator/` — VERIFIED release
 
@@ -498,45 +560,45 @@ Existing same-day research remains available for future explicitly approved sing
 - Work Hours remediation is complete and deployed.
 - Overtime remediation is complete and deployed.
 - Clock Out remediation is complete and deployed.
+- Military Time remediation is complete and deployed.
 - The next public page must still be treated as a separate release unit and researched before implementation; do not infer a new intent owner from keyword difficulty alone.
 
 ## Remaining strict remediation queue — 2026-10-06
 
 Queue is traffic-first, not permanent. Revalidate Ubersuggest + current SERP + cannibalization immediately before each page starts; move a page only when fresh evidence materially changes the opportunity or a production/policy defect makes it urgent.
 
-1. `/military-time-converter/` — 74,000 volume, $0.11 CPC, SD 22. High traffic / comparatively low difficulty; conversion intent is clean.
-2. `/time-duration-calculator/` — 135,000 volume, $0 CPC, SD 34. Very high demand; lower monetization signal than Clock Out.
-3. `/hourly-wage-calculator/` — 18,100 volume, ~$1.94 CPC, SD 19. Strong low-difficulty salary/pay opportunity.
-4. `/pto-accrual-calculator/` — 4,400 volume, $9.62 CPC, SD 12. Low difficulty plus strong monetization relevance.
-5. `/salary-calculator-with-bonus/` — 2,400 volume, $8.23 CPC, SD 6. Very low difficulty and strong commercial relevance.
-6. `/hours-and-minutes-calculator/` — 14,800 volume, $1.13 CPC, SD 35.
-7. `/billable-hours-calculator/` — 480 volume, $9.75 CPC, SD 18. Lower volume but high-value business intent.
-8. `/time-off-tracker/` — 590 volume, $76.96 reported CPC, SD 29. CPC is unusually high and must be treated cautiously/revalidated.
-9. `/payroll-hours-calculator/` — 9,900 volume, $6.90 CPC, SD 50. Strong value but materially harder SERP.
-10. `/salary-to-hourly-calculator/` — 49,500 volume, $0.88 CPC, SD 59. Large demand but high difficulty.
-11. `/how-to-calculate-hours-worked/` — 2,400 volume, $4.18 CPC, SD 35. Supporting guide for the hours cluster.
-12. `/timesheet-calculator-with-lunch/` — 2,900 volume, $8.58 CPC, SD 50.
-13. `/biweekly-timesheet-calculator/` — 1,300 volume, $6.31 CPC, SD 33.
-14. `/biweekly-pay-calculator/` — 4,400 volume, $3.74 CPC, SD 59.
-15. `/how-to-calculate-pto-accrual/` — 320 volume, $0.23 CPC, SD 24. Supports PTO topical authority.
-16. `/weekly-timesheet-calculator/` — 260 volume, $2.42 CPC, SD 48.
-17. `/how-to-calculate-time-card/` — 210 volume, $3.17 CPC, SD 52.
-18. `/minutes-to-decimal-hours/` — 170 volume, $0 CPC, SD 43.
-19. `/timesheet-pay-calculator/` — 30 volume, $3.28 CPC, SD 52. Low direct demand; must justify distinct intent before expansion.
-20. `/pto-accrual-based-on-hours-worked/` — 10 volume, $0 CPC, SD 12. Low direct demand; cannibalization with PTO Accrual must be reviewed before remediation.
-21. `/time-card-hours-with-lunch-break/` — exact-match query currently reports 0 volume. Revalidate broader semantic cluster before investing.
-22. `/about/` — trust/methodology page; traffic is secondary.
-23. `/contact/` — trust/support page.
-24. `/privacy/` — compliance/trust page; promote earlier only if policy audit finds an issue.
-25. `/terms/` — compliance/trust page; promote earlier only if policy audit finds an issue.
-26. `/disclaimer/` — compliance/trust page; promote earlier only if policy audit finds an issue.
+1. `/time-duration-calculator/` — 135,000 volume, $0 CPC, SD 34. Very high demand; lower monetization signal than Clock Out.
+2. `/hourly-wage-calculator/` — 18,100 volume, ~$1.94 CPC, SD 19. Strong low-difficulty salary/pay opportunity.
+3. `/pto-accrual-calculator/` — 4,400 volume, $9.62 CPC, SD 12. Low difficulty plus strong monetization relevance.
+4. `/salary-calculator-with-bonus/` — 2,400 volume, $8.23 CPC, SD 6. Very low difficulty and strong commercial relevance.
+5. `/hours-and-minutes-calculator/` — 14,800 volume, $1.13 CPC, SD 35.
+6. `/billable-hours-calculator/` — 480 volume, $9.75 CPC, SD 18. Lower volume but high-value business intent.
+7. `/time-off-tracker/` — 590 volume, $76.96 reported CPC, SD 29. CPC is unusually high and must be treated cautiously/revalidated.
+8. `/payroll-hours-calculator/` — 9,900 volume, $6.90 CPC, SD 50. Strong value but materially harder SERP.
+9. `/salary-to-hourly-calculator/` — 49,500 volume, $0.88 CPC, SD 59. Large demand but high difficulty.
+10. `/how-to-calculate-hours-worked/` — 2,400 volume, $4.18 CPC, SD 35. Supporting guide for the hours cluster.
+11. `/timesheet-calculator-with-lunch/` — 2,900 volume, $8.58 CPC, SD 50.
+12. `/biweekly-timesheet-calculator/` — 1,300 volume, $6.31 CPC, SD 33.
+13. `/biweekly-pay-calculator/` — 4,400 volume, $3.74 CPC, SD 59.
+14. `/how-to-calculate-pto-accrual/` — 320 volume, $0.23 CPC, SD 24. Supports PTO topical authority.
+15. `/weekly-timesheet-calculator/` — 260 volume, $2.42 CPC, SD 48.
+16. `/how-to-calculate-time-card/` — 210 volume, $3.17 CPC, SD 52.
+17. `/minutes-to-decimal-hours/` — 170 volume, $0 CPC, SD 43.
+18. `/timesheet-pay-calculator/` — 30 volume, $3.28 CPC, SD 52. Low direct demand; must justify distinct intent before expansion.
+19. `/pto-accrual-based-on-hours-worked/` — 10 volume, $0 CPC, SD 12. Low direct demand; cannibalization with PTO Accrual must be reviewed before remediation.
+20. `/time-card-hours-with-lunch-break/` — exact-match query currently reports 0 volume. Revalidate broader semantic cluster before investing.
+21. `/about/` — trust/methodology page; traffic is secondary.
+22. `/contact/` — trust/support page.
+23. `/privacy/` — compliance/trust page; promote earlier only if policy audit finds an issue.
+24. `/terms/` — compliance/trust page; promote earlier only if policy audit finds an issue.
+25. `/disclaimer/` — compliance/trust page; promote earlier only if policy audit finds an issue.
 
 ## Deployment / indexing status
 
 - The global header/navigation shared release, including the iPhone/Safari Tools correction, is deployed across all 34 canonical pages.
 - All 34 live canonical URLs reference the verified `ee22a3c` header CSS and search JS; public asset bytes match origin exactly.
-- Homepage, Time Card, Timesheet Template, Decimal Hours, Salary Increase, Work Hours, Overtime and Clock Out strict remediation releases are deployed and VERIFIED live.
-- All eight completed pages use existing canonical URLs; no new URL was introduced.
+- Homepage, Time Card, Timesheet Template, Decimal Hours, Salary Increase, Work Hours, Overtime, Clock Out and Military Time strict remediation releases are deployed and VERIFIED live.
+- All nine completed pages use existing canonical URLs; no new URL was introduced.
 - Sitemap remains 34 canonical URLs.
 - No indexing request should be represented as completed unless a write-capable Search Console action is actually executed and verified.
 
@@ -556,8 +618,8 @@ Queue is traffic-first, not permanent. Revalidate Ubersuggest + current SERP + c
 
 ## In progress
 
-No page is currently in implementation. Clock Out is complete. 26 of the 34 sitemap pages remain for strict page-by-page remediation.
+No page is currently in implementation. Military Time is complete. 25 of the 34 sitemap pages remain for strict page-by-page remediation.
 
 ## NEXT ACTION
 
-Wait for explicit user approval before starting queue item #1: `/military-time-converter/`. Revalidate its keyword/semantic map, current SERP/competitor gap, current functionality and cannibalization before implementation. Then remediate, test, merge, preserve rollback, deploy, verify live and update this state before starting queue item #2.
+Wait for explicit user approval before starting queue item #1: `/time-duration-calculator/`. Revalidate its current keyword/semantic map, SERP/competitor gap, migration/canonical state, current functionality and cannibalization before implementation. Then remediate, test, merge, preserve rollback, deploy, verify live and update this state before starting queue item #2.
