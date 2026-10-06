@@ -1,6 +1,6 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-06T17:09:00+05:00
+Last verified: 2026-10-06T18:14:00+05:00
 
 ## Objective
 
@@ -19,7 +19,7 @@ GitHub Actions remains BLOCKED because the Actions quota is exhausted. ZT MCP is
 
 - Repository: GrithX-Solutions/hostedtimesheets.com
 - Default branch: main
-- Current deployed production-code commit after Overtime remediation: `3fee8a9b514cf4a7450eafcea634b7fedb294af6`. Subsequent docs/state-only continuity commits do not change production bytes.
+- Current deployed production-code commit after Clock Out remediation: `bab8af2db62497b2b2e3199fc0adc0ee6a586816`. Subsequent docs/state-only continuity commits do not change production bytes.
 - Production: static Nginx site.
 - Verified production mount: `/opt/hostedtimesheets/site` -> `/usr/share/nginx/html`.
 - ZT server id: `c59425e31c304e608dac60224a064dbd`.
@@ -27,10 +27,72 @@ GitHub Actions remains BLOCKED because the Actions quota is exhausted. ZT MCP is
 - ZT workspace is a partial bootstrap, not an authoritative Git mirror. Exact changed files must be synchronized from GitHub and parity-checked before using it as a release gate.
 - GitHub Actions: BLOCKED (quota).
 - Public/repository sitemap: 34 canonical URLs.
-- Strict page-by-page remediation completed: 7 / 34 pages.
+- Strict page-by-page remediation completed: 8 / 34 pages.
 - Shared site-shell releases are tracked separately from the page-remediation count.
 
 ## Last completed task
+
+### Clock Out Time Calculator `/clock-out-time-calculator/` — VERIFIED release
+
+PR #97 squash-merged the remediation at `bab8af2db62497b2b2e3199fc0adc0ee6a586816`.
+
+Research / ownership:
+- Ubersuggest U.S. `clock out time calculator`: 135,000 monthly searches, $4.56 CPC, SD 29.
+- Ubersuggest U.S. `clock out calculator`: 4,400 monthly searches, $5.67 CPC, SD 29.
+- Current primary SERP remains calculator-first.
+- Ubersuggest reported MTS Calculators at position 1 with DA 8 / PA 15 and 0 backlinks / 0 referring domains on the ranking URL.
+- Fresh competitor review confirmed clock-in + paid target + breaks + overnight handling as the core workflow.
+- Canonical decision: this URL owns projected shift-end time only. Reverse hours-worked/start-time workflows remain Work Hours / Time Card intent and were deliberately not added.
+
+Product / calculation:
+- Replaced silent numeric clamping with explicit field-level validation.
+- Added optional additional unpaid-break input while preserving the core clock-out workflow.
+- Standard example: 08:30 + 8h paid + 30m unpaid -> 17:00 / 5:00 PM same day.
+- Partial example: 09:00 + 7h30m paid + 0m unpaid -> 16:30 / 4:30 PM.
+- Overnight example: 22:00 + 8h paid + 0m unpaid -> 06:00 next day.
+- Multiple-break example: 08:00 + 8h paid + 30m + 15m unpaid -> 16:45 / 4:45 PM.
+- Added total unpaid-break result, reproducible example controls, live validation status and improved copy output.
+- Local wall-clock arithmetic only; no break entitlement, compensability, overtime, payroll rounding, wage compliance, timezone or DST determination.
+
+Pre-release / merged-source gate:
+- GitHub branch -> ZT exact content parity: VERIFIED 4 / 4 for Clock Out HTML, runtime JS and both dedicated tests.
+- Content Quality: PASS, 0 hard failures.
+  - 1,085 main-content words.
+  - Average sentence length: 14.9 words.
+  - Maximum paragraph: 61 words.
+  - Passive heuristic: 5.5 / 1,000 words.
+  - 7 visible FAQs.
+- HTML/schema/accessibility contract: PASS.
+- `clock-out-time.js` Node syntax: PASS.
+- Exact repository Chromium calculation/UI matrix: PASS, 42 cases at 390px mobile and 1280px desktop.
+- Matrix covered default/partial/overnight/multiple-break arithmetic, blank/decimal/negative/out-of-range validation, optional blank extra break, zero durations, multi-day offsets, presets, reset, copy, current-time input, canonical/scope checks and horizontal overflow.
+- A failed intermediate multi-day expectation was corrected in the test, not in calculator math: 23:30 + 72h59m paid + 1,440m + 1,440m breaks correctly lands 6 days later at 00:29.
+- GitHub Actions Content Quality run #82 failed before executable steps: 0 steps, `runner_id=0`. Actions remains BLOCKED under the known quota/infrastructure condition; this was not recorded as a content failure or a test PASS. ZT contingency evidence supplied the release gate.
+
+Production / public:
+- Previous production HTML SHA-256: `98d143557c9dc99e3a892b5fa0564b8a436a63fd3454ff13725b76b3b6f0588c`.
+- Previous production JS SHA-256: `52e17a2ca90e2d4738558a35975386bdc7eeb9ef43c251b9e99daa242513051c`.
+- Current production HTML SHA-256: `b0d1ce0098d4ac0c6a60b2059b2b241816b0a4917eec304080e1c7eccffcae7b`.
+- Current production JS SHA-256: `6940c2e620eb019c2b95d34e0f7ed14423c376c471d394f1b945fb821bb1caed`.
+- Public page: HTTP 200, Cloudflare `DYNAMIC`, title `Clock Out Time Calculator — Find Your Clock-Out Time`, self-canonical, 7 visible FAQs, schema `dateModified` 2026-10-06 and runtime `/assets/js/clock-out-time.js?v=20261006-remediation1`.
+- Public versioned JS bytes exactly match GitHub `main`.
+- True-public Chromium mobile + desktop smoke: PASS.
+  - 390x844 default -> 5:00 PM / 17:00, same day.
+  - Multiple unpaid breaks -> 4:45 PM / 16:45, 45m unpaid, 8h45m total span.
+  - Overnight example -> 6:00 AM / 06:00 next day.
+  - Blank paid-hours input -> visible invalid state and output suppression.
+  - Mobile Tools panel -> 26 links, 390px width, no document overflow.
+  - 1280x900 -> 5:00 PM / 17:00, 5 metrics, no horizontal overflow.
+  - Browser runtime exceptions: 0.
+- Live sitemap remains 34 canonical URLs and includes the Clock Out canonical.
+- Live homepage contains a direct Clock Out link.
+- No new URL was introduced and no sitemap-file change was required.
+
+Rollback / cleanup:
+- Rollback path: `/opt/hostedtimesheets/rollback/clock-out-20261006/`.
+- Rollback HTML SHA-256: `98d143557c9dc99e3a892b5fa0564b8a436a63fd3454ff13725b76b3b6f0588c`.
+- Rollback JS SHA-256: `52e17a2ca90e2d4738558a35975386bdc7eeb9ef43c251b9e99daa242513051c`.
+- Temporary live-browser verification script was removed after verification.
 
 ### Overtime Calculator `/overtime-calculator/` — VERIFIED release
 
@@ -435,46 +497,46 @@ Existing same-day research remains available for future explicitly approved sing
 - Salary Increase remediation is complete and deployed.
 - Work Hours remediation is complete and deployed.
 - Overtime remediation is complete and deployed.
+- Clock Out remediation is complete and deployed.
 - The next public page must still be treated as a separate release unit and researched before implementation; do not infer a new intent owner from keyword difficulty alone.
 
 ## Remaining strict remediation queue — 2026-10-06
 
 Queue is traffic-first, not permanent. Revalidate Ubersuggest + current SERP + cannibalization immediately before each page starts; move a page only when fresh evidence materially changes the opportunity or a production/policy defect makes it urgent.
 
-1. `/clock-out-time-calculator/` — U.S. 135,000 volume, $4.56 CPC, SD 29. Current Ubersuggest SERP has a DA 8 specialist at position 1; fresh public results remain calculator-first. Strongest next opportunity.
-2. `/military-time-converter/` — 74,000 volume, $0.11 CPC, SD 22. High traffic / comparatively low difficulty; conversion intent is clean.
-3. `/time-duration-calculator/` — 135,000 volume, $0 CPC, SD 34. Very high demand; lower monetization signal than Clock Out.
-4. `/hourly-wage-calculator/` — 18,100 volume, ~$1.94 CPC, SD 19. Strong low-difficulty salary/pay opportunity.
-5. `/pto-accrual-calculator/` — 4,400 volume, $9.62 CPC, SD 12. Low difficulty plus strong monetization relevance.
-6. `/salary-calculator-with-bonus/` — 2,400 volume, $8.23 CPC, SD 6. Very low difficulty and strong commercial relevance.
-7. `/hours-and-minutes-calculator/` — 14,800 volume, $1.13 CPC, SD 35.
-8. `/billable-hours-calculator/` — 480 volume, $9.75 CPC, SD 18. Lower volume but high-value business intent.
-9. `/time-off-tracker/` — 590 volume, $76.96 reported CPC, SD 29. CPC is unusually high and must be treated cautiously/revalidated.
-10. `/payroll-hours-calculator/` — 9,900 volume, $6.90 CPC, SD 50. Strong value but materially harder SERP.
-11. `/salary-to-hourly-calculator/` — 49,500 volume, $0.88 CPC, SD 59. Large demand but high difficulty.
-12. `/how-to-calculate-hours-worked/` — 2,400 volume, $4.18 CPC, SD 35. Supporting guide for the hours cluster.
-13. `/timesheet-calculator-with-lunch/` — 2,900 volume, $8.58 CPC, SD 50.
-14. `/biweekly-timesheet-calculator/` — 1,300 volume, $6.31 CPC, SD 33.
-15. `/biweekly-pay-calculator/` — 4,400 volume, $3.74 CPC, SD 59.
-16. `/how-to-calculate-pto-accrual/` — 320 volume, $0.23 CPC, SD 24. Supports PTO topical authority.
-17. `/weekly-timesheet-calculator/` — 260 volume, $2.42 CPC, SD 48.
-18. `/how-to-calculate-time-card/` — 210 volume, $3.17 CPC, SD 52.
-19. `/minutes-to-decimal-hours/` — 170 volume, $0 CPC, SD 43.
-20. `/timesheet-pay-calculator/` — 30 volume, $3.28 CPC, SD 52. Low direct demand; must justify distinct intent before expansion.
-21. `/pto-accrual-based-on-hours-worked/` — 10 volume, $0 CPC, SD 12. Low direct demand; cannibalization with PTO Accrual must be reviewed before remediation.
-22. `/time-card-hours-with-lunch-break/` — exact-match query currently reports 0 volume. Revalidate broader semantic cluster before investing.
-23. `/about/` — trust/methodology page; traffic is secondary.
-24. `/contact/` — trust/support page.
-25. `/privacy/` — compliance/trust page; promote earlier only if policy audit finds an issue.
-26. `/terms/` — compliance/trust page; promote earlier only if policy audit finds an issue.
-27. `/disclaimer/` — compliance/trust page; promote earlier only if policy audit finds an issue.
+1. `/military-time-converter/` — 74,000 volume, $0.11 CPC, SD 22. High traffic / comparatively low difficulty; conversion intent is clean.
+2. `/time-duration-calculator/` — 135,000 volume, $0 CPC, SD 34. Very high demand; lower monetization signal than Clock Out.
+3. `/hourly-wage-calculator/` — 18,100 volume, ~$1.94 CPC, SD 19. Strong low-difficulty salary/pay opportunity.
+4. `/pto-accrual-calculator/` — 4,400 volume, $9.62 CPC, SD 12. Low difficulty plus strong monetization relevance.
+5. `/salary-calculator-with-bonus/` — 2,400 volume, $8.23 CPC, SD 6. Very low difficulty and strong commercial relevance.
+6. `/hours-and-minutes-calculator/` — 14,800 volume, $1.13 CPC, SD 35.
+7. `/billable-hours-calculator/` — 480 volume, $9.75 CPC, SD 18. Lower volume but high-value business intent.
+8. `/time-off-tracker/` — 590 volume, $76.96 reported CPC, SD 29. CPC is unusually high and must be treated cautiously/revalidated.
+9. `/payroll-hours-calculator/` — 9,900 volume, $6.90 CPC, SD 50. Strong value but materially harder SERP.
+10. `/salary-to-hourly-calculator/` — 49,500 volume, $0.88 CPC, SD 59. Large demand but high difficulty.
+11. `/how-to-calculate-hours-worked/` — 2,400 volume, $4.18 CPC, SD 35. Supporting guide for the hours cluster.
+12. `/timesheet-calculator-with-lunch/` — 2,900 volume, $8.58 CPC, SD 50.
+13. `/biweekly-timesheet-calculator/` — 1,300 volume, $6.31 CPC, SD 33.
+14. `/biweekly-pay-calculator/` — 4,400 volume, $3.74 CPC, SD 59.
+15. `/how-to-calculate-pto-accrual/` — 320 volume, $0.23 CPC, SD 24. Supports PTO topical authority.
+16. `/weekly-timesheet-calculator/` — 260 volume, $2.42 CPC, SD 48.
+17. `/how-to-calculate-time-card/` — 210 volume, $3.17 CPC, SD 52.
+18. `/minutes-to-decimal-hours/` — 170 volume, $0 CPC, SD 43.
+19. `/timesheet-pay-calculator/` — 30 volume, $3.28 CPC, SD 52. Low direct demand; must justify distinct intent before expansion.
+20. `/pto-accrual-based-on-hours-worked/` — 10 volume, $0 CPC, SD 12. Low direct demand; cannibalization with PTO Accrual must be reviewed before remediation.
+21. `/time-card-hours-with-lunch-break/` — exact-match query currently reports 0 volume. Revalidate broader semantic cluster before investing.
+22. `/about/` — trust/methodology page; traffic is secondary.
+23. `/contact/` — trust/support page.
+24. `/privacy/` — compliance/trust page; promote earlier only if policy audit finds an issue.
+25. `/terms/` — compliance/trust page; promote earlier only if policy audit finds an issue.
+26. `/disclaimer/` — compliance/trust page; promote earlier only if policy audit finds an issue.
 
 ## Deployment / indexing status
 
 - The global header/navigation shared release, including the iPhone/Safari Tools correction, is deployed across all 34 canonical pages.
 - All 34 live canonical URLs reference the verified `ee22a3c` header CSS and search JS; public asset bytes match origin exactly.
-- Homepage, Time Card, Timesheet Template, Decimal Hours, Salary Increase, Work Hours and Overtime strict remediation releases are deployed and VERIFIED live.
-- All seven completed pages use existing canonical URLs; no new URL was introduced.
+- Homepage, Time Card, Timesheet Template, Decimal Hours, Salary Increase, Work Hours, Overtime and Clock Out strict remediation releases are deployed and VERIFIED live.
+- All eight completed pages use existing canonical URLs; no new URL was introduced.
 - Sitemap remains 34 canonical URLs.
 - No indexing request should be represented as completed unless a write-capable Search Console action is actually executed and verified.
 
@@ -494,8 +556,8 @@ Queue is traffic-first, not permanent. Revalidate Ubersuggest + current SERP + c
 
 ## In progress
 
-No page is currently in implementation. Overtime is complete. 27 of the 34 sitemap pages remain for strict page-by-page remediation.
+No page is currently in implementation. Clock Out is complete. 26 of the 34 sitemap pages remain for strict page-by-page remediation.
 
 ## NEXT ACTION
 
-Wait for explicit user approval to start queue item #1: `/clock-out-time-calculator/`. Before implementation, complete its page-specific keyword/semantic map, current SERP/competitor gap review, existing-functionality audit and cannibalization check. Then remediate, test, merge, preserve rollback, deploy, verify live and update this state before starting queue item #2.
+Wait for explicit user approval before starting queue item #1: `/military-time-converter/`. Revalidate its keyword/semantic map, current SERP/competitor gap, current functionality and cannibalization before implementation. Then remediate, test, merge, preserve rollback, deploy, verify live and update this state before starting queue item #2.
