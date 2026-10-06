@@ -1,6 +1,6 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-06T19:26:00+05:00
+Last verified: 2026-10-06T19:46:00+05:00
 
 ## Objective
 
@@ -19,7 +19,7 @@ GitHub Actions remains BLOCKED because the Actions quota is exhausted. ZT MCP is
 
 - Repository: GrithX-Solutions/hostedtimesheets.com
 - Default branch: main
-- Current deployed production-code commit after Military Time remediation: `9cef5762738ac85ed703cb23ee115cf751e4b414`. Subsequent docs/state-only continuity commits do not change production bytes.
+- Current deployed production-code commit after Time Duration remediation: `4e72c521cabab119e14d9797139ecad9cfaed452`. Subsequent docs/state-only continuity commits do not change production bytes.
 - Production: static Nginx site.
 - Verified production mount: `/opt/hostedtimesheets/site` -> `/usr/share/nginx/html`.
 - ZT server id: `c59425e31c304e608dac60224a064dbd`.
@@ -27,10 +27,80 @@ GitHub Actions remains BLOCKED because the Actions quota is exhausted. ZT MCP is
 - ZT workspace is a partial bootstrap, not an authoritative Git mirror. Exact changed files must be synchronized from GitHub and parity-checked before using it as a release gate.
 - GitHub Actions: BLOCKED (quota).
 - Public/repository sitemap: 34 canonical URLs.
-- Strict page-by-page remediation completed: 9 / 34 pages.
+- Strict page-by-page remediation completed: 10 / 34 pages.
 - Shared site-shell releases are tracked separately from the page-remediation count.
 
 ## Last completed task
+
+### Time Duration Calculator `/time-duration-calculator/` — VERIFIED release
+
+PR #99 squash-merged the strict remediation at `4e72c521cabab119e14d9797139ecad9cfaed452`.
+
+Research / ownership:
+- Ubersuggest U.S. `time duration calculator`: 135,000 monthly searches, $0 CPC, SD 34.
+- Ubersuggest U.S. `elapsed time calculator`: 12,100 monthly searches, $0 CPC, SD 16.
+- Ubersuggest U.S. `time difference calculator`: 18,100 monthly searches, SD 71.
+- Ubersuggest U.S. `hours between two times`: 2,400 monthly searches, SD 30.
+- Ubersuggest U.S. `time calculator with break`: 1,300 monthly searches, $3.46 CPC, SD 35.
+- Ubersuggest primary SERP reported CalcShelf at position 1 with DA 10 / PA 14 and 0 backlinks / 0 referring domains, with additional DA 1–6 specialist tools on page one.
+- Canonical decision: this URL owns endpoint-to-endpoint time duration / elapsed time / hours-between-times intent. Add/subtract-known-duration, repeated-shift, projected-finish and timesheet workflows remain separate URLs.
+- The reported `date time duration calculator` volume is highly volatile month to month and is not treated as a traffic forecast.
+- Retired `/elapsed-time-calculator/` remains the permanent migration path to this canonical.
+
+Product / calculation:
+- Replaced silent break clamping/coercion with explicit validation.
+- Blank break remains valid zero; negative or fractional break minutes are rejected.
+- Date & time mode no longer silently repopulates a cleared required date with today; a cleared date remains blank and invalid.
+- Added strict real-calendar date parsing.
+- Preserved Time only next-day behavior when end < start.
+- Matching start/end times explicitly produce zero duration, not 24 hours.
+- Date & time mode rejects an endpoint earlier than the start rather than silently reversing it.
+- Break deduction affects only net duration; gross remains visible and net floors at zero when break exceeds gross.
+- Added Total days, Copy result and separate Overnight / Multi-day examples.
+- Preserved seconds precision, decimal hours, total minutes/seconds, Start = now, End = now, Swap and Reset.
+- Kept timezone/UTC/DST conversion, payroll rounding, countdown and multi-interval timesheet modes out of scope.
+
+Pre-release / merged-source gate:
+- GitHub branch -> ZT exact content parity: VERIFIED 4 / 4 for Time Duration HTML, runtime JS and both dedicated tests.
+- Content Quality: PASS, 0 hard failures.
+  - 1,154 main-content words.
+  - Average sentence length: 15.2 words.
+  - Maximum paragraph: 67 words.
+  - Passive heuristic: 5.2 / 1,000 words.
+  - 8 visible FAQs.
+- HTML/schema/accessibility contract: PASS.
+- `time-duration.js` Node syntax: PASS.
+- Exact repository Chromium calculation/UI matrix: PASS, 41 cases at 390px mobile and 1280px desktop.
+- Matrix covered default arithmetic, seconds precision, overnight next-day logic, same-start/end zero, break deduction, break>gross zero floor, blank/negative/fractional break semantics, blank time validation, Date & time initialization, cleared-date persistence, multi-day arithmetic, leap-day arithmetic, earlier-end rejection, examples, swap, reset, copy, current-time controls, canonical/scope and horizontal overflow.
+- GitHub Actions remained BLOCKED by the known quota condition. PR #99 had no executable workflow run/status; this was not recorded as a CI PASS. ZT contingency evidence supplied the release gate.
+
+Production / public:
+- Previous production HTML SHA-256: `f9bbbb613d03215af4919937d3e2ebb31629e6afac62ef56006007a1ad58e493`.
+- Previous production JS SHA-256: `c813f3a564232f7d7e1b3ba982ce443300582a6168f476c5abdf0fd0d73f507d`.
+- Current production HTML SHA-256: `905d49045195dfcec3e5efe8f1de7ba94082a7079283639c3984f810716fff55`.
+- Current production JS SHA-256: `9e227a0afc35b763ce149192703ab769db87c0fd4f817e60088f77a9eaf2ba03`.
+- Production origin bytes exactly match the tested ZT/GitHub snapshot.
+- Public page: HTTP 200, Cloudflare `DYNAMIC`, title `Time Duration Calculator — Between Times & Dates`, self-canonical, 8-FAQ schema, schema `dateModified` 2026-10-06 and runtime `/assets/js/time-duration.js?v=20261006-remediation1`.
+- Public versioned JS bytes exactly match GitHub `main`.
+- Retired HTTPS `/elapsed-time-calculator/` remained a one-hop HTTP 301 to `/time-duration-calculator/` before and after deployment.
+- True-public Chromium mobile + desktop smoke: PASS.
+  - 390x844 default -> 8h 30m / 8.50h / 0.3542 days / 510 minutes / 30,600 seconds.
+  - Seconds case -> 3h 45m 30s / 3.7583h / 225.50 minutes / 13,530 seconds.
+  - Overnight -> 8h and explicit next-day status.
+  - Same start/end -> 0h with zero-duration status.
+  - Negative break -> explicit invalid state and output suppression.
+  - Cleared Date & time start date -> remains blank and invalid.
+  - Multi-day example -> 2d 3h 30m / 51.50h / 2.1458 days.
+  - Mobile Tools panel -> 26 links, 390px width, no document overflow.
+  - 1280x900 -> default result, 7 result metrics, no horizontal overflow.
+  - Browser runtime exceptions: 0; console errors: 0.
+- No new canonical URL was introduced and no sitemap-file change was required.
+
+Rollback / cleanup:
+- Rollback path: `/opt/hostedtimesheets/rollback/time-duration-strict-20261006/`.
+- Rollback HTML SHA-256: `f9bbbb613d03215af4919937d3e2ebb31629e6afac62ef56006007a1ad58e493`.
+- Rollback JS SHA-256: `c813f3a564232f7d7e1b3ba982ce443300582a6168f476c5abdf0fd0d73f507d`.
+- Temporary live-browser verification script was removed after verification.
 
 ### Military Time Converter `/military-time-converter/` — VERIFIED release
 
@@ -561,44 +631,44 @@ Existing same-day research remains available for future explicitly approved sing
 - Overtime remediation is complete and deployed.
 - Clock Out remediation is complete and deployed.
 - Military Time remediation is complete and deployed.
+- Time Duration remediation is complete and deployed.
 - The next public page must still be treated as a separate release unit and researched before implementation; do not infer a new intent owner from keyword difficulty alone.
 
 ## Remaining strict remediation queue — 2026-10-06
 
 Queue is traffic-first, not permanent. Revalidate Ubersuggest + current SERP + cannibalization immediately before each page starts; move a page only when fresh evidence materially changes the opportunity or a production/policy defect makes it urgent.
 
-1. `/time-duration-calculator/` — 135,000 volume, $0 CPC, SD 34. Very high demand; lower monetization signal than Clock Out.
-2. `/hourly-wage-calculator/` — 18,100 volume, ~$1.94 CPC, SD 19. Strong low-difficulty salary/pay opportunity.
-3. `/pto-accrual-calculator/` — 4,400 volume, $9.62 CPC, SD 12. Low difficulty plus strong monetization relevance.
-4. `/salary-calculator-with-bonus/` — 2,400 volume, $8.23 CPC, SD 6. Very low difficulty and strong commercial relevance.
-5. `/hours-and-minutes-calculator/` — 14,800 volume, $1.13 CPC, SD 35.
-6. `/billable-hours-calculator/` — 480 volume, $9.75 CPC, SD 18. Lower volume but high-value business intent.
-7. `/time-off-tracker/` — 590 volume, $76.96 reported CPC, SD 29. CPC is unusually high and must be treated cautiously/revalidated.
-8. `/payroll-hours-calculator/` — 9,900 volume, $6.90 CPC, SD 50. Strong value but materially harder SERP.
-9. `/salary-to-hourly-calculator/` — 49,500 volume, $0.88 CPC, SD 59. Large demand but high difficulty.
-10. `/how-to-calculate-hours-worked/` — 2,400 volume, $4.18 CPC, SD 35. Supporting guide for the hours cluster.
-11. `/timesheet-calculator-with-lunch/` — 2,900 volume, $8.58 CPC, SD 50.
-12. `/biweekly-timesheet-calculator/` — 1,300 volume, $6.31 CPC, SD 33.
-13. `/biweekly-pay-calculator/` — 4,400 volume, $3.74 CPC, SD 59.
-14. `/how-to-calculate-pto-accrual/` — 320 volume, $0.23 CPC, SD 24. Supports PTO topical authority.
-15. `/weekly-timesheet-calculator/` — 260 volume, $2.42 CPC, SD 48.
-16. `/how-to-calculate-time-card/` — 210 volume, $3.17 CPC, SD 52.
-17. `/minutes-to-decimal-hours/` — 170 volume, $0 CPC, SD 43.
-18. `/timesheet-pay-calculator/` — 30 volume, $3.28 CPC, SD 52. Low direct demand; must justify distinct intent before expansion.
-19. `/pto-accrual-based-on-hours-worked/` — 10 volume, $0 CPC, SD 12. Low direct demand; cannibalization with PTO Accrual must be reviewed before remediation.
-20. `/time-card-hours-with-lunch-break/` — exact-match query currently reports 0 volume. Revalidate broader semantic cluster before investing.
-21. `/about/` — trust/methodology page; traffic is secondary.
-22. `/contact/` — trust/support page.
-23. `/privacy/` — compliance/trust page; promote earlier only if policy audit finds an issue.
-24. `/terms/` — compliance/trust page; promote earlier only if policy audit finds an issue.
-25. `/disclaimer/` — compliance/trust page; promote earlier only if policy audit finds an issue.
+1. `/hourly-wage-calculator/` — 18,100 volume, ~$1.94 CPC, SD 19. Strong low-difficulty salary/pay opportunity.
+2. `/pto-accrual-calculator/` — 4,400 volume, $9.62 CPC, SD 12. Low difficulty plus strong monetization relevance.
+3. `/salary-calculator-with-bonus/` — 2,400 volume, $8.23 CPC, SD 6. Very low difficulty and strong commercial relevance.
+4. `/hours-and-minutes-calculator/` — 14,800 volume, $1.13 CPC, SD 35.
+5. `/billable-hours-calculator/` — 480 volume, $9.75 CPC, SD 18. Lower volume but high-value business intent.
+6. `/time-off-tracker/` — 590 volume, $76.96 reported CPC, SD 29. CPC is unusually high and must be treated cautiously/revalidated.
+7. `/payroll-hours-calculator/` — 9,900 volume, $6.90 CPC, SD 50. Strong value but materially harder SERP.
+8. `/salary-to-hourly-calculator/` — 49,500 volume, $0.88 CPC, SD 59. Large demand but high difficulty.
+9. `/how-to-calculate-hours-worked/` — 2,400 volume, $4.18 CPC, SD 35. Supporting guide for the hours cluster.
+10. `/timesheet-calculator-with-lunch/` — 2,900 volume, $8.58 CPC, SD 50.
+11. `/biweekly-timesheet-calculator/` — 1,300 volume, $6.31 CPC, SD 33.
+12. `/biweekly-pay-calculator/` — 4,400 volume, $3.74 CPC, SD 59.
+13. `/how-to-calculate-pto-accrual/` — 320 volume, $0.23 CPC, SD 24. Supports PTO topical authority.
+14. `/weekly-timesheet-calculator/` — 260 volume, $2.42 CPC, SD 48.
+15. `/how-to-calculate-time-card/` — 210 volume, $3.17 CPC, SD 52.
+16. `/minutes-to-decimal-hours/` — 170 volume, $0 CPC, SD 43.
+17. `/timesheet-pay-calculator/` — 30 volume, $3.28 CPC, SD 52. Low direct demand; must justify distinct intent before expansion.
+18. `/pto-accrual-based-on-hours-worked/` — 10 volume, $0 CPC, SD 12. Low direct demand; cannibalization with PTO Accrual must be reviewed before remediation.
+19. `/time-card-hours-with-lunch-break/` — exact-match query currently reports 0 volume. Revalidate broader semantic cluster before investing.
+20. `/about/` — trust/methodology page; traffic is secondary.
+21. `/contact/` — trust/support page.
+22. `/privacy/` — compliance/trust page; promote earlier only if policy audit finds an issue.
+23. `/terms/` — compliance/trust page; promote earlier only if policy audit finds an issue.
+24. `/disclaimer/` — compliance/trust page; promote earlier only if policy audit finds an issue.
 
 ## Deployment / indexing status
 
 - The global header/navigation shared release, including the iPhone/Safari Tools correction, is deployed across all 34 canonical pages.
 - All 34 live canonical URLs reference the verified `ee22a3c` header CSS and search JS; public asset bytes match origin exactly.
-- Homepage, Time Card, Timesheet Template, Decimal Hours, Salary Increase, Work Hours, Overtime, Clock Out and Military Time strict remediation releases are deployed and VERIFIED live.
-- All nine completed pages use existing canonical URLs; no new URL was introduced.
+- Homepage, Time Card, Timesheet Template, Decimal Hours, Salary Increase, Work Hours, Overtime, Clock Out, Military Time and Time Duration strict remediation releases are deployed and VERIFIED live.
+- All ten completed pages use existing canonical URLs; no new canonical URL was introduced.
 - Sitemap remains 34 canonical URLs.
 - No indexing request should be represented as completed unless a write-capable Search Console action is actually executed and verified.
 
@@ -618,8 +688,8 @@ Queue is traffic-first, not permanent. Revalidate Ubersuggest + current SERP + c
 
 ## In progress
 
-No page is currently in implementation. Military Time is complete. 25 of the 34 sitemap pages remain for strict page-by-page remediation.
+No page is currently in implementation. Time Duration is complete. 24 of the 34 sitemap pages remain for strict page-by-page remediation.
 
 ## NEXT ACTION
 
-Wait for explicit user approval before starting queue item #1: `/time-duration-calculator/`. Revalidate its current keyword/semantic map, SERP/competitor gap, migration/canonical state, current functionality and cannibalization before implementation. Then remediate, test, merge, preserve rollback, deploy, verify live and update this state before starting queue item #2.
+Wait for explicit user approval before starting queue item #1: `/hourly-wage-calculator/`. Revalidate its keyword/semantic map, current SERP/competitor gap, current functionality, pay-period assumptions and cannibalization with salary/pay pages before implementation. Then remediate, test, merge, preserve rollback, deploy, verify live and update this state before starting queue item #2.
