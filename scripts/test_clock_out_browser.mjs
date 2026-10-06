@@ -239,12 +239,12 @@ try{
   check(s.day==="6 days later","31 multi-day offset");
   check(s.time12==="12:29 AM"&&s.time24==="00:29","32 multi-day clock wrap");
 
-  await evaluate('document.querySelector("[data-hours-preset=\"8.5\"]").click()');
+  await evaluate(`document.querySelector('[data-hours-preset="8.5"]').click()`);
   await sleep(20);
   s=await snap();
   check(s.hours==="8"&&s.minutes==="30","33 8.5-hour preset");
 
-  await evaluate('document.querySelector("[data-break-preset=\"45\"]").click()');
+  await evaluate(`document.querySelector('[data-break-preset="45"]').click()`);
   await sleep(20);
   s=await snap();
   check(s.breakValue==="45","34 break preset");
