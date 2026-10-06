@@ -198,3 +198,23 @@ Durable cache rule:
 - First compare public and origin hashes.
 - Use a new asset version only when stale edge delivery is actually VERIFIED or when the repository already uses an explicit versioning policy that requires the change.
 - Keep the version update mechanical and limited to the affected shared asset references.
+
+
+## 2026-10-06 — ZT MCP is the permanent contingency execution path for GitHub-side failures
+
+The user has explicitly directed that HostedTimesheets work must not stop merely because GitHub Actions, GitHub-hosted runners, or GitHub service access is temporarily unavailable. The ZT MCP server is the permanent contingency execution path for those infrastructure failures.
+
+This supersedes the “temporary until quota returns” limitation in the 2026-10-05 ZT runner decision. It does **not** weaken the quality gate.
+
+Decision:
+- GitHub remains the durable repository/source-of-truth and normal CI location when available.
+- If GitHub Actions cannot execute because of quota, outage, hosted-runner capacity, billing/account allocation, or another verified GitHub infrastructure condition, use ZT/MCP immediately rather than pausing production work.
+- When GitHub is reachable, synchronize the exact proposed GitHub snapshot and relevant test scripts to ZT and verify exact parity before the alternate gate.
+- When GitHub writes themselves are unavailable, continue only from a verified source snapshot: isolate the ZT working diff, record file hashes and test evidence, preserve rollback, and do not mix unrelated work. As soon as GitHub recovers, push/merge the exact tested change and verify repository parity.
+- The alternate gate must run every applicable repository/content test plus change-specific syntax, calculation/edge-case, schema/canonical/internal-link, rendered mobile/desktop or browser-engine checks, source parity and post-deployment live verification.
+- A genuine failing test remains a release blocker. ZT may replace an unavailable runner; it may not override a failed quality result.
+- Never claim GitHub Actions PASS when only ZT passed. GitHub CI must be recorded as BLOCKED/UNAVAILABLE until it actually runs.
+- Preserve a tested rollback before production writes.
+- GitHub-side infrastructure trouble alone is not a reason to stop; inability to establish an exact tested source snapshot or a failing required test is.
+
+This rule applies to future project work without requiring a new decision each time GitHub or Actions has an infrastructure-only failure.
