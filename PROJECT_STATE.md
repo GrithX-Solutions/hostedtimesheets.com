@@ -1,6 +1,6 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-06T13:48:59+05:00
+Last verified: 2026-10-06T15:44:45+05:00
 
 ## Objective
 
@@ -19,7 +19,7 @@ GitHub Actions remains BLOCKED because the Actions quota is exhausted. ZT MCP is
 
 - Repository: GrithX-Solutions/hostedtimesheets.com
 - Default branch: main
-- Current deployed production-code commit after Salary Increase remediation: `6d4372d5a70239f1652d2a7cd0d06635e5122aa9`. Subsequent docs/state-only continuity commits do not change production bytes.
+- Current deployed production-code commit after Work Hours remediation: `a4fa8201ce43df00ef82b4a3dd9ed0d5df147bcc`. Subsequent docs/state-only continuity commits do not change production bytes.
 - Production: static Nginx site.
 - Verified production mount: `/opt/hostedtimesheets/site` -> `/usr/share/nginx/html`.
 - ZT server id: `c59425e31c304e608dac60224a064dbd`.
@@ -27,10 +27,60 @@ GitHub Actions remains BLOCKED because the Actions quota is exhausted. ZT MCP is
 - ZT workspace is a partial bootstrap, not an authoritative Git mirror. Exact changed files must be synchronized from GitHub and parity-checked before using it as a release gate.
 - GitHub Actions: BLOCKED (quota).
 - Public/repository sitemap: 34 canonical URLs.
-- Strict page-by-page remediation completed: 5 / 34 pages.
+- Strict page-by-page remediation completed: 6 / 34 pages.
 - Shared site-shell releases are tracked separately from the page-remediation count.
 
 ## Last completed task
+
+### Work Hours Calculator `/work-hours-calculator/` — VERIFIED release
+
+PR #94 squash-merged the remediation at `a4fa8201ce43df00ef82b4a3dd9ed0d5df147bcc`.
+
+Research / ownership:
+- Ubersuggest U.S. `work hours calculator`: 135,000 monthly searches, $2.89 CPC, SD 49.
+- Ubersuggest U.S. `hours worked calculator`: 135,000 monthly searches, $2.89 CPC, SD 49.
+- Ubersuggest U.S. `work time calculator`: 33,100 monthly searches, $3.82 CPC, SD 47.
+- Current SERP review remained calculator-first and commonly exposed start/end, break, overnight, decimal-total and optional-pay features.
+- Canonical decision: this URL owns one repeated shift pattern. Variable-day punches remain Time Card, split shifts remain Weekly Timesheet, generic elapsed duration remains Time Duration, and time/decimal conversion remains Decimal Hours.
+- No current first-party GSC connector was available during this release; page-specific current GSC query/landing evidence remains UNKNOWN and was not invented.
+
+Pre-release / source gate:
+- GitHub branch -> ZT exact content parity: VERIFIED 4 / 4 for Work Hours HTML, runtime JS and both dedicated tests.
+- Content Quality: PASS, 0 hard failures.
+  - 1,448 main-content words.
+  - Average sentence length: 14.8 words.
+  - Maximum paragraph: 69 words.
+  - Passive heuristic: 2.8 / 1,000 words.
+  - 7 visible FAQs.
+- HTML/schema/accessibility contract: PASS.
+- `work-hours.js` Node syntax: PASS.
+- Rendered Chromium calculation/UI matrix: PASS, 42 cases at 390px mobile and 1280px desktop.
+- Matrix covered blank/invalid required inputs, break/day boundaries, same-start/end zero, overnight shifts, break-longer-than-shift zero floor, optional blank/zero/negative rate semantics, exact-minute pay, examples/reset/copy, canonical/scope checks and horizontal overflow.
+- GitHub Actions Content Quality run #77 failed before executable steps and provided no downloadable job log; Actions remains BLOCKED under the known quota condition. This was not recorded as a test PASS or as a content failure; the permanent ZT contingency gate supplied the release evidence.
+
+Production / public:
+- Production-origin HTML SHA-256: `b8bd206664d25b02ff3bf6599a925444eaa43c7caeda29dc4597fe6950ee0f8c`.
+- Production-origin JS SHA-256: `bc28e51c84e0b5ce495379ac30675e68f4e0d0c8ffb63815bb70d2dd3eef33a3`.
+- Production-origin 42-case Chromium matrix rerun after deploy: PASS.
+- Public page: HTTP 200, Cloudflare `DYNAMIC`, title `Free Work Hours Calculator — Hours, Breaks & Pay`, self-canonical, schema `dateModified` 2026-10-06 and runtime `/assets/js/work-hours.js?v=20261006-remediation1`.
+- Public versioned JS SHA-256 exactly matches production origin: `bc28e51c84e0b5ce495379ac30675e68f4e0d0c8ffb63815bb70d2dd3eef33a3`.
+- Public HTML is transformed by Cloudflare Rocket Loader/Insights, so raw public HTML SHA-256 is not an origin-byte parity metric. Critical HTML/schema/runtime markers were verified instead.
+- True-public Chromium mobile + desktop smoke: PASS.
+  - 390x844: 40.00 total hours / 40h 0m / optional pay em dash, 7 result metrics, no horizontal overflow.
+  - Mobile Tools panel: open, 26 links, 390px width, no document overflow.
+  - Workdays 32: visible 1–31 validation and duration output suppressed.
+  - Overnight example: 7h 30m / 7.50 hours / no pay estimate.
+  - 1280x900: 40.00 total hours, 7 metrics, no horizontal overflow.
+  - Browser runtime exceptions: 0.
+- Live sitemap remains 34 canonical URLs and includes `/work-hours-calculator/`.
+- Live homepage contains direct Work Hours links.
+- No new URL was introduced and no sitemap-file change was required.
+
+Rollback / cleanup:
+- Rollback path: `/opt/hostedtimesheets/rollback/work-hours-20261006/`.
+- Previous HTML SHA-256: `1bb6aad5d5af37a82d667a37b53ca78794515b34ac6c3c6414e8b343cc6d2611`.
+- Previous JS SHA-256: `b9c4f46cde32cbe620fdc3e5b7310ed17763c986abf46e753369233318f2c7af`.
+- Temporary live-browser verification scripts and temporary preview directory were removed after verification.
 
 ### Salary Increase Calculator `/salary-increase-calculator/` — VERIFIED release
 
@@ -326,14 +376,16 @@ Rollback:
 Existing same-day research remains available for future explicitly approved single-page work:
 - Decimal Hours remediation is complete and deployed.
 - Salary Increase remediation is complete and deployed.
-- Other pages must still be treated as separate release units and must not be started without user approval.
+- Work Hours remediation is complete and deployed.
+- Overtime is the next planned traffic-priority calculator remediation, but it must not start without explicit user approval.
+- Other pages must still be treated as separate release units.
 
 ## Deployment / indexing status
 
 - The global header/navigation shared release, including the iPhone/Safari Tools correction, is deployed across all 34 canonical pages.
 - All 34 live canonical URLs reference the verified `ee22a3c` header CSS and search JS; public asset bytes match origin exactly.
-- Homepage, Time Card, Timesheet Template, Decimal Hours and Salary Increase strict remediation releases are deployed and VERIFIED live.
-- All five completed pages use existing canonical URLs; no new URL was introduced.
+- Homepage, Time Card, Timesheet Template, Decimal Hours, Salary Increase and Work Hours strict remediation releases are deployed and VERIFIED live.
+- All six completed pages use existing canonical URLs; no new URL was introduced.
 - Sitemap remains 34 canonical URLs.
 - No indexing request should be represented as completed unless a write-capable Search Console action is actually executed and verified.
 
@@ -353,8 +405,8 @@ Existing same-day research remains available for future explicitly approved sing
 
 ## In progress
 
-No page is currently in implementation. Salary Increase is complete. 29 of the 34 sitemap pages remain for strict page-by-page remediation.
+No page is currently in implementation. Work Hours is complete. 28 of the 34 sitemap pages remain for strict page-by-page remediation.
 
 ## NEXT ACTION
 
-Wait for explicit user approval before starting the next public page. The next planned page in the remediation queue is `/work-hours-calculator/`. Continue one page at a time and use the permanent ZT contingency gate whenever GitHub-side infrastructure cannot execute.
+Wait for explicit user approval before starting the next public page. The next planned page in the traffic-priority remediation queue is `/overtime-calculator/`. Continue one page at a time and use the permanent ZT contingency gate whenever GitHub-side infrastructure cannot execute.
