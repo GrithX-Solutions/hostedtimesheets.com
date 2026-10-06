@@ -437,6 +437,38 @@ Existing same-day research remains available for future explicitly approved sing
 - Overtime remediation is complete and deployed.
 - The next public page must still be treated as a separate release unit and researched before implementation; do not infer a new intent owner from keyword difficulty alone.
 
+## Remaining strict remediation queue — 2026-10-06
+
+Queue is traffic-first, not permanent. Revalidate Ubersuggest + current SERP + cannibalization immediately before each page starts; move a page only when fresh evidence materially changes the opportunity or a production/policy defect makes it urgent.
+
+1. `/clock-out-time-calculator/` — U.S. 135,000 volume, $4.56 CPC, SD 29. Current Ubersuggest SERP has a DA 8 specialist at position 1; fresh public results remain calculator-first. Strongest next opportunity.
+2. `/military-time-converter/` — 74,000 volume, $0.11 CPC, SD 22. High traffic / comparatively low difficulty; conversion intent is clean.
+3. `/time-duration-calculator/` — 135,000 volume, $0 CPC, SD 34. Very high demand; lower monetization signal than Clock Out.
+4. `/hourly-wage-calculator/` — 18,100 volume, ~$1.94 CPC, SD 19. Strong low-difficulty salary/pay opportunity.
+5. `/pto-accrual-calculator/` — 4,400 volume, $9.62 CPC, SD 12. Low difficulty plus strong monetization relevance.
+6. `/salary-calculator-with-bonus/` — 2,400 volume, $8.23 CPC, SD 6. Very low difficulty and strong commercial relevance.
+7. `/hours-and-minutes-calculator/` — 14,800 volume, $1.13 CPC, SD 35.
+8. `/billable-hours-calculator/` — 480 volume, $9.75 CPC, SD 18. Lower volume but high-value business intent.
+9. `/time-off-tracker/` — 590 volume, $76.96 reported CPC, SD 29. CPC is unusually high and must be treated cautiously/revalidated.
+10. `/payroll-hours-calculator/` — 9,900 volume, $6.90 CPC, SD 50. Strong value but materially harder SERP.
+11. `/salary-to-hourly-calculator/` — 49,500 volume, $0.88 CPC, SD 59. Large demand but high difficulty.
+12. `/how-to-calculate-hours-worked/` — 2,400 volume, $4.18 CPC, SD 35. Supporting guide for the hours cluster.
+13. `/timesheet-calculator-with-lunch/` — 2,900 volume, $8.58 CPC, SD 50.
+14. `/biweekly-timesheet-calculator/` — 1,300 volume, $6.31 CPC, SD 33.
+15. `/biweekly-pay-calculator/` — 4,400 volume, $3.74 CPC, SD 59.
+16. `/how-to-calculate-pto-accrual/` — 320 volume, $0.23 CPC, SD 24. Supports PTO topical authority.
+17. `/weekly-timesheet-calculator/` — 260 volume, $2.42 CPC, SD 48.
+18. `/how-to-calculate-time-card/` — 210 volume, $3.17 CPC, SD 52.
+19. `/minutes-to-decimal-hours/` — 170 volume, $0 CPC, SD 43.
+20. `/timesheet-pay-calculator/` — 30 volume, $3.28 CPC, SD 52. Low direct demand; must justify distinct intent before expansion.
+21. `/pto-accrual-based-on-hours-worked/` — 10 volume, $0 CPC, SD 12. Low direct demand; cannibalization with PTO Accrual must be reviewed before remediation.
+22. `/time-card-hours-with-lunch-break/` — exact-match query currently reports 0 volume. Revalidate broader semantic cluster before investing.
+23. `/about/` — trust/methodology page; traffic is secondary.
+24. `/contact/` — trust/support page.
+25. `/privacy/` — compliance/trust page; promote earlier only if policy audit finds an issue.
+26. `/terms/` — compliance/trust page; promote earlier only if policy audit finds an issue.
+27. `/disclaimer/` — compliance/trust page; promote earlier only if policy audit finds an issue.
+
 ## Deployment / indexing status
 
 - The global header/navigation shared release, including the iPhone/Safari Tools correction, is deployed across all 34 canonical pages.
@@ -466,4 +498,4 @@ No page is currently in implementation. Overtime is complete. 27 of the 34 sitem
 
 ## NEXT ACTION
 
-Wait for explicit user approval before starting the next public page. Select the next remaining page using fresh traffic/intent/competitor evidence, continue one page at a time, and use the permanent ZT contingency gate whenever GitHub-side infrastructure cannot execute.
+Wait for explicit user approval to start queue item #1: `/clock-out-time-calculator/`. Before implementation, complete its page-specific keyword/semantic map, current SERP/competitor gap review, existing-functionality audit and cannibalization check. Then remediate, test, merge, preserve rollback, deploy, verify live and update this state before starting queue item #2.
