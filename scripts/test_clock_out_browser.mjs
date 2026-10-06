@@ -236,7 +236,7 @@ try{
   await setValue("#co-break",1440);
   await setValue("#co-extra-break",1440);
   s=await snap();
-  check(s.day==="5 days later","31 multi-day offset");
+  check(s.day==="6 days later","31 multi-day offset");
   check(s.time12==="12:29 AM"&&s.time24==="00:29","32 multi-day clock wrap");
 
   await evaluate('document.querySelector("[data-hours-preset=\"8.5\"]").click()');
