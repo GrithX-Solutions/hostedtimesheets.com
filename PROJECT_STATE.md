@@ -1,6 +1,6 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-06T13:07:15+05:00
+Last verified: 2026-10-06T13:48:59+05:00
 
 ## Objective
 
@@ -19,7 +19,7 @@ GitHub Actions remains BLOCKED because the Actions quota is exhausted. ZT MCP is
 
 - Repository: GrithX-Solutions/hostedtimesheets.com
 - Default branch: main
-- Current deployed production-code commit after Decimal Hours remediation: `f14de71f0021dc2e68862e7b43d3316488b8c5ac`. Subsequent docs/state-only continuity commits do not change production bytes.
+- Current deployed production-code commit after Salary Increase remediation: `6d4372d5a70239f1652d2a7cd0d06635e5122aa9`. Subsequent docs/state-only continuity commits do not change production bytes.
 - Production: static Nginx site.
 - Verified production mount: `/opt/hostedtimesheets/site` -> `/usr/share/nginx/html`.
 - ZT server id: `c59425e31c304e608dac60224a064dbd`.
@@ -27,28 +27,108 @@ GitHub Actions remains BLOCKED because the Actions quota is exhausted. ZT MCP is
 - ZT workspace is a partial bootstrap, not an authoritative Git mirror. Exact changed files must be synchronized from GitHub and parity-checked before using it as a release gate.
 - GitHub Actions: BLOCKED (quota).
 - Public/repository sitemap: 34 canonical URLs.
-- Strict page-by-page remediation completed: 4 / 34 pages.
-- Shared site-shell releases are tracked separately from the 3 / 34 page-remediation count.
+- Strict page-by-page remediation completed: 5 / 34 pages.
+- Shared site-shell releases are tracked separately from the page-remediation count.
 
 ## Last completed task
 
-### Decimal Hours Calculator `/decimal-hours-calculator/` — VERIFIED release
+### Salary Increase Calculator `/salary-increase-calculator/` — VERIFIED release
 
-PR #90 merged the remediation at `f14de71f0021dc2e68862e7b43d3316488b8c5ac`.
+PR #92 merged the remediation at `6d4372d5a70239f1652d2a7cd0d06635e5122aa9`.
 
 The live page now:
-- owns the interactive Hours to Decimal Calculator intent on the existing canonical URL;
-- supports Time → Decimal and Decimal → Time conversion;
-- supports hours, minutes and seconds;
-- supports 2, 3 or 4 decimal places while keeping exact source time authoritative;
-- rejects invalid minute/second/hour/rate inputs visibly instead of silently clamping them;
-- supports accumulated durations above 24 hours;
-- uses nearest-second normalization for Decimal → Time;
-- keeps optional pay calculations based on exact source duration or exact decimal input;
-- preserves mode values when switching and uses mode-aware copy behavior;
-- keeps `/minutes-to-decimal-hours/` as the separate chart/formula guide.
+- owns the existing salary increase / pay raise / pay increase arithmetic intent on one canonical URL;
+- supports Raise percentage, Flat annual raise and Compare salaries modes;
+- distinguishes blank / invalid values from explicit zero instead of coercing blanks to zero;
+- enforces weeks/year as a whole number from 1 through 53 and hours/week at 0.25 or greater;
+- keeps annual/monthly/biweekly/weekly salary results available when schedule inputs are invalid while showing hourly equivalents as unavailable;
+- shows consistent current / new / change values for annual, monthly, biweekly, weekly and hourly-equivalent views;
+- handles zero-baseline percentage cases explicitly with N/A where no finite denominator exists;
+- permits negative changes only in Compare salaries mode and uses change labels there;
+- preserves mode-specific user values while switching modes;
+- keeps taxes, deductions, bonuses, commissions, benefits, inflation and take-home pay outside this calculator.
 
 ## Tests / evidence
+
+### Salary Increase Calculator — 2026-10-06
+
+Research:
+- Ubersuggest US:
+  - `salary increase calculator`: 33,100 volume, $13.90 CPC, SD 16.
+  - `pay raise calculator`: 33,100 volume, $13.90 CPC, SD 26.
+  - `pay increase calculator`: 33,100 volume, $13.90 CPC, SD 19.
+- Current SERP included AI Overview/PAA and many low-authority ranking tools.
+  - SlickCalc: rank #4, PA 12, 0 backlinks / 0 referring domains.
+  - HourlyToAnnual: rank #7, PA 14, 0 backlinks / 0 referring domains.
+  - NorthStarNumbers: rank #11, PA 11, 0 backlinks / 0 referring domains.
+- Cached first-party GSC through 2026-10-05 showed no Salary Increase query/page rows; no first-party cannibalization signal was present.
+- Canonical decision remains one URL for salary increase / pay raise / pay increase synonyms; no synonym URL was introduced.
+
+Pre-release ZT contingency gate:
+- GitHub -> ZT exact parity for Salary HTML/JS and both dedicated tests: VERIFIED 4 / 4.
+- Content Quality: PASS.
+  - 1,074 main-content words.
+  - Average sentence length: 15.3 words.
+  - Maximum paragraph: 51 words.
+  - Passive heuristic: 3.7 / 1,000 words.
+  - 7 visible FAQs.
+- Python syntax: PASS.
+- Salary HTML/schema/accessibility contract: PASS.
+- `salary-increase.js` Node syntax: PASS.
+- 40-case rendered Chromium calculation/UI matrix: PASS.
+  - 60,000 + 5% -> 63,000, +3,000 annual, +250 monthly, +115.38 biweekly, +57.69 weekly.
+  - percentage mode blank/negative invalid; explicit zero valid.
+  - flat 60,000 + 3,000 -> 63,000 / 5.00%.
+  - flat zero baseline + positive raise -> percentage N/A; 0 + 0 -> 0.00%.
+  - compare 60,000 -> 63,000 -> +3,000 / +5.00%.
+  - compare 63,000 -> 60,000 -> -3,000 / -4.7619%.
+  - compare zero baseline behavior verified.
+  - 40 hours/week × 52 weeks/year -> 2,080 annual hours.
+  - 60,000 / 2,080 -> $28.85 hourly equivalent.
+  - 63,000 / 2,080 -> $30.29 hourly equivalent.
+  - blank schedule fields disable hourly equivalents only.
+  - weeks 53 accepted; 54 and 52.5 rejected without clamping.
+  - hours/week below 0.25 rejected.
+  - period current/new/change consistency PASS.
+  - mode-value preservation PASS.
+  - compare-mode change labels PASS.
+  - canonical / no synonym URL / FAQ / visible example checks PASS.
+  - mobile and desktop horizontal-overflow checks PASS.
+- Exact-source iPhone 13 WebKit preview: PASS.
+  - 390 px viewport with no overflow.
+  - shared Tools panel remained 390x600 with 26 links.
+  - flat 60k + 3k -> 63k / 5%.
+  - weeks 54 showed visible 1–53 validation while salary result remained 63k and hourly output became em dash.
+  - compare 63k -> 60k -> -$3,000.00 / -4.7619%.
+
+Production / public:
+- Live page HTTP 200 / Cloudflare DYNAMIC.
+- Live title: `Salary Increase Calculator — Pay Raise & New Salary`.
+- H1: `Salary Increase Calculator`.
+- Self-canonical: `https://hostedtimesheets.com/salary-increase-calculator/`.
+- Live runtime URL: `/assets/js/salary-increase.js?v=20261006-remediation1`.
+- Current production SHA-256:
+  - HTML: `e5b7796dd07b78910097b54be65b108fce7e0bda354e208b7f4a4e8c52dc5c56`.
+  - JS: `5305b1b88fc221dda14ffcdf89744f5345dc3412f5066240b8b0203473faec90`.
+- Public versioned JS SHA-256 exactly matched production origin.
+- True-public desktop Chromium + iPhone 13 WebKit: PASS.
+  - initial result 63,000 / 3,000 / 5.00%.
+  - flat mode 60k + 3k -> 63k / 5.00%.
+  - weeks 54 -> visible validation, salary arithmetic remains available, hourly output unavailable.
+  - compare 63k -> 60k -> -$3,000.00 / -4.7619%.
+  - compare labels use Annual change / Percentage change.
+  - no horizontal overflow.
+  - mobile shared Tools panel -> 390x600, 26 links.
+- Public sitemap remains 34 URLs and includes the Salary Increase canonical.
+- Live homepage contains a direct link to `/salary-increase-calculator/`.
+- Live page contains the flat annual raise mode and schema `dateModified` 2026-10-06.
+- No new URL was introduced; sitemap contents did not need modification.
+
+Rollback:
+- Verified rollback path: `/opt/hostedtimesheets/rollback/salary-increase-20261006/`.
+- Previous HTML SHA-256: `4e3f1793773b8320d3b0a390725cfd1ed292a0ce0d2851ad6b0779e7360ccfd7`.
+- Previous JS SHA-256: `9dedbfd92d41e67a1687901a961c37dfd58f5d74b5e1dda091a25a690be86118`.
+- Temporary preview/test/browser artifacts were removed after verification.
 
 ### Decimal Hours Calculator — 2026-10-06
 
@@ -245,15 +325,15 @@ Rollback:
 
 Existing same-day research remains available for future explicitly approved single-page work:
 - Decimal Hours remediation is complete and deployed.
-- Salary Increase remediation spec is implementation-ready.
+- Salary Increase remediation is complete and deployed.
 - Other pages must still be treated as separate release units and must not be started without user approval.
 
 ## Deployment / indexing status
 
 - The global header/navigation shared release, including the iPhone/Safari Tools correction, is deployed across all 34 canonical pages.
 - All 34 live canonical URLs reference the verified `ee22a3c` header CSS and search JS; public asset bytes match origin exactly.
-- Homepage, Time Card, Timesheet Template and Decimal Hours strict remediation releases are deployed. Decimal Hours was fully verified live on 2026-10-06; the earlier three completed pages retain their verified production state.
-- All four completed pages use existing canonical URLs; no new URL was introduced.
+- Homepage, Time Card, Timesheet Template, Decimal Hours and Salary Increase strict remediation releases are deployed and VERIFIED live.
+- All five completed pages use existing canonical URLs; no new URL was introduced.
 - Sitemap remains 34 canonical URLs.
 - No indexing request should be represented as completed unless a write-capable Search Console action is actually executed and verified.
 
@@ -273,8 +353,8 @@ Existing same-day research remains available for future explicitly approved sing
 
 ## In progress
 
-No page is currently in implementation. Decimal Hours is complete. 30 of the 34 sitemap pages remain for strict page-by-page remediation.
+No page is currently in implementation. Salary Increase is complete. 29 of the 34 sitemap pages remain for strict page-by-page remediation.
 
 ## NEXT ACTION
 
-Wait for explicit user approval before starting the next public page. The next planned page in the remediation queue is `/salary-increase-calculator/`. Continue one page at a time and use the permanent ZT contingency gate whenever GitHub-side infrastructure cannot execute.
+Wait for explicit user approval before starting the next public page. The next planned page in the remediation queue is `/work-hours-calculator/`. Continue one page at a time and use the permanent ZT contingency gate whenever GitHub-side infrastructure cannot execute.
