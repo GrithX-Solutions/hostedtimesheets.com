@@ -255,3 +255,25 @@ Decision:
 - Blank, malformed, decimal-in-whole-number, negative or out-of-range values must remain invalid rather than being silently clamped.
 - The calculator performs local wall-clock arithmetic only. It must not determine break entitlement, paid/unpaid status, overtime eligibility, payroll rounding, wage compliance, time-zone offsets or daylight-saving rules.
 
+
+
+## 2026-10-06 — Military Time Converter owns clock-notation conversion and chart intent
+
+Fresh U.S. demand and SERP research confirms that military-time conversion and the military-time reference chart belong on one canonical utility page.
+
+Evidence:
+- Ubersuggest U.S. `military time converter`: 74,000 monthly searches, $0.11 CPC, SD 22.
+- Ubersuggest U.S. `military time chart`: 135,000 monthly searches, $0.31 CPC, SD 28.
+- Ubersuggest U.S. `standard time to military time`: 1,600 monthly searches, SD 25.
+- Ubersuggest U.S. `military time to standard time`: 1,600 monthly searches, SD 38.
+- Current SERP remains converter/chart-first and includes both strong domains and lower-authority specialist pages.
+
+Decision:
+- Keep `/military-time-converter/` as the canonical owner for military-time conversion, standard AM/PM ↔ military time, 24-hour ↔ 12-hour notation, and the military-time chart.
+- Preserve the smart single-input workflow for compact military values, colon-form 24-hour values, AM/PM values, `noon`, and `midnight`.
+- Use `0000` for midnight and accept military inputs only through `2359`. Reject `2400` so every accepted input maps to one time within a single 24-hour day; explain that some references use 2400 contextually for end-of-day.
+- Spoken output is a plain-English rendering for readability, not a formal radio/phonetic communications standard.
+- Do not add city/timezone, UTC offset, military time-zone-letter, or Zulu conversion here. Those are distinct timezone intents.
+- Keep duration arithmetic on `/time-duration-calculator/`, known-duration arithmetic on `/hours-and-minutes-calculator/`, and projected shift-end arithmetic on `/clock-out-time-calculator/`.
+- Invalid or malformed values must surface an explicit invalid state and suppress converted outputs rather than being silently normalized.
+- The chart remains printable; print styling must keep the article/chart visible while suppressing the interactive calculator and sidebar.
