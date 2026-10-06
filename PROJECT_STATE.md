@@ -1,6 +1,6 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-06T11:45:36+05:00
+Last verified: 2026-10-06T13:07:15+05:00
 
 ## Objective
 
@@ -19,7 +19,7 @@ GitHub Actions remains BLOCKED because the Actions quota is exhausted. ZT MCP is
 
 - Repository: GrithX-Solutions/hostedtimesheets.com
 - Default branch: main
-- Current deployed production-code commit after the iPhone/Safari Tools fix and cache-delivery follow-up: `2723ac026acf846394003585c8686aa54f119f11`. Subsequent docs/state-only continuity commits do not change production bytes.
+- Current deployed production-code commit after Decimal Hours remediation: `f14de71f0021dc2e68862e7b43d3316488b8c5ac`. Subsequent docs/state-only continuity commits do not change production bytes.
 - Production: static Nginx site.
 - Verified production mount: `/opt/hostedtimesheets/site` -> `/usr/share/nginx/html`.
 - ZT server id: `c59425e31c304e608dac60224a064dbd`.
@@ -27,27 +27,86 @@ GitHub Actions remains BLOCKED because the Actions quota is exhausted. ZT MCP is
 - ZT workspace is a partial bootstrap, not an authoritative Git mirror. Exact changed files must be synchronized from GitHub and parity-checked before using it as a release gate.
 - GitHub Actions: BLOCKED (quota).
 - Public/repository sitemap: 34 canonical URLs.
-- Strict page-by-page remediation completed: 3 / 34 pages.
+- Strict page-by-page remediation completed: 4 / 34 pages.
 - Shared site-shell releases are tracked separately from the 3 / 34 page-remediation count.
 
 ## Last completed task
 
-### Global header / navigation — VERIFIED shared release
+### Decimal Hours Calculator `/decimal-hours-calculator/` — VERIFIED release
 
-The original shared-header release was PR #83 / PR #84. A user-reported real iPhone regression then proved the Tools panel was not usable in Safari/WebKit. PR #86 merged the iPhone/Safari Tools fix at `ee22a3ca3b06715fd35e761476ce34e21f3743fc`. PR #87 merged the 34-page shared-asset cache-key refresh at `2723ac026acf846394003585c8686aa54f119f11`.
+PR #90 merged the remediation at `f14de71f0021dc2e68862e7b43d3316488b8c5ac`.
 
-The production shared header now:
-- presents only the prominent Hosted Timesheets logo, Tools and Search controls;
-- removes the redundant Home / Calculators / Guides / About header links from the visible navigation while preserving their page URLs and body/footer discoverability;
-- removes the duplicate All Tools header CTA while retaining the categorized Tools menu;
-- uses equal-height, aligned Tools and Search controls on desktop and mobile;
-- opens Search directly below the sticky header;
-- keeps Tools and Search mutually exclusive, keeps explicit `aria-expanded` state, and closes the open control on outside interaction;
-- uses an iOS-safe absolute mobile Tools sheet instead of the WebKit-problematic fixed descendant;
-- enlarges only the header logo; the footer logo remains unchanged;
-- changes no calculator math, page copy, metadata, schema, canonical URL, sitemap URL or framework.
+The live page now:
+- owns the interactive Hours to Decimal Calculator intent on the existing canonical URL;
+- supports Time → Decimal and Decimal → Time conversion;
+- supports hours, minutes and seconds;
+- supports 2, 3 or 4 decimal places while keeping exact source time authoritative;
+- rejects invalid minute/second/hour/rate inputs visibly instead of silently clamping them;
+- supports accumulated durations above 24 hours;
+- uses nearest-second normalization for Decimal → Time;
+- keeps optional pay calculations based on exact source duration or exact decimal input;
+- preserves mode values when switching and uses mode-aware copy behavior;
+- keeps `/minutes-to-decimal-hours/` as the separate chart/formula guide.
 
 ## Tests / evidence
+
+### Decimal Hours Calculator — 2026-10-06
+
+Research:
+- Ubersuggest US:
+  - `hours to decimal calculator`: 14,800 volume, $8.62 CPC, SD 16.
+  - `time to decimal calculator`: 14,800 volume, $8.62 CPC, SD 19.
+  - `decimal hours calculator`: 12,100 volume, $5.48 CPC, SD 46.
+- Current SERP included AI Overview/PAA plus interactive specialist tools; lower-authority examples included TimeRewards PA 23 with 1 referring domain and TimeClick PA 24 with 0 backlinks.
+- Cached first-party GSC through 2026-10-05 showed no Decimal calculator query/page rows; no first-party cannibalization signal was present.
+- Canonical separation remains:
+  - `/decimal-hours-calculator/` = interactive two-way converter.
+  - `/minutes-to-decimal-hours/` = static chart/formula guide.
+
+Pre-release ZT contingency gate:
+- Content Quality: PASS.
+  - 877 main-content words.
+  - Average sentence length: 13.1 words.
+  - Maximum paragraph: 55 words.
+  - Passive heuristic: 2.3 / 1,000 words.
+  - 6 visible FAQs.
+- Python syntax: PASS.
+- HTML/schema/accessibility contract: PASS.
+- `decimal-hours.js` Node syntax: PASS.
+- Rendered Chromium calculation/UI matrix: PASS.
+  - zero, typical, boundary, invalid, decimal and >24h cases.
+  - 60 / negative / fractional minute and second values rejected explicitly, not clamped.
+  - 2 / 3 / 4 decimal-place display modes.
+  - 8h 1m at $25/hour -> 8.0167 display and $200.42 exact-source pay.
+  - 7.75 decimal hours -> 7h 45m 0s.
+  - blank rate -> em dash; explicit 0 -> $0.00; negative rate invalid.
+  - mode preservation and copy behavior PASS.
+  - mobile and desktop horizontal-overflow checks PASS.
+- Exact-source iPhone 13 WebKit preview: PASS before merge.
+
+Production / public:
+- Live page HTTP 200 with self-canonical and title `Hours to Decimal Calculator — Time to Decimal Hours`.
+- Live runtime URL: `/assets/js/decimal-hours.js?v=20261006-remediation1`.
+- Current production SHA-256:
+  - HTML: `979af942f5779a0c0473f1cb3474e1a75ed0b2e6dd364f7a1e66eb62262dec99`.
+  - JS: `dd5e5c8c4470ffa9de2d9fca681a61ee3f5e5a22ba1902b9885725eabc633ebf`.
+- Public versioned JS SHA-256 exactly matched production origin.
+- True-public desktop Chromium + iPhone 13 WebKit: PASS.
+  - desktop initial: 8.5000 / 8h 30m 0s / blank pay em dash.
+  - desktop 8h 1m at $25 -> 8.0167 / 28,860 seconds / $200.42.
+  - desktop header: logo 260x52; Tools 96x46; Search 104x46.
+  - mobile invalid 60 minutes -> visible `0 to 59` error and output suppressed.
+  - mobile 7.75 at $25 -> 7h 45m 0s / 27,900 seconds / $193.75.
+  - mobile header Tools -> 390x600 panel, 26 links, no horizontal overflow.
+- Public sitemap remains 34 URLs and includes the Decimal canonical.
+- Live `/minutes-to-decimal-hours/` links to `/decimal-hours-calculator/`.
+- No new URL was introduced; sitemap contents did not need modification.
+
+Rollback:
+- Verified rollback path: `/opt/hostedtimesheets/rollback/decimal-hours-20261006/`.
+- Previous HTML SHA-256: `54352398cfd4e371c5d7043d11fc1a9420eedf3432901b67442c72a030c0a4e2`.
+- Previous JS SHA-256: `f069c3294825059bec04a36c4575a0ea4b2d14cf4cdb1c82b013aa71b4476302`.
+- Temporary preview/test/recovery artifacts were removed after verification.
 
 ### Fresh production re-verification — 2026-10-06 11:45 +05
 
@@ -185,7 +244,7 @@ The production shared header now:
 ## Traffic / research status
 
 Existing same-day research remains available for future explicitly approved single-page work:
-- Decimal Hours remediation spec is implementation-ready.
+- Decimal Hours remediation is complete and deployed.
 - Salary Increase remediation spec is implementation-ready.
 - Other pages must still be treated as separate release units and must not be started without user approval.
 
@@ -193,8 +252,8 @@ Existing same-day research remains available for future explicitly approved sing
 
 - The global header/navigation shared release, including the iPhone/Safari Tools correction, is deployed across all 34 canonical pages.
 - All 34 live canonical URLs reference the verified `ee22a3c` header CSS and search JS; public asset bytes match origin exactly.
-- Homepage, Time Card and Timesheet Template strict remediation releases are deployed and were freshly re-verified on 2026-10-06 with exact source parity and live functionality checks.
-- All three were existing canonical URLs; no new URL was introduced.
+- Homepage, Time Card, Timesheet Template and Decimal Hours strict remediation releases are deployed. Decimal Hours was fully verified live on 2026-10-06; the earlier three completed pages retain their verified production state.
+- All four completed pages use existing canonical URLs; no new URL was introduced.
 - Sitemap remains 34 canonical URLs.
 - No indexing request should be represented as completed unless a write-capable Search Console action is actually executed and verified.
 
@@ -214,8 +273,8 @@ Existing same-day research remains available for future explicitly approved sing
 
 ## In progress
 
-No page is currently in implementation.
+No page is currently in implementation. Decimal Hours is complete. 30 of the 34 sitemap pages remain for strict page-by-page remediation.
 
 ## NEXT ACTION
 
-The shared-header/iPhone Tools task is complete and VERIFIED live. For the next explicitly approved public-page task, proceed one page at a time without stopping for GitHub-side infrastructure problems: use GitHub normally when available, otherwise use the permanent ZT contingency gate and synchronize the exact tested change back to GitHub as soon as service permits.
+Wait for explicit user approval before starting the next public page. The next planned page in the remediation queue is `/salary-increase-calculator/`. Continue one page at a time and use the permanent ZT contingency gate whenever GitHub-side infrastructure cannot execute.
