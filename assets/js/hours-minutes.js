@@ -39,9 +39,12 @@
     const value=Number(raw);
     if(!Number.isFinite(value)){setField(input,error,"Enter a valid "+label.toLowerCase()+".");return null}
     if(!Number.isInteger(value)){setField(input,error,label+" must be a whole number.");return null}
-    if(value<min||value>max){
-      const range=max===59?" from 0 to 59":" at or above 0";
-      setField(input,error,label+" must be"+range+".");
+    if(value<min){
+      setField(input,error,label+" must be at or above "+min+".");
+      return null;
+    }
+    if(value>max){
+      setField(input,error,max===59?label+" must be from 0 to 59.":label+" is too large to calculate safely.");
       return null;
     }
     setField(input,error);
