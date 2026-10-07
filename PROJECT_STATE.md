@@ -1,6 +1,6 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-07T11:33:00+05:00
+Last verified: 2026-10-07T12:04:38+05:00
 
 ## Objective
 
@@ -13,24 +13,76 @@ User workflow rule:
 - Do not start the next page until the user explicitly approves it.
 - An explicitly requested shared site-shell component such as the global header/navigation may be treated as one shared release unit across existing pages, but it must not bundle unrelated page content or calculator changes.
 
-GitHub Actions remains BLOCKED by GitHub-side infrastructure/capacity behavior. PR #101 run #92 failed before any job step executed, so no GitHub CI PASS is claimed. ZT MCP is the permanent contingency validation/execution path for GitHub-side infrastructure failures. GitHub-side quota/outage/service trouble alone must not stop approved project work; record ZT/direct evidence separately.
+GitHub Actions remains BLOCKED by GitHub-side infrastructure/capacity behavior. PR #102 run #94 failed before any job step executed, so no GitHub CI PASS is claimed. ZT MCP is the permanent contingency validation/execution path for GitHub-side infrastructure failures. GitHub-side quota/outage/service trouble alone must not stop approved project work; record ZT/direct evidence separately.
 
 ## Source / deployment
 
 - Repository: GrithX-Solutions/hostedtimesheets.com
 - Default branch: main
-- Current deployed production-code commit after PTO Accrual remediation: `9acb7f4a22d9b75da6e97da77f8ea3ebe63ff7b5`. Subsequent docs/state-only continuity commits do not change production bytes.
+- Current deployed production-code commit after Salary Bonus remediation: `aff07dfa1eae45a2cbeabbe7a78f2458f1105b0f`. Subsequent docs/state-only continuity commits do not change production bytes.
 - Production: static Nginx site.
 - Verified production mount: `/opt/hostedtimesheets/site` -> `/usr/share/nginx/html`.
 - ZT server id: `c59425e31c304e608dac60224a064dbd`.
 - ZT workspace: `hostedtimesheets`.
 - ZT workspace is a partial bootstrap, not an authoritative Git mirror. Exact changed files must be synchronized from GitHub and parity-checked before using it as a release gate.
-- GitHub Actions: BLOCKED / infrastructure failure. PR #101 run #92 was created but failed before any steps executed; no GitHub CI PASS is claimed.
+- GitHub Actions: BLOCKED / infrastructure failure. PR #102 run #94 was created but failed before any steps executed; no GitHub CI PASS is claimed.
 - Public/repository sitemap: 34 canonical URLs.
-- Strict page-by-page remediation completed: 12 / 34 pages.
+- Strict page-by-page remediation completed: 13 / 34 pages.
 - Shared site-shell releases are tracked separately from the page-remediation count.
 
 ## Last completed task
+
+### Salary Calculator With Bonus `/salary-calculator-with-bonus/` — VERIFIED release
+
+PR #102 squash-merged the strict remediation at `aff07dfa1eae45a2cbeabbe7a78f2458f1105b0f`.
+
+Research / ownership:
+- Ubersuggest U.S. `salary calculator with bonus`: 2,400 monthly searches, $8.23 CPC, SD 6.
+- Ubersuggest U.S. `salary bonus calculator`: 2,400 monthly searches, $7.81 CPC, SD 47.
+- Ubersuggest U.S. `bonus calculator`: 5,400 monthly searches, SD 46.
+- Ubersuggest U.S. `total compensation calculator`: 880 monthly searches, $6.65 CPC, SD 62.
+- Exact-query SERPs mix gross salary/bonus arithmetic with bonus-tax/paycheck tools; broader total-compensation tools commonly add equity and benefits, so those are not merged into this URL.
+- Canonical decision: this URL owns gross base salary + annual bonus arithmetic, including percentage, fixed and target-total-compensation solve modes.
+- Permanent raises remain on `/salary-increase-calculator/`; salary-only hourly conversion remains on `/salary-to-hourly-calculator/`; hourly-wage conversion remains on `/hourly-wage-calculator/`; pay-frequency conversion remains on `/biweekly-pay-calculator/`.
+- Tax/withholding/take-home, commissions, equity/RSUs, benefits, retirement match, vesting, bonus eligibility, payout schedules and jurisdiction-specific payroll logic remain outside this page.
+
+Product / calculation:
+- Replaced silent blank/malformed/negative coercion and schedule clamping with explicit field-level validation and stale-output suppression.
+- Preserved percentage and fixed annual bonus modes.
+- Added target total compensation mode: required bonus = target total compensation − base annual salary; target below base salary is invalid.
+- Effective bonus percentage is bonus ÷ base salary × 100 when base salary > 0; zero-base fixed/target dollar arithmetic remains valid while percentage displays N/A.
+- Percentage bonuses above 100% remain mathematically valid; no arbitrary compensation-policy ceiling is imposed.
+- Preserved monthly, biweekly, weekly and hourly gross-equivalent outputs.
+- Hours/week must be 0.25–168; Workweeks/year must be a whole number 1–53.
+- Added copyable result output and live status messaging.
+- Clarified prominently that currency selection changes formatting only and performs no FX conversion.
+- Clarified that pay-equivalent outputs are arithmetic planning equivalents, not bonus-payment schedules.
+- Added an eighth visible/schema-matched FAQ and page-local `min-width:0` mobile containment.
+
+Pre-release / merged-source gate:
+- GitHub/main runtime blobs: HTML `d7bd08bc6e1e1447b7d6ef53ae9bd9b8026a143e`; JS `1d844b5233ab4c7695fae30b6ff62ca19beb3a2d`.
+- ZT exact-content parity: VERIFIED 5 / 5 for Salary Bonus HTML, runtime JS, HTML test, Chromium test and repository content-audit script.
+- `salary-bonus.js` Node syntax: PASS.
+- HTML/schema/accessibility contract: PASS.
+- Exact repository Chromium calculation/UI matrix: PASS, 41 cases at 390px mobile and 1280px desktop; zero runtime exceptions and console errors.
+- Matrix covered percentage, fixed and target formulas; target-below-base invalid state; zero-base fixed bonus/N/A percentage; zero and >100% bonus cases; active-input blank/negative validation; hours/week and workweeks boundaries; currency formatting/no-FX behavior; copy/reset; method visibility; canonical/scope checks; and horizontal overflow.
+- Exact repository content-quality logic on this page: PASS, 0 hard failures — 1,034 main-content words, 13 H2/H3 headings, 14.4-word average sentence, 50-word maximum paragraph, passive heuristic 7.7 / 1,000, 8 visible FAQs and 6 example references.
+- Repository-wide audit still reports 8 hard-rule failures on other queued/unremediated pages. Salary Bonus itself is PASS; unrelated pages were not bundled into this one-page release.
+- GitHub Actions PR #102 run #94 failed before any executable job step and exposed zero steps. This is recorded as BLOCKED/infrastructure failure, not as a content FAIL or CI PASS. ZT exact-source evidence supplied the release gate.
+
+Production / public:
+- Production origin HTML SHA-256: `d7d123038a714d05dd75280cd42d8870edcb1b44d08ec57d0e8b0afc6943566b`.
+- Production origin JS SHA-256: `8ff39bbee110972bbb7ca0c3684760c7b6902cda16b3a7ba7e61f7244bd8f195`.
+- Production origin Git blobs exactly match merged GitHub/main: HTML `d7bd08bc6e1e1447b7d6ef53ae9bd9b8026a143e`; JS `1d844b5233ab4c7695fae30b6ff62ca19beb3a2d`.
+- Public page: HTTP 200, Cloudflare `DYNAMIC`, self-canonical, schema `dateModified` 2026-10-07, target mode, copy control, 8 visible/schema FAQs, explicit no-FX copy and runtime `/assets/js/salary-bonus.js?v=20261007-remediation1`.
+- Public versioned JS Git blob `1d844b5233ab4c7695fae30b6ff62ca19beb3a2d` exactly matches GitHub/main.
+- True-public headless Chromium at a 390x844 window completed with return code 0 and executed the new runtime: default rendered total `66,000.00`, bonus percentage `10.00%`, target option, copy control, versioned runtime and 8 FAQs were present. Browser-container DBus diagnostics were environmental noise, not page runtime failures.
+- No new canonical URL was introduced and no sitemap change was required.
+
+Rollback / cleanup:
+- Rollback path: `/opt/hostedtimesheets/rollback-salary-bonus-20261007/`.
+- Rollback HTML Git blob: `3a77f41c673d7d20540327c73db50f9bc3ecf67f`; SHA-256 `f3a2464285ed21da14a7290875415a45c69d168ec757f826017c7220c1af4fa8`.
+- Rollback JS Git blob: `9beb07ea7dda1d979fa24bfad2dd834e8391c10d`; SHA-256 `f36a63674dc93c3a36c98322d7cab97aeaeb192db7ed3c947639dfca119553cc`.
 
 ### PTO Accrual Calculator `/pto-accrual-calculator/` — VERIFIED release
 
@@ -733,41 +785,40 @@ Existing same-day research remains available for future explicitly approved sing
 
 Queue is traffic-first, not permanent. Revalidate Ubersuggest + current SERP + cannibalization immediately before each page starts; move a page only when fresh evidence materially changes the opportunity or a production/policy defect makes it urgent.
 
-1. `/salary-calculator-with-bonus/` — 2,400 volume, $8.23 CPC, SD 6. Very low difficulty and strong commercial relevance.
-2. `/hours-and-minutes-calculator/` — 14,800 volume, $1.13 CPC, SD 35.
-3. `/billable-hours-calculator/` — 480 volume, $9.75 CPC, SD 18. Lower volume but high-value business intent.
-4. `/time-off-tracker/` — 590 volume, $76.96 reported CPC, SD 29. CPC is unusually high and must be treated cautiously/revalidated.
-5. `/payroll-hours-calculator/` — 9,900 volume, $6.90 CPC, SD 50. Strong value but materially harder SERP.
-6. `/salary-to-hourly-calculator/` — 49,500 volume, $0.88 CPC, SD 59. Large demand but high difficulty.
-7. `/how-to-calculate-hours-worked/` — 2,400 volume, $4.18 CPC, SD 35. Supporting guide for the hours cluster.
-8. `/timesheet-calculator-with-lunch/` — 2,900 volume, $8.58 CPC, SD 50.
-9. `/biweekly-timesheet-calculator/` — 1,300 volume, $6.31 CPC, SD 33.
-10. `/biweekly-pay-calculator/` — 4,400 volume, $3.74 CPC, SD 59.
-11. `/how-to-calculate-pto-accrual/` — 320 volume, $0.23 CPC, SD 24. Supports PTO topical authority.
-12. `/weekly-timesheet-calculator/` — 260 volume, $2.42 CPC, SD 48.
-13. `/how-to-calculate-time-card/` — 210 volume, $3.17 CPC, SD 52.
-14. `/minutes-to-decimal-hours/` — 170 volume, $0 CPC, SD 43.
-15. `/timesheet-pay-calculator/` — 30 volume, $3.28 CPC, SD 52. Low direct demand; must justify distinct intent before expansion.
-16. `/pto-accrual-based-on-hours-worked/` — 10 volume, $0 CPC, SD 12. Low direct demand; cannibalization with PTO Accrual must be reviewed before remediation.
-17. `/time-card-hours-with-lunch-break/` — exact-match query currently reports 0 volume. Revalidate broader semantic cluster before investing.
-18. `/about/` — trust/methodology page; traffic is secondary.
-19. `/contact/` — trust/support page.
-20. `/privacy/` — compliance/trust page; promote earlier only if policy audit finds an issue.
-21. `/terms/` — compliance/trust page; promote earlier only if policy audit finds an issue.
-22. `/disclaimer/` — compliance/trust page; promote earlier only if policy audit finds an issue.
+1. `/hours-and-minutes-calculator/` — 14,800 volume, $1.13 CPC, SD 35.
+2. `/billable-hours-calculator/` — 480 volume, $9.75 CPC, SD 18. Lower volume but high-value business intent.
+3. `/time-off-tracker/` — 590 volume, $76.96 reported CPC, SD 29. CPC is unusually high and must be treated cautiously/revalidated.
+4. `/payroll-hours-calculator/` — 9,900 volume, $6.90 CPC, SD 50. Strong value but materially harder SERP.
+5. `/salary-to-hourly-calculator/` — 49,500 volume, $0.88 CPC, SD 59. Large demand but high difficulty.
+6. `/how-to-calculate-hours-worked/` — 2,400 volume, $4.18 CPC, SD 35. Supporting guide for the hours cluster.
+7. `/timesheet-calculator-with-lunch/` — 2,900 volume, $8.58 CPC, SD 50.
+8. `/biweekly-timesheet-calculator/` — 1,300 volume, $6.31 CPC, SD 33.
+9. `/biweekly-pay-calculator/` — 4,400 volume, $3.74 CPC, SD 59.
+10. `/how-to-calculate-pto-accrual/` — 320 volume, $0.23 CPC, SD 24. Supports PTO topical authority.
+11. `/weekly-timesheet-calculator/` — 260 volume, $2.42 CPC, SD 48.
+12. `/how-to-calculate-time-card/` — 210 volume, $3.17 CPC, SD 52.
+13. `/minutes-to-decimal-hours/` — 170 volume, $0 CPC, SD 43.
+14. `/timesheet-pay-calculator/` — 30 volume, $3.28 CPC, SD 52. Low direct demand; must justify distinct intent before expansion.
+15. `/pto-accrual-based-on-hours-worked/` — 10 volume, $0 CPC, SD 12. Low direct demand; cannibalization with PTO Accrual must be reviewed before remediation.
+16. `/time-card-hours-with-lunch-break/` — exact-match query currently reports 0 volume. Revalidate broader semantic cluster before investing.
+17. `/about/` — trust/methodology page; traffic is secondary.
+18. `/contact/` — trust/support page.
+19. `/privacy/` — compliance/trust page; promote earlier only if policy audit finds an issue.
+20. `/terms/` — compliance/trust page; promote earlier only if policy audit finds an issue.
+21. `/disclaimer/` — compliance/trust page; promote earlier only if policy audit finds an issue.
 
 ## Deployment / indexing status
 
 - The global header/navigation shared release, including the iPhone/Safari Tools correction, is deployed across all 34 canonical pages.
 - All 34 live canonical URLs reference the verified `ee22a3c` header CSS and search JS; public asset bytes match origin exactly.
-- Homepage, Time Card, Timesheet Template, Decimal Hours, Salary Increase, Work Hours, Overtime, Clock Out, Military Time, Time Duration, Hourly Wage and PTO Accrual strict remediation releases are deployed and VERIFIED live.
-- All twelve completed pages use existing canonical URLs; no new canonical URL was introduced.
+- Homepage, Time Card, Timesheet Template, Decimal Hours, Salary Increase, Work Hours, Overtime, Clock Out, Military Time, Time Duration, Hourly Wage, PTO Accrual and Salary Bonus strict remediation releases are deployed and VERIFIED live.
+- All thirteen completed pages use existing canonical URLs; no new canonical URL was introduced.
 - Sitemap remains 34 canonical URLs.
 - No indexing request should be represented as completed unless a write-capable Search Console action is actually executed and verified.
 
 ## Blockers / unknowns
 
-- GitHub Actions: BLOCKED / infrastructure failure. PR #101 run #92 failed before any job step executed and exposed no usable step output. Under the permanent contingency rule this is a CI-status blocker, not by itself a work/deployment blocker; ZT/direct evidence is required for production-bound changes.
+- GitHub Actions: BLOCKED / infrastructure failure. PR #102 run #94 failed before any job step executed and exposed zero executable steps. Under the permanent contingency rule this is a CI-status blocker, not by itself a work/deployment blocker; ZT/direct evidence is required for production-bound changes.
 - The ZT workspace is partial; full-site results from it must not be treated as a complete repository mirror.
 - Standard Lighthouse-container outbound DNS/networking is restricted, but true public Chromium/Lighthouse can be run with an ephemeral host-network container; this method was VERIFIED for the homepage and the shared-header release.
 - Immediate public Lighthouse scores after the header release were high-variance, so short-run public lab scores are not treated as causal evidence; deterministic isolated A/B performance passed. Fresh field CWV impact remains UNKNOWN until real field data is available.
@@ -775,15 +826,15 @@ Queue is traffic-first, not permanent. Revalidate Ubersuggest + current SERP + c
 
 ## Technical debt
 
-- Repository-wide content-quality audit currently has 8 hard-rule failures on other queued/unremediated pages; PTO Accrual itself passes the exact audit. Resolve these one page at a time under the existing queue rule.
+- Repository-wide content-quality audit currently has 8 hard-rule failures on other queued/unremediated pages; Salary Bonus and PTO Accrual both pass their exact page audits. Resolve the remaining failures one page at a time under the existing queue rule.
 - Restore GitHub Actions as the normal primary CI runner when quota/capacity returns; keep ZT MCP as the permanent contingency path for future GitHub-side infrastructure failures.
 - Correct private-repo authentication/bootstrap if the ZT workspace is expected to become a full authoritative checkout.
 - Continue page-specific remediation only; do not batch unrelated calculator/content changes.
 
 ## In progress
 
-No page is currently in implementation. PTO Accrual is complete. 22 of the 34 sitemap pages remain for strict page-by-page remediation.
+No page is currently in implementation. Salary Bonus is complete. 21 of the 34 sitemap pages remain for strict page-by-page remediation.
 
 ## NEXT ACTION
 
-Wait for explicit user approval before starting queue item #1: `/salary-calculator-with-bonus/`. Revalidate its keyword/semantic map, current SERP/competitor gap, current functionality, bonus/pay-frequency assumptions, gross-vs-net boundary and cannibalization with Hourly Wage, Salary Increase and Salary-to-Hourly pages before implementation. Then remediate, test, merge, preserve rollback, deploy, verify live and update this state before starting queue item #2.
+Wait for explicit user approval before starting queue item #1: `/hours-and-minutes-calculator/`. Revalidate its keyword/semantic map, current SERP/competitor gap, current functionality, time-add/subtract assumptions and cannibalization with Time Duration, Work Hours and conversion pages before implementation. Then remediate, test, merge, preserve rollback, deploy, verify live and update this state before starting queue item #2.
