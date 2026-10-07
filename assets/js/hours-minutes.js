@@ -197,7 +197,7 @@
     const rateProblem=!rate.valid||$("#hm-rate").getAttribute("aria-invalid")==="true";
     $("#hm-status").textContent=rateProblem
       ?"Duration result is valid. Fix the hourly rate to calculate the optional rate × time estimate."
-      :"Valid duration. Estimated pay uses the unrounded minute-derived value; currency formatting does not perform FX conversion.";
+      :"Valid duration. Estimated pay uses the unrounded minute-derived value; currency formatting only; no FX conversion is performed.";
 
     lastTotalMinutes=totalMinutes;
     lastDecimal=decimalText(decimal);
