@@ -93,7 +93,7 @@ try{
   check((await snap()).unit==="hours"&&(await row(0)).opening==="0","25 cleared reload defaults");
 
   await click("#to-example");
-  await evaluate('window.__clip=""');await click("#to-copy");await sleep(20);
+  await evaluate('window.__clip="";Object.defineProperty(navigator,"clipboard",{value:{writeText:async v=>{window.__clip=v}},configurable:true})');await click("#to-copy");await sleep(20);
   const copied=await evaluate("window.__clip");
   check(copied.includes("Time Off Tracker")&&copied.includes("PTO / Vacation: opening 40.00")&&copied.includes("Scheduled shortfall total: 4.00"),"26 copy summary");
 
