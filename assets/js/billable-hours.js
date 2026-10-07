@@ -132,7 +132,7 @@
     const hoursDeltaText=hoursDelta===null?"Not available":(hoursDelta>=0?"+":"")+hoursDelta.toFixed(2)+" hrs";
     const targetValueText=targetValue===null?"Not available":money(targetValue,currency);
     const valueDeltaText=valueDelta===null?"Not available":signedMoney(valueDelta,currency);
-    lastSummary=[
+    const summary=[
       "Billable hours calculation",
       "Total worked hours: "+total.toFixed(2),
       "Billable hours: "+billable.toFixed(2),
@@ -148,6 +148,7 @@
       "Value vs target: "+valueDeltaText,
       "Currency format: "+currency+" (formatting only; no FX conversion)"
     ].join("\n");
+    lastSummary=issues.length?"":summary;
   }
 
   async function copyResult(){
