@@ -1,6 +1,6 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-07T13:46:18+05:00
+Last verified: 2026-10-07T16:18:14+05:00
 
 ## Objective
 
@@ -13,25 +13,90 @@ User workflow rule:
 - Do not start the next page until the user explicitly approves it.
 - An explicitly requested shared site-shell component such as the global header/navigation may be treated as one shared release unit across existing pages, but it must not bundle unrelated page content or calculator changes.
 
-GitHub Actions remains BLOCKED by GitHub-side infrastructure/capacity behavior. PR #104 run #98 (and branch run #96) failed with zero executable job steps, so no GitHub CI PASS is claimed. ZT MCP is the permanent contingency validation/execution path for GitHub-side infrastructure failures. GitHub-side quota/outage/service trouble alone must not stop approved project work; record ZT/direct evidence separately.
+GitHub Actions remains BLOCKED by GitHub-side infrastructure/capacity behavior. PR #106 run #102 failed with zero executable job steps, so no GitHub CI PASS is claimed. ZT MCP is the permanent contingency validation/execution path for GitHub-side infrastructure failures. GitHub-side quota/outage/service trouble alone must not stop approved project work; record ZT/direct evidence separately.
 
 ## Source / deployment
 
 - Repository: GrithX-Solutions/hostedtimesheets.com
 - Default branch: main
-- Current deployed production-code commit after Hours & Minutes remediation: `600c403465005771269134a9fdec9a4dd10f356d`. Subsequent docs/state-only continuity commits do not change production bytes.
+- Current deployed production-code commit after Billable Hours remediation/cache fix: `a5ca9edfae11474580ca348c786f5ce42629ec00`. Subsequent docs/state-only continuity commits do not change production bytes.
 - Production: static Nginx site.
-- Observed deployment behavior on PR #104: merging to `main` automatically synchronized the production mount before the manual copy step. Future production-bound releases must preserve the live rollback snapshot before merge, then verify the post-merge origin rather than assuming deployment waits for a manual copy.
+- Deployment synchronization is not deterministic. PR #104 auto-synchronized production before the manual copy step, while PRs #105 and #106 did not update the origin before post-merge verification. Future production-bound releases must preserve rollback before merge, verify post-merge origin blobs against merged `main`, and manually deploy only the exact tested files when origin differs.
 - Verified production mount: `/opt/hostedtimesheets/site` -> `/usr/share/nginx/html`.
 - ZT server id: `c59425e31c304e608dac60224a064dbd`.
 - ZT workspace: `hostedtimesheets`.
 - ZT workspace is a partial bootstrap, not an authoritative Git mirror. Exact changed files must be synchronized from GitHub and parity-checked before using it as a release gate.
-- GitHub Actions: BLOCKED / infrastructure failure. PR #104 run #98 and branch run #96 were created but exposed zero executable steps; no GitHub CI PASS is claimed.
+- GitHub Actions: BLOCKED / infrastructure failure. PR #106 run #102 (and PR #105 run #99) exposed zero executable steps; no GitHub CI PASS is claimed.
 - Public/repository sitemap: 34 canonical URLs.
-- Strict page-by-page remediation completed: 14 / 34 pages.
+- Strict page-by-page remediation completed: 15 / 34 pages.
 - Shared site-shell releases are tracked separately from the page-remediation count.
 
 ## Last completed task
+
+### Billable Hours Calculator `/billable-hours-calculator/` — VERIFIED release
+
+PR #105 squash-merged the functional remediation at `894b90538c53edd497f6e032fb8f05131630f054`. PR #106 squash-merged the public runtime cache-key/social-metadata fix at `a5ca9edfae11474580ca348c786f5ce42629ec00`.
+
+Research / ownership:
+- Ubersuggest U.S. `billable hours calculator`: 480 monthly searches, $9.75 CPC, SD 18.
+- Ubersuggest U.S. `calculate billable hours`: 590 monthly searches, $10.66 CPC, SD 23.
+- Ubersuggest U.S. `billable hours`: 2,400 monthly searches, $0.22 CPC, SD 37.
+- Ubersuggest U.S. `billable vs non billable hours`: 110 monthly searches, SD 23.
+- Ubersuggest U.S. `utilization rate calculator`: 170 monthly searches, SD 13.
+- Exact-query Ubersuggest SERP snapshot updated 2026-08-06 ranked LegalSoft #1, Toggl #2, LogMyHours #3, Omni Calculator #4, FirmTimer #7, Harvest #10 and Corcava #12.
+- Current 2026-10-07 web review confirmed a mixed SERP: some tools combine utilization, effective rate/value and target gaps; legal-oriented tools also expose 6-minute or other billing increments. Corcava explicitly separates invoice rounding from utilization planning.
+- Canonical decision: this URL owns billable-utilization and simple billable-value/capacity arithmetic from total worked hours plus billable hours. Legal billing increments/rounding, time tracking, invoicing, realization/write-off policy, tax, collections, profitability, payroll and overtime stay outside this URL.
+- `/hours-and-minutes-calculator/` and `/decimal-hours-calculator/` remain time-conversion owners; `/work-hours-calculator/`, `/payroll-hours-calculator/` and `/timesheet-pay-calculator/` remain worked-time/payroll owners.
+
+Baseline / rollback:
+- Pre-remediation production HTML exactly matched GitHub/main blob `9fa1809fa8b154b9e76f60110fb9c5fcae3544f9`.
+- Pre-remediation production JS exactly matched GitHub/main blob `8d2b9e52695498b784f4a33cc894b3dbc5016b31`.
+- Rollback was captured before merge at `/opt/hostedtimesheets/rollback-billable-hours-20261007/`.
+- Rollback HTML SHA-256: `592316e51875063e7848f2729b5d8fdca6825253436b0181e02aa741eb7ff45a`; exact blob `9fa1809fa8b154b9e76f60110fb9c5fcae3544f9`.
+- Rollback JS SHA-256: `9190f752a556b33ebbf76043c3695f432fcafbb44620e37a76d2db7a1dfd726c`; exact blob `8d2b9e52695498b784f4a33cc894b3dbc5016b31`.
+
+Product / calculation:
+- Replaced silent blank/malformed/negative coercion and silent billable/target clamping with explicit field-level validation.
+- Total worked hours and billable hours are required finite values >= 0; decimal hours remain valid.
+- Billable hours must be <= total worked hours for the same period. Over-limit billable hours are invalid rather than silently capped.
+- Utilization = billable hours ÷ total worked hours × 100 when total worked hours > 0.
+- 0 worked + 0 billable is valid but utilization is N/A because 0 ÷ 0 is undefined.
+- Billing rate is genuinely optional. Blank rate suppresses money metrics; explicit zero is valid; entered rate must be finite and nonnegative.
+- Added billable value and effective billable value per worked hour.
+- Target utilization is genuinely optional. Blank target suppresses target outputs; 0% and 100% are valid; entered target must be finite and within 0–100%.
+- Added target billable hours, signed hours-vs-target, value at target and signed value-vs-target.
+- Invalid optional rate/target leaves independent valid arithmetic visible but suppresses affected outputs and full-result copy.
+- Currency changes formatting only and performs no FX conversion.
+- Added copyable reproducible results, live status, 8 schema-matched FAQs, clearer denominator/money boundaries and page-local mobile containment.
+- Example: 45 worked / 28 billable / $65 rate / 70% target => 62.2% utilization, 17.00 non-billable hours, $1,820 billable value, $40.44 effective value/worked hour, 31.50 target hours, −3.50 hours, $2,047.50 target value and −$227.50 value gap.
+
+Pre-release gate:
+- Final tested hotfix branch head: `d39a575b667d603f8bfce206dca4decc7e962d7c`.
+- Final exact-source parity: VERIFIED 5 / 5 for Billable Hours HTML, JS, HTML test, Chromium test and shared content-audit script.
+- Final merged runtime blobs: HTML `83ecef5253929403b78e0127c0d3088fcc7fbad1`; JS `cc01ad368dbb4e96cff059b081feba9be5b66eaa`.
+- HTML/schema/accessibility contract: PASS.
+- `billable-hours.js` Node syntax: PASS.
+- Exact-source Chromium calculation/UI matrix: PASS, 44 cases across 390px mobile and 1280px desktop; zero runtime exceptions/console errors.
+- Matrix covers defaults, decimal hours, billable=total, billable>total invalid, blank/negative required inputs, zero-hours N/A, blank/zero/invalid rate, blank/0/100/invalid target, currency/no-FX, worked example, copy/reset, canonical/scope and overflow.
+- Final page content audit: PASS, 0 hard failures — 1,164 main-content words, 17 H2/H3 headings, 15.1-word average sentence, 56-word maximum paragraph, passive heuristic 5.2 / 1,000 and 8 visible FAQs.
+- Repository-wide audit still reports the same 8 hard-rule failures on other queued/unremediated pages; Billable Hours itself is PASS.
+- GitHub Actions PR #105 run #99 and PR #106 run #102 failed with zero executable steps. No GitHub CI PASS is claimed; exact-source ZT evidence supplied the release gate.
+
+Production / CDN verification:
+- Production origin HTML SHA-256: `5ae636eb2871685bbcf87dc84f64909131ebde06d568a6e94c7d5865366308ec`; blob `83ecef5253929403b78e0127c0d3088fcc7fbad1`.
+- Production origin JS SHA-256: `c1140bfd8bc242403c87a23e576b4d99697597650950a08debdba0b7e30c2041`; blob `cc01ad368dbb4e96cff059b081feba9be5b66eaa`.
+- Origin runtime blobs exactly match merged GitHub/main.
+- Public page: HTTP 200, Cloudflare `DYNAMIC`, Last-Modified 2026-10-07 11:08:54 UTC, self-canonical, schema `dateModified` 2026-10-07, effective-value and target-value metrics, Copy Result, 8 FAQs and explicit no-FX language.
+- Public runtime URL is `/assets/js/billable-hours.js?v=20261007-remediation2`; its fetched Git blob `cc01ad368dbb4e96cff059b081feba9be5b66eaa` exactly matches merged GitHub/main and origin.
+- Release verification caught a stale-CDN asset before DONE: `remediation1` had been publicly fetched before the new origin JS write and continued serving the old JS blob. PR #106 moved the page to the verified fresh `remediation2` cache key. This was fixed before completion.
+- Cloudflare Rocket Loader rewrites script tags in raw public HTML. A true-public 390x844 Chromium render returned code 0 and showed `remediation2` in the rendered DOM with Rocket Loader's inert script types/loader wrapper removed, proving the CDN loader executed.
+- The actual fetched production HTML + exact fetched public JS, after normalizing only the verified Rocket Loader wrapper, passed the same 44-case mobile/desktop Chromium matrix.
+- No new canonical URL was introduced and no sitemap change was required.
+
+Deployment behavior:
+- PR #104 had auto-synchronized production early, but PRs #105/#106 did not update the origin before post-merge checks. Merge-triggered production sync is therefore possible but not guaranteed.
+- Permanent release rule: preserve rollback before merge; verify post-merge origin against merged `main`; manually deploy only exact tested files when origin differs.
+- Permanent CDN rule: do not prefetch a new versioned asset URL before its origin bytes are written; if this occurs, use a fresh cache key after origin verification.
 
 ### Hours & Minutes Calculator `/hours-and-minutes-calculator/` — VERIFIED release
 
@@ -850,39 +915,38 @@ Existing same-day research remains available for future explicitly approved sing
 
 Queue is traffic-first, not permanent. Revalidate Ubersuggest + current SERP + cannibalization immediately before each page starts; move a page only when fresh evidence materially changes the opportunity or a production/policy defect makes it urgent.
 
-1. `/billable-hours-calculator/` — 480 volume, $9.75 CPC, SD 18. Lower volume but high-value business intent.
-2. `/time-off-tracker/` — 590 volume, $76.96 reported CPC, SD 29. CPC is unusually high and must be treated cautiously/revalidated.
-3. `/payroll-hours-calculator/` — 9,900 volume, $6.90 CPC, SD 50. Strong value but materially harder SERP.
-4. `/salary-to-hourly-calculator/` — 49,500 volume, $0.88 CPC, SD 59. Large demand but high difficulty.
-5. `/how-to-calculate-hours-worked/` — 2,400 volume, $4.18 CPC, SD 35. Supporting guide for the hours cluster.
-6. `/timesheet-calculator-with-lunch/` — 2,900 volume, $8.58 CPC, SD 50.
-7. `/biweekly-timesheet-calculator/` — 1,300 volume, $6.31 CPC, SD 33.
-8. `/biweekly-pay-calculator/` — 4,400 volume, $3.74 CPC, SD 59.
-9. `/how-to-calculate-pto-accrual/` — 320 volume, $0.23 CPC, SD 24. Supports PTO topical authority.
-10. `/weekly-timesheet-calculator/` — 260 volume, $2.42 CPC, SD 48.
-11. `/how-to-calculate-time-card/` — 210 volume, $3.17 CPC, SD 52.
-12. `/minutes-to-decimal-hours/` — 170 volume, $0 CPC, SD 43.
-13. `/timesheet-pay-calculator/` — 30 volume, $3.28 CPC, SD 52. Low direct demand; must justify distinct intent before expansion.
-14. `/pto-accrual-based-on-hours-worked/` — 10 volume, $0 CPC, SD 12. Low direct demand; cannibalization with PTO Accrual must be reviewed before remediation.
-15. `/time-card-hours-with-lunch-break/` — exact-match query currently reports 0 volume. Revalidate broader semantic cluster before investing.
-16. `/about/` — trust/methodology page; traffic is secondary.
-17. `/contact/` — trust/support page.
-18. `/privacy/` — compliance/trust page; promote earlier only if policy audit finds an issue.
-19. `/terms/` — compliance/trust page; promote earlier only if policy audit finds an issue.
-20. `/disclaimer/` — compliance/trust page; promote earlier only if policy audit finds an issue.
+1. `/time-off-tracker/` — 590 volume, $76.96 reported CPC, SD 29. CPC is unusually high and must be treated cautiously/revalidated.
+2. `/payroll-hours-calculator/` — 9,900 volume, $6.90 CPC, SD 50. Strong value but materially harder SERP.
+3. `/salary-to-hourly-calculator/` — 49,500 volume, $0.88 CPC, SD 59. Large demand but high difficulty.
+4. `/how-to-calculate-hours-worked/` — 2,400 volume, $4.18 CPC, SD 35. Supporting guide for the hours cluster.
+5. `/timesheet-calculator-with-lunch/` — 2,900 volume, $8.58 CPC, SD 50.
+6. `/biweekly-timesheet-calculator/` — 1,300 volume, $6.31 CPC, SD 33.
+7. `/biweekly-pay-calculator/` — 4,400 volume, $3.74 CPC, SD 59.
+8. `/how-to-calculate-pto-accrual/` — 320 volume, $0.23 CPC, SD 24. Supports PTO topical authority.
+9. `/weekly-timesheet-calculator/` — 260 volume, $2.42 CPC, SD 48.
+10. `/how-to-calculate-time-card/` — 210 volume, $3.17 CPC, SD 52.
+11. `/minutes-to-decimal-hours/` — 170 volume, $0 CPC, SD 43.
+12. `/timesheet-pay-calculator/` — 30 volume, $3.28 CPC, SD 52. Low direct demand; must justify distinct intent before expansion.
+13. `/pto-accrual-based-on-hours-worked/` — 10 volume, $0 CPC, SD 12. Low direct demand; cannibalization with PTO Accrual must be reviewed before remediation.
+14. `/time-card-hours-with-lunch-break/` — exact-match query currently reports 0 volume. Revalidate broader semantic cluster before investing.
+15. `/about/` — trust/methodology page; traffic is secondary.
+16. `/contact/` — trust/support page.
+17. `/privacy/` — compliance/trust page; promote earlier only if policy audit finds an issue.
+18. `/terms/` — compliance/trust page; promote earlier only if policy audit finds an issue.
+19. `/disclaimer/` — compliance/trust page; promote earlier only if policy audit finds an issue.
 
 ## Deployment / indexing status
 
 - The global header/navigation shared release, including the iPhone/Safari Tools correction, is deployed across all 34 canonical pages.
 - All 34 live canonical URLs reference the verified `ee22a3c` header CSS and search JS; public asset bytes match origin exactly.
-- Homepage, Time Card, Timesheet Template, Decimal Hours, Salary Increase, Work Hours, Overtime, Clock Out, Military Time, Time Duration, Hourly Wage, PTO Accrual, Salary Bonus and Hours & Minutes strict remediation releases are deployed and VERIFIED live.
-- All fourteen completed pages use existing canonical URLs; no new canonical URL was introduced.
+- Homepage, Time Card, Timesheet Template, Decimal Hours, Salary Increase, Work Hours, Overtime, Clock Out, Military Time, Time Duration, Hourly Wage, PTO Accrual, Salary Bonus, Hours & Minutes and Billable Hours strict remediation releases are deployed and VERIFIED live.
+- All fifteen completed pages use existing canonical URLs; no new canonical URL was introduced.
 - Sitemap remains 34 canonical URLs.
 - No indexing request should be represented as completed unless a write-capable Search Console action is actually executed and verified.
 
 ## Blockers / unknowns
 
-- GitHub Actions: BLOCKED / infrastructure failure. PR #104 run #98 and branch run #96 failed with zero executable steps. Under the permanent contingency rule this is a CI-status blocker, not by itself a work/deployment blocker; ZT/direct evidence is required for production-bound changes.
+- GitHub Actions: BLOCKED / infrastructure failure. PR #106 run #102 and PR #105 run #99 failed with zero executable steps. Under the permanent contingency rule this is a CI-status blocker, not by itself a work/deployment blocker; ZT/direct evidence is required for production-bound changes.
 - The ZT workspace is partial; full-site results from it must not be treated as a complete repository mirror.
 - Standard Lighthouse-container outbound DNS/networking is restricted, but true public Chromium/Lighthouse can be run with an ephemeral host-network container; this method was VERIFIED for the homepage and the shared-header release.
 - Immediate public Lighthouse scores after the header release were high-variance, so short-run public lab scores are not treated as causal evidence; deterministic isolated A/B performance passed. Fresh field CWV impact remains UNKNOWN until real field data is available.
@@ -890,16 +954,17 @@ Queue is traffic-first, not permanent. Revalidate Ubersuggest + current SERP + c
 
 ## Technical debt
 
-- Merge-triggered production synchronization is now VERIFIED; preserve rollback before merge on future releases.
-- Repository-wide content-quality audit currently has 8 hard-rule failures on other queued/unremediated pages; Hours & Minutes, Salary Bonus and PTO Accrual pass their exact page audits. Resolve the remaining failures one page at a time under the existing queue rule.
+- Merge-triggered production synchronization is non-deterministic: PR #104 auto-synced early, while PRs #105/#106 required manual exact-file deployment after post-merge origin checks. Preserve rollback before merge and verify origin every time.
+- Do not prefetch a new immutable/versioned public asset URL before the corresponding origin bytes are deployed; an early fetch can seed a stale CDN object. If contaminated, move to a fresh cache key only after origin verification.
+- Repository-wide content-quality audit currently has 8 hard-rule failures on other queued/unremediated pages; Billable Hours, Hours & Minutes, Salary Bonus and PTO Accrual pass their exact page audits. Resolve the remaining failures one page at a time under the existing queue rule.
 - Restore GitHub Actions as the normal primary CI runner when quota/capacity returns; keep ZT MCP as the permanent contingency path for future GitHub-side infrastructure failures.
 - Correct private-repo authentication/bootstrap if the ZT workspace is expected to become a full authoritative checkout.
 - Continue page-specific remediation only; do not batch unrelated calculator/content changes.
 
 ## In progress
 
-No page is currently in implementation. Hours & Minutes is complete. 20 of the 34 sitemap pages remain for strict page-by-page remediation.
+No page is currently in implementation. Billable Hours is complete. 19 of the 34 sitemap pages remain for strict page-by-page remediation.
 
 ## NEXT ACTION
 
-Wait for explicit user approval before starting queue item #1: `/billable-hours-calculator/`. Revalidate its keyword/semantic map, current SERP/competitor gap, current functionality, billable-vs-nonbillable assumptions, rate/invoice arithmetic boundary and cannibalization with Hours & Minutes, Timesheet Pay and payroll pages before implementation. Then preserve rollback before merge, remediate, test, merge, verify the merge-triggered production sync, verify live and update this state before starting queue item #2.
+Wait for explicit user approval before starting queue item #1: `/time-off-tracker/`. Revalidate its keyword/semantic map, current SERP/competitor gap, current functionality, PTO/time-off tracking assumptions, privacy/local-storage behavior, legal/HR boundary and cannibalization with PTO Accrual pages before implementation. Treat the previously reported $76.96 CPC as unusually high and revalidate it before using it in prioritization. Then preserve rollback before merge, remediate, test, merge, verify post-merge origin rather than assuming auto-sync, verify live/CDN runtime and update this state before starting queue item #2.
