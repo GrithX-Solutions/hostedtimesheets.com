@@ -128,5 +128,5 @@ try{
 } finally {
   try{ws.close()}catch{}
   chrome.kill("SIGTERM");server.close();
-  await rm(userDir,{recursive:true,force:true});
+
 }
