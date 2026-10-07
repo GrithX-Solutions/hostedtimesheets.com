@@ -321,3 +321,25 @@ Decision:
 - Blank/malformed required values and out-of-range values must surface explicit validation; do not silently clamp or coerce them into different valid values. Explicit zero hourly wage remains valid.
 - Keep reverse annual-salary conversion on `/salary-to-hourly-calculator/`, pay-period-specific conversion on `/biweekly-pay-calculator/`, timesheet-derived pay on `/timesheet-pay-calculator/`, and focused overtime scenarios on `/overtime-calculator/`.
 - Do not add tax, withholding, filing-status, take-home-pay, employment-classification or jurisdiction-specific payroll logic to this URL without separate intent and policy justification.
+
+
+## 2026-10-07 — PTO Accrual owns general multi-method accrual and balance arithmetic
+
+Fresh U.S. demand, SERP review and competitor analysis confirm that the general PTO Accrual page should own multi-method PTO/vacation accrual and balance projection while specialist hours-worked and explanatory intents remain separate.
+
+Evidence:
+- Ubersuggest U.S. `pto accrual calculator`: 4,400 monthly searches, $9.62 CPC, SD 12.
+- Ubersuggest U.S. `pto calculator`: 5,400 monthly searches, $7.25 CPC, SD 21.
+- Ubersuggest U.S. `accrued pto calculator`: 4,400 monthly searches, $9.62 CPC, SD 15.
+- Ubersuggest U.S. `vacation accrual calculator`: 480 monthly searches, $3.05 CPC, SD 14.
+- Current SERPs mix established HR/payroll brands with low-authority specialist calculators and commonly expose annual allowance, pay-period counts, starting balance, usage, caps, hours-to-days conversion and projection details.
+
+Decision:
+- Keep `/pto-accrual-calculator/` as the canonical owner for general PTO/vacation accrual and balance arithmetic.
+- Support four user-supplied arithmetic modes: per eligible hour worked, per eligible pay period, annual allowance spread across eligible periods, and fixed/front-loaded PTO hours.
+- Balance arithmetic is `current balance + carryover + earned PTO − used PTO`. A positive final-balance cap is modeled only as an arithmetic ceiling on the displayed projection; the calculator does not decide whether accrual stops at the cap or whether excess hours are forfeited.
+- PTO-hours-to-workdays conversion uses the user-entered normal hours per workday. It does not determine scheduled workday length.
+- Keep `/pto-accrual-based-on-hours-worked/` as the specialist owner for hours-worked accrual intent, `/how-to-calculate-pto-accrual/` as the explanatory methodology guide, and `/time-off-tracker/` as the balance-organization workflow.
+- Do not add state/country entitlement logic, payout/cash-value logic, waiting-period decisions, carryover/forfeiture decisions, eligibility classification, or rules deciding which hours/pay periods qualify.
+- Blank/malformed required inputs and invalid ranges must surface explicit validation and suppress stale results rather than being silently clamped or coerced.
+- Negative projected PTO remains an arithmetic output when usage exceeds the entered available balance; whether a policy permits negative PTO remains outside the calculator.
