@@ -55,7 +55,7 @@ for error_id in (
 
 json_ld = [
     json.loads(block)
-    for block in re.findall(r'<script type="application/ld\\+json">(.*?)</script>', source, re.S)
+    for block in re.findall(r'<script type="application/ld\+json">(.*?)</script>', source, re.S)
 ]
 webpage = next(item for item in json_ld if isinstance(item, dict) and item.get("@type") == "WebPage")
 app = next(item for item in json_ld if isinstance(item, dict) and item.get("@type") == "WebApplication")
