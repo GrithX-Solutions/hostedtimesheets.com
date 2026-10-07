@@ -301,3 +301,23 @@ Decision:
 - Keep seconds precision, decimal hours, total units, Start/End = now, Swap and copy output in scope.
 - Keep add/subtract-known-duration arithmetic on `/hours-and-minutes-calculator/`, repeated work-shift/pay arithmetic on `/work-hours-calculator/`, projected finish time on `/clock-out-time-calculator/`, and punch/timesheet workflows on their specialist URLs.
 - Do not add timezone/UTC/DST-aware elapsed-time conversion, payroll rounding, countdown or multi-interval timesheet modes to this URL without separate intent evidence.
+
+
+## 2026-10-07 — Hourly Wage owns gross hourly-rate to recurring-pay intent
+
+Fresh U.S. keyword and SERP research confirms that the Hourly Wage page should remain a gross-pay conversion utility rather than expanding into tax, withholding or reverse-salary workflows.
+
+Evidence:
+- Ubersuggest U.S. `hourly wage calculator`: 18,100 monthly searches, ~$1.94 CPC, SD 19.
+- Ubersuggest U.S. `hourly pay calculator`: 8,100 monthly searches, ~$2.23 CPC, SD 16.
+- Ubersuggest U.S. `hourly to salary calculator`: 49,500 monthly searches, ~$1.13 CPC, SD 56; higher demand but materially harder and broader intent.
+- The current SERP mixes gross conversion tools with paycheck/tax calculators, so matching every SERP feature would blur the site's legal/payroll boundary rather than improve intent fit.
+
+Decision:
+- Keep `/hourly-wage-calculator/` as the canonical owner for hourly wage/hourly pay to daily, weekly, biweekly, average monthly and annual gross-pay equivalents.
+- Preserve user-entered regular hours, paid workweeks, workdays, currency formatting and optional overtime assumptions.
+- Currency selection changes output formatting only; it does not perform foreign-exchange conversion.
+- Annual overtime assumes the entered overtime hours repeat across each paid workweek. The calculator does not decide overtime eligibility or the legally required multiplier.
+- Blank/malformed required values and out-of-range values must surface explicit validation; do not silently clamp or coerce them into different valid values. Explicit zero hourly wage remains valid.
+- Keep reverse annual-salary conversion on `/salary-to-hourly-calculator/`, pay-period-specific conversion on `/biweekly-pay-calculator/`, timesheet-derived pay on `/timesheet-pay-calculator/`, and focused overtime scenarios on `/overtime-calculator/`.
+- Do not add tax, withholding, filing-status, take-home-pay, employment-classification or jurisdiction-specific payroll logic to this URL without separate intent and policy justification.
