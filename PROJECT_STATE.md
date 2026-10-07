@@ -1,6 +1,6 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-07T16:18:14+05:00
+Last verified: 2026-10-07T16:21:10+05:00
 
 ## Objective
 
@@ -97,6 +97,7 @@ Deployment behavior:
 - PR #104 had auto-synchronized production early, but PRs #105/#106 did not update the origin before post-merge checks. Merge-triggered production sync is therefore possible but not guaranteed.
 - Permanent release rule: preserve rollback before merge; verify post-merge origin against merged `main`; manually deploy only exact tested files when origin differs.
 - Permanent CDN rule: do not prefetch a new versioned asset URL before its origin bytes are written; if this occurs, use a fresh cache key after origin verification.
+- Temporary Billable Hours gate/public/cache-probe files were removed after verification; the tested rollback directory remains preserved.
 
 ### Hours & Minutes Calculator `/hours-and-minutes-calculator/` — VERIFIED release
 
