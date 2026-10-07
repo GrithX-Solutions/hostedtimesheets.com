@@ -70,7 +70,7 @@ assert "Negative balances stay visible" in source
 assert "does not convert existing values" in source
 assert "local browser storage" in source
 assert "does not submit those values to Hosted Timesheets" in source
-assert "does not calculate PTO accrual automatically" in source
+assert "Does this tracker calculate PTO accrual automatically?" in source
 assert "/pto-accrual-calculator/" in source
 assert "/hours-and-minutes-calculator/" in source
 assert "Negative balances are shown as zero" not in source
