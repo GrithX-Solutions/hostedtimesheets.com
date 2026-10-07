@@ -343,3 +343,28 @@ Decision:
 - Do not add state/country entitlement logic, payout/cash-value logic, waiting-period decisions, carryover/forfeiture decisions, eligibility classification, or rules deciding which hours/pay periods qualify.
 - Blank/malformed required inputs and invalid ranges must surface explicit validation and suppress stale results rather than being silently clamped or coerced.
 - Negative projected PTO remains an arithmetic output when usage exceeds the entered available balance; whether a policy permits negative PTO remains outside the calculator.
+
+
+## 2026-10-07 — Salary Bonus owns gross base-salary + bonus and target-compensation intent
+
+Fresh U.S. demand and SERP review confirm that `/salary-calculator-with-bonus/` should remain a gross compensation arithmetic tool rather than expanding into bonus-tax, take-home-pay or full total-compensation modeling.
+
+Evidence:
+- Ubersuggest U.S. `salary calculator with bonus`: 2,400 monthly searches, $8.23 CPC, SD 6.
+- Ubersuggest U.S. `salary bonus calculator`: 2,400 monthly searches, $7.81 CPC, SD 47.
+- Ubersuggest U.S. `bonus calculator`: 5,400 monthly searches, SD 46.
+- Ubersuggest U.S. `total compensation calculator`: 880 monthly searches, $6.65 CPC, SD 62.
+- The exact-query SERP mixes gross salary/bonus arithmetic with bonus-tax/paycheck tools, while broader total-compensation tools commonly add equity, benefits and retirement components.
+- Calculator Academy's bonus-percentage page was reported by Ubersuggest at PA 50 with 874 backlinks / 340 referring domains; several newer specialist competitor pages had no page-level Ubersuggest data, so their authority remains UNKNOWN.
+
+Decision:
+- Keep `/salary-calculator-with-bonus/` as the canonical owner for gross base salary plus annual bonus arithmetic.
+- Support three arithmetic modes: percentage of base salary, fixed annual bonus and target total compensation.
+- Target mode solves `required bonus = target total compensation − base annual salary`; target cannot be below base salary.
+- When base salary is greater than zero, effective bonus percentage is `annual bonus ÷ base salary × 100`. When base salary is zero, fixed/target dollar bonus arithmetic can remain valid but the percentage relative to base salary is N/A.
+- Percentage values above 100% remain mathematically valid; the calculator must not invent a compensation-policy ceiling.
+- Monthly, biweekly, weekly and hourly figures are gross arithmetic equivalents, not predictions of bonus payout timing.
+- Currency selection changes formatting and displayed currency symbol only; it does not perform FX conversion.
+- Keep permanent base-salary raises on `/salary-increase-calculator/`, salary-only hourly conversion on `/salary-to-hourly-calculator/`, hourly-wage conversion on `/hourly-wage-calculator/`, and paycheck-frequency conversion on `/biweekly-pay-calculator/`.
+- Do not add bonus tax, supplemental withholding, take-home pay, commissions, equity/RSUs, benefits, retirement match, vesting, bonus eligibility, payout-schedule or jurisdiction-specific payroll logic to this URL without separate intent and policy evidence.
+- Invalid required inputs must surface explicit validation and suppress stale results; do not silently clamp or coerce values into different valid inputs.
