@@ -391,3 +391,40 @@ Decision:
 - Keep start/end clock-time, AM/PM and cross-midnight endpoint logic on `/time-duration-calculator/` and work-shift/break logic on `/work-hours-calculator/`.
 - Keep reverse decimal-hours conversion on `/decimal-hours-calculator/` and the chart/formula guide on `/minutes-to-decimal-hours/`.
 - Do not add overtime eligibility, payroll rounding, tax/withholding, billing-policy, compensability, break-entitlement or jurisdiction-specific logic to this URL without separate intent and policy evidence.
+
+
+## 2026-10-07 — Billable Hours owns utilization and billable-value planning from worked-hour totals
+
+Fresh U.S. demand, SERP and competitor evidence confirms that `/billable-hours-calculator/` should own transparent billable-utilization and simple billable-value/capacity arithmetic from a defined worked-hours period.
+
+Evidence:
+- Ubersuggest U.S. `billable hours calculator`: 480 monthly searches, $9.75 CPC, SD 18.
+- Ubersuggest U.S. `calculate billable hours`: 590 monthly searches, $10.66 CPC, SD 23.
+- Ubersuggest U.S. `billable hours`: 2,400 monthly searches, $0.22 CPC, SD 37.
+- Ubersuggest U.S. `billable vs non billable hours`: 110 monthly searches, SD 23.
+- Ubersuggest exact-query SERP snapshot updated 2026-08-06 ranked LegalSoft #1, Toggl #2, LogMyHours #3, Omni Calculator #4, FirmTimer #7, Harvest #10 and Corcava #12.
+- Current 2026-10-07 competitor review shows that the SERP mixes utilization/value tools with legal billing-increment tools. Current examples expose combinations of utilization, non-billable time, effective value/rate and target gaps; several legal-oriented tools also expose 6-minute or other billing increments.
+
+Decision:
+- Keep `/billable-hours-calculator/` as the canonical owner for billable hours as a subset of total worked hours for the same period.
+- Use total worked hours as this calculator's utilization denominator and state that denominator explicitly.
+- Core formulas: non-billable hours = total worked hours − billable hours; utilization = billable hours ÷ total worked hours × 100 when total worked hours > 0.
+- When total worked hours = 0 and billable hours = 0, utilization is N/A because 0 ÷ 0 is undefined.
+- Billable hours greater than total worked hours are invalid and must never be silently capped.
+- Billing rate is optional. Blank rate is valid; if entered it must be finite and nonnegative.
+- Optional money arithmetic: billable value = billable hours × rate; effective value per worked hour = billable value ÷ total worked hours when the denominator is positive.
+- Target utilization is optional and, if entered, must be from 0% through 100%. Target hours = total worked hours × target%; signed hours/value deltas compare current arithmetic with that entered scenario.
+- Currency selection changes formatting only and performs no FX conversion.
+- Keep billing increments, 6-minute/tenth-hour rounding policy, time-entry tracking, invoice generation, realization/write-off policy, tax, collections, profitability, payroll and overtime outside this URL unless separate evidence justifies a distinct canonical intent.
+
+## 2026-10-07 — Production sync is non-deterministic; versioned asset URLs must not be prefetched before origin writes
+
+Release behavior across PRs #104–#106 proves that merging to `main` may synchronize production early, but it is not guaranteed to do so on every merge.
+
+Decision:
+- Preserve the exact live rollback snapshot before every production-bound merge.
+- After merge, always verify production-origin blobs against merged `main`; never assume either automatic sync or manual-only deployment.
+- If origin differs, deploy only the exact tested files and re-verify origin hashes.
+- Do not request/prefetch a newly introduced immutable/versioned asset URL through the public CDN before the corresponding origin asset has been written. During the Billable Hours release, `remediation1` was requested while origin still held the old JS and Cloudflare served that stale object after the HTML changed.
+- If a versioned asset URL is contaminated by an early fetch, use a fresh cache key only after verifying the new origin bytes. Billable Hours moved to `/assets/js/billable-hours.js?v=20261007-remediation2`.
+- Cloudflare Rocket Loader can rewrite public HTML script tags. For public verification, distinguish origin-byte parity from CDN-transformed HTML and verify the rendered live DOM/runtime rather than expecting HTML byte equality.
