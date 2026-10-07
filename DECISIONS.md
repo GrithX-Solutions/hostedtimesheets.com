@@ -428,3 +428,47 @@ Decision:
 - Do not request/prefetch a newly introduced immutable/versioned asset URL through the public CDN before the corresponding origin asset has been written. During the Billable Hours release, `remediation1` was requested while origin still held the old JS and Cloudflare served that stale object after the HTML changed.
 - If a versioned asset URL is contaminated by an early fetch, use a fresh cache key only after verifying the new origin bytes. Billable Hours moved to `/assets/js/billable-hours.js?v=20261007-remediation2`.
 - Cloudflare Rocket Loader can rewrite public HTML script tags. For public verification, distinguish origin-byte parity from CDN-transformed HTML and verify the rendered live DOM/runtime rather than expecting HTML byte equality.
+
+
+## 2026-10-07 — Time Off Tracker owns personal PTO/leave balance reconciliation
+
+Fresh U.S. demand, SERP review and competitor analysis confirm that `/time-off-tracker/` should remain a no-signup personal/reconciliation tool rather than expanding into an HRIS, approval workflow or automatic accrual-policy engine.
+
+Evidence:
+- Ubersuggest U.S. `time off tracker`: 590 monthly searches, $76.96 CPC, SD 29.
+- Ubersuggest U.S. `pto tracker`: 720 monthly searches, $69.08 CPC, SD 25.
+- Ubersuggest U.S. `vacation tracker`: 2,400 monthly searches, $13.36 CPC, SD 31.
+- Ubersuggest U.S. `leave tracker`: 590 monthly searches, $38.01 CPC, SD 26.
+- Current SERPs are dominated by SaaS/team-management tools, with some current browser-local/no-signup competitors. The unusually high CPC values are advertiser metrics, not revenue forecasts.
+
+Decision:
+- Keep `/time-off-tracker/` as the canonical owner for manual balance reconciliation across PTO/vacation, sick, personal and other leave categories.
+- Core per-category arithmetic is `current = opening + earned - used` and `available after scheduled = current - scheduled`.
+- Calculated negative balances remain signed and visible; do not silently clamp them to zero.
+- Track category-aware shortfalls separately so positive balances in other leave banks cannot hide a deficit.
+- Support one user-selected unit for the whole tracker: Hours or Days. Changing the unit label never converts existing values and the tool never assumes hours per workday.
+- Numeric planning inputs may be blank (treated as zero) or finite nonnegative decimals. Entered negative values are invalid; calculated negative balances are valid arithmetic.
+- Persistence is opt-in only. `Save in this browser` stores the selected unit and fixed category values in local browser storage on the current device; `Clear saved data` removes that local copy. Resetting the visible tracker does not silently delete a previously saved copy.
+- Keep automatic accrual arithmetic on `/pto-accrual-calculator/` and supporting PTO pages.
+- Do not add entitlement, eligibility, carryover, cap, forfeiture, approval, statutory-leave, payroll-treatment or jurisdiction-specific HR logic to this URL.
+- Copy/print/CSV outputs are planning exports, not authoritative company records.
+
+## 2026-10-07 — Active production root is /home/hostedtimesheets.com/public_html
+
+Time Off release verification identified and independently re-verified the real public topology.
+
+Verified topology:
+- Container: `hostedtimesheets-preview`.
+- Host bind mount: `/home/hostedtimesheets.com/public_html`.
+- Container destination: `/usr/share/nginx/html`.
+- Mount mode: read-only in the container.
+- `/opt/hostedtimesheets/site` is not the active public document root and may be stale; it must not be used to claim deployment state.
+
+This supersedes earlier deployment inferences that treated `/opt/hostedtimesheets/site` as the verified production mount.
+
+Permanent release rule:
+- Preserve rollback from the true active root before any production-bound change.
+- After merge, compare the exact tested Git blobs with `/home/hostedtimesheets.com/public_html`; deploy only exact tested files when they differ.
+- Verify public CDN bytes only after the active origin is correct.
+- Do not prefetch a new versioned asset URL before the active origin contains its intended bytes. If a cache key is contaminated, move to a fresh key only after origin verification.
+- Cloudflare Rocket Loader may transform raw public HTML script tags; verify both fetched asset identity and the rendered live DOM/runtime.
