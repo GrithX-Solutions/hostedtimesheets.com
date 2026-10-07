@@ -7,7 +7,7 @@ import re
 ROOT = Path(__file__).resolve().parents[1]
 source = (ROOT / "hours-and-minutes-calculator" / "index.html").read_text()
 
-assert len(re.findall(r"<h1\\b", source, re.I)) == 1
+assert len(re.findall(r"<h1\b", source, re.I)) == 1
 assert "<h1>Hours & Minutes Calculator</h1>" in source
 assert '<link rel="canonical" href="https://hostedtimesheets.com/hours-and-minutes-calculator/">' in source
 assert '<meta name="robots" content="index,follow,max-image-preview:large">' in source
