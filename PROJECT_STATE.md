@@ -1,6 +1,6 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-07T19:51:53+05:00
+Last verified: 2026-10-07T19:55:29+05:00
 
 ## Objective
 
@@ -92,6 +92,7 @@ Production / CDN verification:
 - The actual fetched production HTML + exact fetched public JS, after normalizing only the verified Cloudflare Rocket Loader wrapper, passed the same 36-case Chromium matrix.
 - PR #108 moved the runtime from contaminated `remediation1` to fresh `remediation2` only after the true active origin was corrected.
 - No new canonical URL was introduced and no sitemap change was required.
+- Temporary Time Off gate/public/baseline artifacts were removed after verification; the active-public rollback remains preserved.
 
 ### Billable Hours Calculator `/billable-hours-calculator/` — VERIFIED release
 
