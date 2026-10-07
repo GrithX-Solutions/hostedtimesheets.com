@@ -36,7 +36,7 @@ for token in (
     'id="bh-copy"',
     'id="bh-example"',
     'id="bh-reset"',
-    'billable-hours.js?v=20261007-remediation1',
+    'billable-hours.js?v=20261007-remediation2',
 ):
     assert token in source, token
 
