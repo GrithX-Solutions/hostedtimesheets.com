@@ -77,12 +77,6 @@ try{
 
   await setValue("#sb-weeks","52");await setValue("#sb-mode","percent","change");await setValue("#sb-percent","10");await setValue("#sb-currency","GBP","change");s=await snap();
   check(s.total.includes("66,000.00")&&s.total.includes("£")&&s.bonus.includes("6,000.00"),"32 currency formatting");
-  check(document===undefined,"");
-} catch(e) {
-  if(String(e.message).includes("document is not defined")===false) throw e;
-}
-
-try{
   await setValue("#sb-currency","USD","change");await click("#sb-example");s=await snap();
   check(s.mode==="percent"&&s.total.includes("66,000.00")&&s.pct==="10.00%","33 example");
   await evaluate('Object.defineProperty(navigator,"clipboard",{value:{writeText:async value=>{window.__copied=value;}},configurable:true})');
