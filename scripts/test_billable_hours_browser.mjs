@@ -33,7 +33,7 @@ try{
   check(s.value.includes("3,000.00")&&s.effective.includes("75.00"),"2 default value/effective");
   check(s.targetHours==="30.00"&&s.hoursDelta==="+0.00 hrs","3 default target hours");
   check(s.targetValue.includes("3,000.00")&&s.valueDelta.includes("+")&&s.valueDelta.includes("0.00"),"4 default target value");
-  check(s.formula.includes("30.00 ÷ 40.00 × 100 = 75.0%")&&s.status.includes("no FX conversion"),"5 default formula/status");
+  check(s.formula.includes("30.00 ÷ 40.00 × 100 = 75.0%")&&s.status.includes("does not perform FX conversion"),"5 default formula/status");
   check(s.overflow===false,"6 mobile overflow");
 
   await setValue("#bh-total","37.5");await setValue("#bh-billable","22.25");await setValue("#bh-rate","80");await setValue("#bh-target","60");s=await snap();
@@ -86,7 +86,7 @@ try{
 
   await setValue("#bh-target","75");await setValue("#bh-currency","GBP","change");s=await snap();
   check(s.util==="75.0%"&&s.value.includes("£")&&s.value.includes("3,000.00")&&s.effective.includes("£"),"30 currency formatting only");
-  check(s.status.includes("no FX conversion"),"31 currency status");
+  check(s.status.includes("does not perform FX conversion"),"31 currency status");
 
   await setValue("#bh-currency","USD","change");await click("#bh-example");s=await snap();
   check(s.util==="62.2%"&&s.non==="17.00","32 example utilization");
