@@ -53,7 +53,11 @@
     const minutes=parseWhole(minutesId,minutesErrorId,label+" minutes",{min:0,max:59});
     if(hours===null||minutes===null)return null;
     const total=hours*60+minutes;
-    return Number.isSafeInteger(total)?{hours,minutes,total}:null;
+    if(!Number.isSafeInteger(total)){
+      setField($("#"+hoursId),$("#"+hoursErrorId),label+" hours is too large to calculate safely.");
+      return null;
+    }
+    return {hours,minutes,total};
   }
 
   function parseOptionalRate(){
