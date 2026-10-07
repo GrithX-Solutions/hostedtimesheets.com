@@ -193,7 +193,7 @@ Add / strengthen:
 - eight visible/schema-matched FAQs;
 - page-local `min-width:0` mobile containment;
 - `dateModified` 2026-10-07;
-- versioned runtime `/assets/js/billable-hours.js?v=20261007-remediation1`.
+- versioned runtime `/assets/js/billable-hours.js?v=20261007-remediation2`.
 
 ## Billing / payroll / legal boundary
 
