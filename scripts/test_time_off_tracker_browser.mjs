@@ -113,7 +113,7 @@ try{
   check(seo.faq===8&&seo.rows===4&&seo.errors===16&&seo.unit&&seo.save&&seo.copy&&!seo.employee&&!seo.approval&&!seo.accrual,"31 scope/UI");
   check(seo.runtime.includes("time-off-tracker.js?v=20261007-remediation1"),"32 versioned runtime");
 
-  await setValue('[data-timeoff-row]:nth-child(2) [data-opening]',"5");await setValue('[data-timeoff-row]:nth-child(2) [data-used]',"8");await setValue('[data-timeoff-row]:nth-child(2) [data-scheduled]',"2");
+  await setValue('[data-timeoff-row]:nth-child(2) [data-opening]',"5");await setValue('[data-timeoff-row]:nth-child(2) [data-earned]',"0");await setValue('[data-timeoff-row]:nth-child(2) [data-used]',"8");await setValue('[data-timeoff-row]:nth-child(2) [data-scheduled]',"2");
   r=await row(1);check(r.current==="-3.00 h"&&r.available==="-5.00 h","33 overused category remains signed");
 
   await setValue('[data-timeoff-row]:nth-child(1) [data-opening]',"10");await setValue('[data-timeoff-row]:nth-child(1) [data-used]',"0");await setValue('[data-timeoff-row]:nth-child(1) [data-scheduled]',"0");s=await snap();
