@@ -1,6 +1,6 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-07T16:21:10+05:00
+Last verified: 2026-10-07T19:51:53+05:00
 
 ## Objective
 
@@ -13,25 +13,85 @@ User workflow rule:
 - Do not start the next page until the user explicitly approves it.
 - An explicitly requested shared site-shell component such as the global header/navigation may be treated as one shared release unit across existing pages, but it must not bundle unrelated page content or calculator changes.
 
-GitHub Actions remains BLOCKED by GitHub-side infrastructure/capacity behavior. PR #106 run #102 failed with zero executable job steps, so no GitHub CI PASS is claimed. ZT MCP is the permanent contingency validation/execution path for GitHub-side infrastructure failures. GitHub-side quota/outage/service trouble alone must not stop approved project work; record ZT/direct evidence separately.
+GitHub Actions remains BLOCKED by GitHub-side infrastructure/capacity behavior. Time Off PR #108 run #106 and PR #107 run #104 failed with zero executable job steps, so no GitHub CI PASS is claimed. ZT MCP is the permanent contingency validation/execution path for GitHub-side infrastructure failures. GitHub-side quota/outage/service trouble alone must not stop approved project work; record ZT/direct evidence separately.
 
 ## Source / deployment
 
 - Repository: GrithX-Solutions/hostedtimesheets.com
 - Default branch: main
-- Current deployed production-code commit after Billable Hours remediation/cache fix: `a5ca9edfae11474580ca348c786f5ce42629ec00`. Subsequent docs/state-only continuity commits do not change production bytes.
-- Production: static Nginx site.
-- Deployment synchronization is not deterministic. PR #104 auto-synchronized production before the manual copy step, while PRs #105 and #106 did not update the origin before post-merge verification. Future production-bound releases must preserve rollback before merge, verify post-merge origin blobs against merged `main`, and manually deploy only the exact tested files when origin differs.
-- Verified production mount: `/opt/hostedtimesheets/site` -> `/usr/share/nginx/html`.
+- Current deployed production-code commit after Time Off Tracker remediation/cache fix: `c22f748a616074491e04f3489e9dea142e1531df`. Subsequent docs/state-only continuity commits do not change production bytes.
+- Production: static Nginx site served by container `hostedtimesheets-preview`.
+- VERIFIED active production mount: host `/home/hostedtimesheets.com/public_html` -> container `/usr/share/nginx/html` (`ro`). `/opt/hostedtimesheets/site` is not the active public document root and must not be used to claim deployment state.
+- Preserve rollback from the true active root before production-bound changes. After merge, compare the exact tested Git blobs with `/home/hostedtimesheets.com/public_html`; deploy only exact tested files when they differ, then verify public/CDN behavior.
 - ZT server id: `c59425e31c304e608dac60224a064dbd`.
 - ZT workspace: `hostedtimesheets`.
 - ZT workspace is a partial bootstrap, not an authoritative Git mirror. Exact changed files must be synchronized from GitHub and parity-checked before using it as a release gate.
-- GitHub Actions: BLOCKED / infrastructure failure. PR #106 run #102 (and PR #105 run #99) exposed zero executable steps; no GitHub CI PASS is claimed.
+- GitHub Actions: BLOCKED / infrastructure failure. Time Off PR #108 run #106 and PR #107 run #104 exposed zero executable steps; no GitHub CI PASS is claimed.
 - Public/repository sitemap: 34 canonical URLs.
-- Strict page-by-page remediation completed: 15 / 34 pages.
+- Strict page-by-page remediation completed: 16 / 34 pages.
 - Shared site-shell releases are tracked separately from the page-remediation count.
 
 ## Last completed task
+
+### Time Off Tracker `/time-off-tracker/` — VERIFIED release
+
+PR #107 squash-merged the functional remediation at `a8676814d14fdcf4aaf159a3ad160d2637d91b26`. PR #108 squash-merged the runtime-cache/topology hotfix at `c22f748a616074491e04f3489e9dea142e1531df`. Duplicate PR #109 was closed unmerged after confirming #107/#108 already contained the authoritative release.
+
+Research / ownership:
+- Ubersuggest U.S. `time off tracker`: 590 monthly searches, $76.96 CPC, SD 29.
+- Ubersuggest U.S. `pto tracker`: 720 monthly searches, $69.08 CPC, SD 25.
+- Ubersuggest U.S. `vacation tracker`: 2,400 monthly searches, $13.36 CPC, SD 31.
+- Ubersuggest U.S. `leave tracker`: 590 monthly searches, $38.01 CPC, SD 26.
+- Additional current Ubersuggest terms included `employee time off tracker` 260 volume / $28.855 CPC / SD 13, `paid time off tracker` 720 / $35.11 / SD 24, and `free pto tracker` 170 / $21.23 / SD 20.
+- The $76.96 exact-query CPC remains present in current Ubersuggest data but is treated as an unusually high advertiser metric, not a traffic/revenue forecast.
+- Current SERP/competitor review showed SaaS/team-management dominance plus browser-local/no-signup tools. Canonical decision: this URL owns personal/reconciliation balance tracking; automatic accrual policy remains on PTO Accrual pages and approvals/team calendars remain out of scope.
+
+Baseline / topology / rollback:
+- Pre-remediation active-public HTML blob: `5a71652c65673ff92ee34ec2484214d35a18ca85`; JS blob: `65fd69ee59aaa4fef4a68adaf2ab832e29e347e0`.
+- Pre-remediation live-vs-repo HTML difference was fully reconciled as one editorial heading prefix only; there was no live-only runtime behavior.
+- Release verification discovered the documented `/opt/hostedtimesheets/site` tree was not the true active public root.
+- VERIFIED public container: `hostedtimesheets-preview`.
+- VERIFIED bind mount: host `/home/hostedtimesheets.com/public_html` -> container `/usr/share/nginx/html` read-only.
+- True active-public rollback is preserved under `/opt/hostedtimesheets/rollback-time-off-tracker-20261007/active-public/`.
+- Rollback HTML SHA-256: `bd525397b630d04b96032f2376a373a0f1c5ad7df4eaa76be86ef561232c64fa`; exact blob `5a71652c65673ff92ee34ec2484214d35a18ca85`.
+- Rollback JS SHA-256: `eed2081204b0ee4328c7dbbf05d2646cb0cded64e992146ccb7943512783543e`; exact blob `65fd69ee59aaa4fef4a68adaf2ab832e29e347e0`.
+
+Product / calculation / privacy:
+- Replaced silent input coercion and zero-clamped calculated balances with explicit validation plus signed arithmetic.
+- Per-category formulas: `current balance = opening + earned − used`; `available after scheduled = current − scheduled`.
+- Calculated negative current/available balances remain visible and are not treated as input errors.
+- Added category-aware shortage count and scheduled-shortfall total so a positive leave bank cannot hide a deficit in another category.
+- Added Hours / Days unit mode. Unit selection changes labels only and never converts numbers or assumes hours per workday.
+- All 16 planning inputs accept blank as zero and finite nonnegative decimals; entered negative values surface field errors and suppress totals/save/copy/CSV until fixed.
+- Added explicit opt-in `Save in this browser`, restore and `Clear saved data` using localStorage on the current browser/device.
+- Default tracker use is non-persistent; Reset changes visible values but does not silently delete a saved snapshot.
+- Added copyable summary while preserving print and CSV export.
+- Kept automatic PTO accrual, entitlement, approval, carryover/forfeiture/cap rules, statutory leave and payroll treatment outside this page.
+
+Exact-source gate:
+- Functional tested branch head: `1370a50d231f8d8f9c0b96238b5400d3448a9efe`.
+- Final cache-key hotfix head: `da302799828f7463cd2651e159b7f8b766164d79`.
+- Final GitHub/main gate parity: VERIFIED 5 / 5.
+- Final main blobs: HTML `3d733b02d2570db22c59c882b674e1f793a21af1`; JS `bf5bb58ccaa6c6db575437f9d5a5eec75217fbba`; HTML test `d215685113953274e314012b150b2b4a326c4ddf`; browser test `95ec12a2f8db02da8972f32d3c8120be9640c1d1`; content audit `70f5930c5f374a6f1e7f874288ab3cd8f7bc1556`.
+- HTML/schema/accessibility contract: PASS.
+- `time-off-tracker.js` Node syntax: PASS.
+- Exact-main Chromium calculation/storage/UI matrix: PASS, 36 cases across 390px mobile and 1280px desktop; zero runtime exceptions/console errors.
+- Matrix covers blank/decimal/negative inputs, signed deficits, category shortfalls, hours/days no-conversion behavior, save/restore/reset/clear localStorage semantics, copy, CSV, print, canonical/scope checks and overflow.
+- Page-only content audit: PASS, 0 hard failures / 0 warnings — 1,310 main-content words, 19 H2/H3 headings, 15.8-word average sentence, 48-word maximum paragraph, passive heuristic 7.6 / 1,000 and 8 visible FAQs.
+- Repository-wide content audit now reports 7 hard-rule failures on other queued pages; Time Off itself is PASS.
+- GitHub Actions PR #107 run #104 and PR #108 run #106 failed with zero executable job steps. No GitHub CI PASS is claimed; exact-source ZT evidence supplied the release gate.
+
+Production / CDN verification:
+- Active production HTML SHA-256: `61289cdd5b7e97445ac4c21d302f9db71941869f93e49088b7daa0f814ab5c5b`; blob `3d733b02d2570db22c59c882b674e1f793a21af1`.
+- Active production JS SHA-256: `4d8a7b8ecc513e253011bf3f205b052d562d3db019391d7ad7fe23e3bccbf2c8`; blob `bf5bb58ccaa6c6db575437f9d5a5eec75217fbba`.
+- Active root exactly matches final GitHub/main runtime blobs.
+- Public page: HTTP 200, Cloudflare `DYNAMIC`, Last-Modified 2026-10-07 13:32:48 UTC, self-canonical, schema `dateModified` 2026-10-07, Hours/Days selector, browser-save controls, shortfall metrics, Copy Summary and 8 FAQs.
+- Final public runtime URL: `/assets/js/time-off-tracker.js?v=20261007-remediation2`.
+- Public `remediation2` JS blob `bf5bb58ccaa6c6db575437f9d5a5eec75217fbba` exactly matches active origin and GitHub/main.
+- True-public 390x844 Chromium returned code 0; rendered DOM contained `remediation2`, default 0.00 h balances, unit/save/copy controls and 8 FAQs, with Rocket Loader's temporary wrapper no longer present.
+- The actual fetched production HTML + exact fetched public JS, after normalizing only the verified Cloudflare Rocket Loader wrapper, passed the same 36-case Chromium matrix.
+- PR #108 moved the runtime from contaminated `remediation1` to fresh `remediation2` only after the true active origin was corrected.
+- No new canonical URL was introduced and no sitemap change was required.
 
 ### Billable Hours Calculator `/billable-hours-calculator/` — VERIFIED release
 
@@ -916,38 +976,37 @@ Existing same-day research remains available for future explicitly approved sing
 
 Queue is traffic-first, not permanent. Revalidate Ubersuggest + current SERP + cannibalization immediately before each page starts; move a page only when fresh evidence materially changes the opportunity or a production/policy defect makes it urgent.
 
-1. `/time-off-tracker/` — 590 volume, $76.96 reported CPC, SD 29. CPC is unusually high and must be treated cautiously/revalidated.
-2. `/payroll-hours-calculator/` — 9,900 volume, $6.90 CPC, SD 50. Strong value but materially harder SERP.
-3. `/salary-to-hourly-calculator/` — 49,500 volume, $0.88 CPC, SD 59. Large demand but high difficulty.
-4. `/how-to-calculate-hours-worked/` — 2,400 volume, $4.18 CPC, SD 35. Supporting guide for the hours cluster.
-5. `/timesheet-calculator-with-lunch/` — 2,900 volume, $8.58 CPC, SD 50.
-6. `/biweekly-timesheet-calculator/` — 1,300 volume, $6.31 CPC, SD 33.
-7. `/biweekly-pay-calculator/` — 4,400 volume, $3.74 CPC, SD 59.
-8. `/how-to-calculate-pto-accrual/` — 320 volume, $0.23 CPC, SD 24. Supports PTO topical authority.
-9. `/weekly-timesheet-calculator/` — 260 volume, $2.42 CPC, SD 48.
-10. `/how-to-calculate-time-card/` — 210 volume, $3.17 CPC, SD 52.
-11. `/minutes-to-decimal-hours/` — 170 volume, $0 CPC, SD 43.
-12. `/timesheet-pay-calculator/` — 30 volume, $3.28 CPC, SD 52. Low direct demand; must justify distinct intent before expansion.
-13. `/pto-accrual-based-on-hours-worked/` — 10 volume, $0 CPC, SD 12. Low direct demand; cannibalization with PTO Accrual must be reviewed before remediation.
-14. `/time-card-hours-with-lunch-break/` — exact-match query currently reports 0 volume. Revalidate broader semantic cluster before investing.
-15. `/about/` — trust/methodology page; traffic is secondary.
-16. `/contact/` — trust/support page.
-17. `/privacy/` — compliance/trust page; promote earlier only if policy audit finds an issue.
-18. `/terms/` — compliance/trust page; promote earlier only if policy audit finds an issue.
-19. `/disclaimer/` — compliance/trust page; promote earlier only if policy audit finds an issue.
+1. `/payroll-hours-calculator/` — 9,900 volume, $6.90 CPC, SD 50. Strong value but materially harder SERP.
+2. `/salary-to-hourly-calculator/` — 49,500 volume, $0.88 CPC, SD 59. Large demand but high difficulty.
+3. `/how-to-calculate-hours-worked/` — 2,400 volume, $4.18 CPC, SD 35. Supporting guide for the hours cluster.
+4. `/timesheet-calculator-with-lunch/` — 2,900 volume, $8.58 CPC, SD 50.
+5. `/biweekly-timesheet-calculator/` — 1,300 volume, $6.31 CPC, SD 33.
+6. `/biweekly-pay-calculator/` — 4,400 volume, $3.74 CPC, SD 59.
+7. `/how-to-calculate-pto-accrual/` — 320 volume, $0.23 CPC, SD 24. Supports PTO topical authority.
+8. `/weekly-timesheet-calculator/` — 260 volume, $2.42 CPC, SD 48.
+9. `/how-to-calculate-time-card/` — 210 volume, $3.17 CPC, SD 52.
+10. `/minutes-to-decimal-hours/` — 170 volume, $0 CPC, SD 43.
+11. `/timesheet-pay-calculator/` — 30 volume, $3.28 CPC, SD 52. Low direct demand; must justify distinct intent before expansion.
+12. `/pto-accrual-based-on-hours-worked/` — 10 volume, $0 CPC, SD 12. Low direct demand; cannibalization with PTO Accrual must be reviewed before remediation.
+13. `/time-card-hours-with-lunch-break/` — exact-match query currently reports 0 volume. Revalidate broader semantic cluster before investing.
+14. `/about/` — trust/methodology page; traffic is secondary.
+15. `/contact/` — trust/support page.
+16. `/privacy/` — compliance/trust page; promote earlier only if policy audit finds an issue.
+17. `/terms/` — compliance/trust page; promote earlier only if policy audit finds an issue.
+18. `/disclaimer/` — compliance/trust page; promote earlier only if policy audit finds an issue.
 
 ## Deployment / indexing status
 
 - The global header/navigation shared release, including the iPhone/Safari Tools correction, is deployed across all 34 canonical pages.
 - All 34 live canonical URLs reference the verified `ee22a3c` header CSS and search JS; public asset bytes match origin exactly.
-- Homepage, Time Card, Timesheet Template, Decimal Hours, Salary Increase, Work Hours, Overtime, Clock Out, Military Time, Time Duration, Hourly Wage, PTO Accrual, Salary Bonus, Hours & Minutes and Billable Hours strict remediation releases are deployed and VERIFIED live.
-- All fifteen completed pages use existing canonical URLs; no new canonical URL was introduced.
+- Homepage, Time Card, Timesheet Template, Decimal Hours, Salary Increase, Work Hours, Overtime, Clock Out, Military Time, Time Duration, Hourly Wage, PTO Accrual, Salary Bonus, Hours & Minutes, Billable Hours and Time Off Tracker strict remediation releases are deployed and VERIFIED live.
+- All sixteen completed pages use existing canonical URLs; no new canonical URL was introduced.
 - Sitemap remains 34 canonical URLs.
 - No indexing request should be represented as completed unless a write-capable Search Console action is actually executed and verified.
 
 ## Blockers / unknowns
 
-- GitHub Actions: BLOCKED / infrastructure failure. PR #106 run #102 and PR #105 run #99 failed with zero executable steps. Under the permanent contingency rule this is a CI-status blocker, not by itself a work/deployment blocker; ZT/direct evidence is required for production-bound changes.
+- GitHub Actions: BLOCKED / infrastructure failure. Time Off PR #108 run #106 and PR #107 run #104 failed with zero executable steps. Under the permanent contingency rule this is a CI-status blocker, not by itself a work/deployment blocker; ZT/direct evidence is required for production-bound changes.
 - The ZT workspace is partial; full-site results from it must not be treated as a complete repository mirror.
 - Standard Lighthouse-container outbound DNS/networking is restricted, but true public Chromium/Lighthouse can be run with an ephemeral host-network container; this method was VERIFIED for the homepage and the shared-header release.
 - Immediate public Lighthouse scores after the header release were high-variance, so short-run public lab scores are not treated as causal evidence; deterministic isolated A/B performance passed. Fresh field CWV impact remains UNKNOWN until real field data is available.
@@ -955,17 +1014,18 @@ Queue is traffic-first, not permanent. Revalidate Ubersuggest + current SERP + c
 
 ## Technical debt
 
-- Merge-triggered production synchronization is non-deterministic: PR #104 auto-synced early, while PRs #105/#106 required manual exact-file deployment after post-merge origin checks. Preserve rollback before merge and verify origin every time.
-- Do not prefetch a new immutable/versioned public asset URL before the corresponding origin bytes are deployed; an early fetch can seed a stale CDN object. If contaminated, move to a fresh cache key only after origin verification.
-- Repository-wide content-quality audit currently has 8 hard-rule failures on other queued/unremediated pages; Billable Hours, Hours & Minutes, Salary Bonus and PTO Accrual pass their exact page audits. Resolve the remaining failures one page at a time under the existing queue rule.
+- Previous deployment-sync conclusions derived from `/opt/hostedtimesheets/site` are superseded. Verify and deploy against the true active root `/home/hostedtimesheets.com/public_html` only.
+- Preserve rollback from the active root before merge and verify exact active-origin blobs after merge; do not infer deployment state from the stale `/opt/hostedtimesheets/site` tree.
+- Do not prefetch a new immutable/versioned public asset URL before the active origin bytes are deployed; an early fetch can seed a stale CDN object. If contaminated, move to a fresh cache key only after origin verification.
+- Repository-wide content-quality audit currently has 7 hard-rule failures on other queued/unremediated pages; Time Off, Billable Hours, Hours & Minutes, Salary Bonus and PTO Accrual pass their exact page audits. Resolve the remaining failures one page at a time under the existing queue rule.
 - Restore GitHub Actions as the normal primary CI runner when quota/capacity returns; keep ZT MCP as the permanent contingency path for future GitHub-side infrastructure failures.
 - Correct private-repo authentication/bootstrap if the ZT workspace is expected to become a full authoritative checkout.
 - Continue page-specific remediation only; do not batch unrelated calculator/content changes.
 
 ## In progress
 
-No page is currently in implementation. Billable Hours is complete. 19 of the 34 sitemap pages remain for strict page-by-page remediation.
+No page is currently in implementation. Time Off Tracker is complete. 18 of the 34 sitemap pages remain for strict page-by-page remediation.
 
 ## NEXT ACTION
 
-Wait for explicit user approval before starting queue item #1: `/time-off-tracker/`. Revalidate its keyword/semantic map, current SERP/competitor gap, current functionality, PTO/time-off tracking assumptions, privacy/local-storage behavior, legal/HR boundary and cannibalization with PTO Accrual pages before implementation. Treat the previously reported $76.96 CPC as unusually high and revalidate it before using it in prioritization. Then preserve rollback before merge, remediate, test, merge, verify post-merge origin rather than assuming auto-sync, verify live/CDN runtime and update this state before starting queue item #2.
+Wait for explicit user approval before starting queue item #1: `/payroll-hours-calculator/`. Revalidate its keyword/semantic map, current SERP/competitor gap, current functionality, payroll-hours arithmetic assumptions, rounding/overtime/legal boundary and cannibalization with Work Hours, Timesheet Pay and Overtime pages before implementation. Preserve rollback from the true active root `/home/hostedtimesheets.com/public_html` before merge, test the exact source snapshot, verify active-origin blobs after merge, verify public/CDN runtime and update this state before starting queue item #2.
