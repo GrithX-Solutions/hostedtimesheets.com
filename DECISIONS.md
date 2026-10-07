@@ -368,3 +368,26 @@ Decision:
 - Keep permanent base-salary raises on `/salary-increase-calculator/`, salary-only hourly conversion on `/salary-to-hourly-calculator/`, hourly-wage conversion on `/hourly-wage-calculator/`, and paycheck-frequency conversion on `/biweekly-pay-calculator/`.
 - Do not add bonus tax, supplemental withholding, take-home pay, commissions, equity/RSUs, benefits, retirement match, vesting, bonus eligibility, payout-schedule or jurisdiction-specific payroll logic to this URL without separate intent and policy evidence.
 - Invalid required inputs must surface explicit validation and suppress stale results; do not silently clamp or coerce values into different valid inputs.
+
+
+## 2026-10-07 — Hours & Minutes owns arithmetic on already-known durations
+
+Fresh U.S. keyword/SERP research and live competitor review confirm that `/hours-and-minutes-calculator/` should own arithmetic on durations already expressed as hours plus minutes, not clock-in/clock-out difference or payroll-policy logic.
+
+Evidence:
+- Ubersuggest U.S. `hours and minutes calculator`: 14,800 monthly searches, $1.13 CPC, SD 35.
+- Ubersuggest U.S. `hours minutes calculator`: 14,800 monthly searches, $4.82 CPC, SD 34.
+- Ubersuggest U.S. `time addition calculator`: 18,100 monthly searches, $2.11 CPC, SD 41.
+- Ubersuggest U.S. `add hours and minutes`: 1,900 monthly searches, SD 31.
+- Current exact-query SERPs include established duration calculators plus an AI Overview. Live competitor review shows multiple-duration +/- workflows on leading/specialist tools, while other competitors remain limited to two-duration arithmetic or expand into broader clock/date modes.
+
+Decision:
+- Keep `/hours-and-minutes-calculator/` as the canonical owner for arithmetic on known durations expressed as whole hours plus minute portions.
+- Support convert-one-duration, add-two, subtract-two and multi-duration +/- modes. Multi mode supports up to 10 total durations.
+- Required hours must be whole numbers >= 0. Required minute portions must be whole numbers from 0 through 59. Invalid values must surface explicit field errors and suppress stale duration results rather than being silently clamped or coerced.
+- Signed subtraction remains valid; a larger subtracted duration may produce a negative duration.
+- Optional hourly rate is arithmetic only. Blank rate is valid and suppresses the money estimate; if entered, the rate must be finite and nonnegative.
+- Currency selection changes formatting only and does not perform FX conversion.
+- Keep start/end clock-time, AM/PM and cross-midnight endpoint logic on `/time-duration-calculator/` and work-shift/break logic on `/work-hours-calculator/`.
+- Keep reverse decimal-hours conversion on `/decimal-hours-calculator/` and the chart/formula guide on `/minutes-to-decimal-hours/`.
+- Do not add overtime eligibility, payroll rounding, tax/withholding, billing-policy, compensability, break-entitlement or jurisdiction-specific logic to this URL without separate intent and policy evidence.
