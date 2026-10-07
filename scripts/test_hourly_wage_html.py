@@ -83,7 +83,7 @@ for link in (
     assert link in source
 
 assert "Currency changes output formatting only" in source
-assert "Regular plus overtime hours cannot exceed 168 hours" in source
+assert "regular plus overtime hours cannot exceed 168 hours" in source.lower()
 assert "annual overtime estimate assumes" in source
 assert "taxes, deductions, benefits" in source
 assert 'id="hw-tax-rate"' not in source
