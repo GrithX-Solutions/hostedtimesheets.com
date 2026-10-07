@@ -111,7 +111,7 @@ try{
   const seo=await evaluate('({canonical:document.querySelector(\'link[rel="canonical"]\').href,faq:document.querySelectorAll(".faq details").length,rows:document.querySelectorAll("[data-timeoff-row]").length,errors:document.querySelectorAll("[data-error]").length,unit:!!document.querySelector("#to-unit"),save:!!document.querySelector("#to-save"),copy:!!document.querySelector("#to-copy"),employee:!!document.querySelector("#to-employee"),approval:!!document.querySelector("#to-approval"),accrual:!!document.querySelector("#to-accrual-rate"),runtime:[...document.scripts].find(x=>x.src.includes("time-off-tracker.js"))?.src})');
   check(seo.canonical==="https://hostedtimesheets.com/time-off-tracker/","30 canonical");
   check(seo.faq===8&&seo.rows===4&&seo.errors===16&&seo.unit&&seo.save&&seo.copy&&!seo.employee&&!seo.approval&&!seo.accrual,"31 scope/UI");
-  check(seo.runtime.includes("time-off-tracker.js?v=20261007-remediation1"),"32 versioned runtime");
+  check(seo.runtime.includes("time-off-tracker.js?v=20261007-remediation2"),"32 versioned runtime");
 
   await setValue('[data-timeoff-row]:nth-child(2) [data-opening]',"5");await setValue('[data-timeoff-row]:nth-child(2) [data-earned]',"0");await setValue('[data-timeoff-row]:nth-child(2) [data-used]',"8");await setValue('[data-timeoff-row]:nth-child(2) [data-scheduled]',"2");
   r=await row(1);check(r.current==="-3.00 h"&&r.available==="-5.00 h","33 overused category remains signed");
