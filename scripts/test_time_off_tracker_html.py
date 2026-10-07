@@ -35,7 +35,7 @@ for token in (
     'id="to-copy"',
     'id="to-example"',
     'id="to-reset"',
-    'time-off-tracker.js?v=20261007-remediation1',
+    'time-off-tracker.js?v=20261007-remediation2',
 ):
     assert token in source, token
 
