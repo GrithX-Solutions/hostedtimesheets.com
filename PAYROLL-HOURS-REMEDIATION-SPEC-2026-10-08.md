@@ -56,8 +56,8 @@ If rate is entered:
 `overtime pay = overtime × rate × multiplier` when an overtime scenario is active.
 
 ## Validation
-- Daily hours are required whole numbers >= 0.
-- Daily minutes are required whole numbers 0–59.
+- Daily hours may be blank (treated as zero) or a whole number >= 0.
+- Daily minutes may be blank (treated as zero) or a whole number from 0 through 59.
 - Hourly rate is optional; if entered it must be finite and >= 0.
 - Threshold and multiplier are optional as a pair.
 - Multiplier must be > 0 when entered.
@@ -77,7 +77,7 @@ If rate is entered:
 - One H1, self-canonical, index/follow.
 - WebPage dateModified 2026-10-08.
 - 8 visible FAQs exactly match FAQ schema.
-- Default zero time is valid; optional pay/overtime fields are blank.
+- Default zero time is valid; blank daily cells are valid zero; optional pay/overtime fields are blank.
 - Example = 2,490 minutes = 41.50 hours.
 - Invalid negative hours, fractional hours, minutes >59, negative rate, incomplete threshold/multiplier pair and zero multiplier suppress stale results.
 - Optional rate blank suppresses money estimate.
