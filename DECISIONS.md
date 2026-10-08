@@ -472,3 +472,26 @@ Permanent release rule:
 - Verify public CDN bytes only after the active origin is correct.
 - Do not prefetch a new versioned asset URL before the active origin contains its intended bytes. If a cache key is contaminated, move to a fresh key only after origin verification.
 - Cloudflare Rocket Loader may transform raw public HTML script tags; verify both fetched asset identity and the rendered live DOM/runtime.
+
+
+## 2026-10-08 — Payroll Hours owns verified-duration to decimal-payroll-hour conversion
+
+Fresh U.S. demand and SERP review confirm that `/payroll-hours-calculator/` should remain distinct from Work Hours, Timesheet Pay and Overtime.
+
+Evidence:
+- Ubersuggest U.S. `payroll hours calculator`: 9,900 monthly searches, $6.90 CPC, SD 50.
+- Ubersuggest U.S. `calculate payroll hours`: 14,800 monthly searches, $4.115 CPC, SD 23.
+- Ubersuggest U.S. `payroll calculator hours`: 8,100 monthly searches, $4.445 CPC, SD 19.
+- Ubersuggest U.S. `free payroll hours calculator`: 880 monthly searches, $4.50 CPC, SD 9.
+- Current exact-query SERPs include AI Overview/PAA and a mix of work-hours/time-card calculators, decimal conversion, overtime/pay estimators and lower-authority specialist tools.
+
+Decision:
+- Keep `/payroll-hours-calculator/` as the canonical owner for already-verified daily durations entered as hours plus minutes, exact minute aggregation, decimal payroll-hour conversion, and optional arithmetic-only gross-pay/overtime scenario comparison.
+- Keep clock-in/out, breaks and cross-midnight shift arithmetic on `/work-hours-calculator/`.
+- Keep dedicated overtime scenarios on `/overtime-calculator/` and timesheet-derived pay on `/timesheet-pay-calculator/`.
+- Daily blank hour/minute cells may represent zero; nonblank hours must be whole numbers >=0 and minutes whole 0-59. Invalid values must surface explicit errors rather than being silently clamped or coerced.
+- Hourly rate is optional. Overtime threshold and multiplier are optional as a pair. The calculator must not imply that any default threshold or multiplier legally applies.
+- Currency changes formatting only and performs no FX conversion.
+- Payroll rounding is not automatic. This page must not choose a timekeeping/rounding policy, determine compensable time, overtime eligibility, tax treatment, deductions, benefits, net pay or jurisdiction-specific payroll compliance.
+- Aggregate exact minutes before converting/displaying two-decimal payroll hours so per-day display rounding does not silently change the weekly total.
+- Copy/CSV/print outputs may reproduce current arithmetic but are not authoritative payroll records.
