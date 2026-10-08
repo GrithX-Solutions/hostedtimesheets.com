@@ -1025,8 +1025,43 @@ Queue is traffic-first, not permanent. Revalidate Ubersuggest + current SERP + c
 
 ## In progress
 
-No page is currently in implementation. Time Off Tracker is complete. 18 of the 34 sitemap pages remain for strict page-by-page remediation.
+### Payroll Hours Calculator `/payroll-hours-calculator/` — PARTIALLY VERIFIED / RELEASE BLOCKED
+
+Queue item #1 is now in implementation on PR #110, branch `remediate-payroll-hours-20261008`.
+
+Research / ownership verified 2026-10-08:
+- Ubersuggest U.S. `payroll hours calculator`: 9,900 monthly searches, $6.90 CPC, SD 50.
+- Ubersuggest U.S. `calculate payroll hours`: 14,800 monthly searches, $4.115 CPC, SD 23.
+- Ubersuggest U.S. `payroll calculator hours`: 8,100 monthly searches, $4.445 CPC, SD 19.
+- Ubersuggest U.S. `free payroll hours calculator`: 880 monthly searches, $4.50 CPC, SD 9.
+- Current SERP includes AI Overview/PAA and mixes work-hours/time-card calculators with payroll-hour conversion/pay estimators.
+- Canonical boundary retained: Payroll Hours owns already-verified daily durations -> decimal payroll hours and optional arithmetic-only pay/overtime scenarios. Clock-in/out, breaks and cross-midnight shift logic remain on Work Hours; dedicated overtime logic remains on Overtime; timesheet-derived pay remains on Timesheet Pay.
+
+Implementation currently on PR #110:
+- Replaced silent negative/malformed coercion and >59-minute clamping with explicit validation.
+- Blank daily hour/minute cells are valid zero; nonblank hours must be whole >=0 and minutes whole 0-59.
+- Hourly rate is genuinely optional.
+- Overtime threshold/multiplier are optional as a pair; no default overtime rule is implied.
+- Currency changes formatting only; no FX conversion.
+- Added copy summary and CSV export while retaining print.
+- Added exact-minute aggregation explanation, worked example, payroll-rounding boundary, 8 visible/schema-matched FAQs and current semantic coverage.
+- Versioned runtime key prepared as `/assets/js/payroll-hours.js?v=20261008-remediation1`; do not prefetch it before origin deployment.
+
+Exact branch static evidence:
+- HTML blob: `e3d1315243da42968d0e7d5cddffa8cdb35dfc58`.
+- JS blob: `bb2d4927227efbf1c26c0f9d1795c7deeda8e958`.
+- Production JS syntax: PASS.
+- Static HTML/schema checks: PASS; one H1, self-canonical, dateModified 2026-10-08, 8 visible FAQs exactly matching FAQ schema.
+- Page-content metrics from the repository audit logic: 819 main-content words, 15 H2/H3 headings, 12.8-word average sentence, 48-word max paragraph, passive heuristic 1.2/1,000, 8 FAQs, Quick Answer present, methodology present, 5 example references. These page-level metrics satisfy the measurable hard rules.
+- Manual research/editorial/information-gain review: PASS at implementation stage.
+
+Release blockers:
+- GitHub Actions PR #110 Content Quality run #108 / run id `37733603152`: FAILED with job `content-quality` but **0 executable steps**. This is recorded as GitHub Actions infrastructure BLOCKED, not a quality PASS or a test failure.
+- The previously documented ZT live server `c59425e31c304e608dac60224a064dbd` is connected but currently advertises no developer capabilities.
+- Developer-capable server `5176cd0cb3ef4d4fa2bcebad5831ea1c` has only workspace `zetopanel`; no HostedTimesheets workspace is registered.
+- Therefore the exact-source Chromium calculation/UI matrix has not executed and the alternate release gate cannot currently be established.
+- No merge, production write, CDN prefetch, indexing request or completion claim has been made.
 
 ## NEXT ACTION
 
-Wait for explicit user approval before starting queue item #1: `/payroll-hours-calculator/`. Revalidate its keyword/semantic map, current SERP/competitor gap, current functionality, payroll-hours arithmetic assumptions, rounding/overtime/legal boundary and cannibalization with Work Hours, Timesheet Pay and Overtime pages before implementation. Preserve rollback from the true active root `/home/hostedtimesheets.com/public_html` before merge, test the exact source snapshot, verify active-origin blobs after merge, verify public/CDN runtime and update this state before starting queue item #2.
+Keep queue item #1 active. Restore an executable exact-source validation path for PR #110 (GitHub Actions with real steps, or an isolated HostedTimesheets ZT workspace/runner). Run the dedicated Payroll Hours HTML/browser tests plus page-content audit against the exact PR head. Only if every applicable gate passes: preserve rollback from the true active root `/home/hostedtimesheets.com/public_html`, merge PR #110, verify merged-main blobs, deploy exact tested files if origin differs, verify public/CDN runtime and mobile/desktop behavior, update PROJECT_STATE/DECISIONS to VERIFIED, then report completion. Do not start queue item #2 before that.
