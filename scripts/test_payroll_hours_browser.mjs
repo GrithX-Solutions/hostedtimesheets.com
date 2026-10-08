@@ -22,7 +22,7 @@ const snap=()=>ev('({total:document.querySelector("#ph-total-decimal").textConte
 try{
  await send("Page.enable");await send("Runtime.enable");await send("Emulation.setDeviceMetricsOverride",{width:390,height:844,deviceScaleFactor:1,mobile:true});await send("Page.navigate",{url:base+"/payroll-hours-calculator/"});
  for(let i=0;i<50;i++){if(await ev('document.readyState==="complete"&&document.querySelector("#ph-total-decimal")?.textContent==="0.00"'))break;await sleep(100)}
- let s=await snap();check(s.total==="0.00"&&s.regular==="Not split"&&s.gross==="Not entered"&&!s.overflow,"1 defaults");
+ let s=await snap();check(s.total==="0.00"&&s.regular==="Not split"&&s.gross==="Not entered"&&!s.overflow,"1 defaults");await set('[data-payroll-row]:nth-child(7) [data-hours]',"");await set('[data-payroll-row]:nth-child(7) [data-minutes]',"");s=await snap();check(s.total==="0.00","1b blank day is zero");
  await click("#ph-example");s=await snap();check(s.minutes==="2490"&&s.total==="41.50","2 example total");check(s.regular==="40.00"&&s.ot==="1.50"&&s.gross==="$1,056.25","3 example pay");
  await set('[data-payroll-row]:nth-child(1) [data-minutes]',"60");s=await snap();check(s.total==="—"&&s.status.includes("paused"),"4 minutes invalid");
  await set('[data-payroll-row]:nth-child(1) [data-minutes]',"0");await set('[data-payroll-row]:nth-child(1) [data-hours]',"-1");s=await snap();check(s.total==="—","5 negative hours invalid");
