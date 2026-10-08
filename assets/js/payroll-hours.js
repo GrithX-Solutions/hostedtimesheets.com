@@ -23,7 +23,7 @@
 
   function requiredWhole(input,label,min=0,max=Infinity){
     const raw=input.value.trim();
-    if(raw===""){setError(input,label+" is required.");return {valid:false,value:null}}
+    if(raw===""){setError(input);return {valid:true,value:0}}
     const value=Number(raw);
     if(!Number.isFinite(value)||!Number.isInteger(value)||value<min||value>max){
       setError(input,max<Infinity?`Enter a whole number from ${min} to ${max}.`:`Enter a whole number of ${min} or more.`);
