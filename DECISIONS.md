@@ -495,3 +495,12 @@ Decision:
 - Payroll rounding is not automatic. This page must not choose a timekeeping/rounding policy, determine compensable time, overtime eligibility, tax treatment, deductions, benefits, net pay or jurisdiction-specific payroll compliance.
 - Aggregate exact minutes before converting/displaying two-decimal payroll hours so per-day display rounding does not silently change the weekly total.
 - Copy/CSV/print outputs may reproduce current arithmetic but are not authoritative payroll records.
+
+
+## 2026-10-09 — Payroll Hours malformed browser number input is invalid
+
+- Browser number inputs can expose a partial malformed entry such as `1e` as an empty `.value` while `input.validity.badInput === true`.
+- HostedTimesheets calculators must not treat `badInput` as a legitimate blank optional field or as zero.
+- Payroll Hours explicitly rejects `badInput` for both daily whole-number duration fields and optional numeric rate/threshold/multiplier fields, suppressing stale totals/exports until corrected.
+- When runtime JS bytes change, the HTML must move to a fresh immutable cache key only after the intended origin bytes are ready. Payroll Hours final key is `payroll-hours.js?v=20261009-badinput1`.
+- The active production root remains `/home/hostedtimesheets.com/public_html`; preserve rollback there before production-bound changes.
