@@ -6,7 +6,7 @@ import { fileURLToPath } from "node:url";
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),".."),port=9894,debugPort=9243,base="http://127.0.0.1:"+port,userDir="/tmp/ht-payroll-hours-chrome";
 await rm(userDir,{recursive:true,force:true});
 const mime=f=>f.endsWith(".js")?"application/javascript":f.endsWith(".css")?"text/css":f.endsWith(".png")?"image/png":f.endsWith(".svg")?"image/svg+xml":"text/html";
-const server=createServer(async(req,res)=>{try{let p=decodeURIComponent(new URL(req.url,base).pathname);if(p.endsWith("/"))p+="index.html";const target=path.join(root,p);if(!target.startsWith(root))throw 0;res.writeHead(200,{"content-type":mime(target)});res.end(await readFile(target))}catch{res.writeHead(404);res.end("not found")}});
+const server=createServer(async(req,res)=>{try{let p=decodeURIComponent(new URL(req.url,base).pathname);if(p.endsWith("/"))p+="index.html";const target=path.join(root,p);if(!target.startsWith(root))throw 0;const data=await readFile(target);res.writeHead(200,{"content-type":mime(target)});res.end(data)}catch{res.writeHead(404);res.end("not found")}});
 await new Promise(r=>server.listen(port,"127.0.0.1",r));
 const chrome=spawn("/usr/bin/chromium",["--headless","--no-sandbox","--disable-gpu","--remote-debugging-address=127.0.0.1","--remote-debugging-port="+debugPort,"--user-data-dir="+userDir,"--host-resolver-rules=MAP * 0.0.0.0, EXCLUDE 127.0.0.1","about:blank"],{stdio:"ignore"});
 const sleep=ms=>new Promise(r=>setTimeout(r,ms)),check=(c,m)=>{if(!c)throw new Error(m)};
