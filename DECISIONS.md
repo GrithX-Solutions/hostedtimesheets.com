@@ -529,3 +529,27 @@ Decision:
 - Currency selection changes formatting only and performs no FX conversion.
 - Keep hourly -> annual conversion on `/hourly-wage-calculator/`, bonus compensation on `/salary-calculator-with-bonus/`, and tax/take-home, overtime eligibility, employment classification and jurisdiction-specific employment-law logic outside this URL.
 - Runtime JS changes require a fresh immutable key after intended origin bytes are ready. Salary to Hourly final key is `salary-to-hourly.js?v=20261009-remediation1`.
+
+
+## 2026-10-09 — Hours Worked guide owns manual and spreadsheet calculation methodology
+
+Fresh U.S. keyword/SERP evidence confirms that `/how-to-calculate-hours-worked/` should remain the canonical explanatory guide for worked-time arithmetic rather than becoming a second interactive calculator.
+
+Evidence:
+- `calculate hours worked`: 135,000 monthly searches, $3.14 CPC, SD 29.
+- `how to calculate hours worked`: 2,400 monthly searches, $4.18 CPC, SD 35.
+- `calculate hours worked with lunch`: 1,600 monthly searches, $7.27 CPC, SD 30.
+- `how do i calculate hours worked in excel`: 480 monthly searches, SD 6.
+- `excel formula to calculate hours worked`: 320 monthly searches, SD 27.
+- Current exact-query SERP includes AI Overview, People Also Ask, videos and a mix of guides plus calculators. The broader `calculate hours worked` SERP is calculator-led.
+
+Decision:
+- Keep `/how-to-calculate-hours-worked/` as the owner for manual formula explanation, worked examples, minutes-first arithmetic, overnight/split-shift methodology, weekly aggregation, decimal-hour explanation, spreadsheet formulas and audit mistakes.
+- Keep interactive start/end/break calculation on `/work-hours-calculator/`; do not duplicate that UI on the guide.
+- Keep weekly multi-day entry on `/weekly-timesheet-calculator/`, lunch-specific weekly calculation on `/timesheet-calculator-with-lunch/`, interactive decimal conversion on `/decimal-hours-calculator/`, verified-duration payroll aggregation on `/payroll-hours-calculator/`, and overtime scenarios on `/overtime-calculator/`.
+- Minutes-first arithmetic is the reference manual method: convert times to minutes after midnight, add 1,440 minutes to an overnight end when needed, subtract the start and user-supplied excluded break minutes, then divide net minutes by 60 only for decimal output.
+- Spreadsheet reference where A2=start, B2=end and C2=break minutes: decimal hours `=MOD(B2-A2,1)*24-(C2/60)`; duration `=MOD(B2-A2,1)-(C2/1440)` formatted as `[h]:mm`; weekly decimal total `=SUM(D2:D8)`.
+- Missing or ambiguous punches must not be silently converted into invented midnight, zero or full-day values.
+- The guide does not decide whether a break should be paid, whether time is compensable, how punches should be rounded, or which overtime/payroll/legal rule applies.
+- Visible FAQ content and FAQ schema must remain exactly aligned.
+- Page-local mobile containment may be used when table/grid min-content causes overflow; do not change shared CSS unless evidence shows a cross-site defect.
