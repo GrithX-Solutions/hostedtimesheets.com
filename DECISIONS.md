@@ -504,3 +504,28 @@ Decision:
 - Payroll Hours explicitly rejects `badInput` for both daily whole-number duration fields and optional numeric rate/threshold/multiplier fields, suppressing stale totals/exports until corrected.
 - When runtime JS bytes change, the HTML must move to a fresh immutable cache key only after the intended origin bytes are ready. Payroll Hours final key is `payroll-hours.js?v=20261009-badinput1`.
 - The active production root remains `/home/hostedtimesheets.com/public_html`; preserve rollback there before production-bound changes.
+
+
+## 2026-10-09 — Salary to Hourly owns annual-gross-salary to schedule-aware hourly conversion
+
+Fresh U.S. keyword/SERP evidence confirms that `/salary-to-hourly-calculator/` should remain the canonical owner for converting annual gross salary into an hourly gross-pay equivalent using the paid schedule represented by that salary.
+
+Evidence:
+- `salary to hourly calculator`: 49,500 monthly searches, $0.88 CPC, SD 59.
+- `salary to hourly`: 18,100 monthly searches, $1.435 CPC, SD 21.
+- `annual salary to hourly`: 4,400 monthly searches, $0.95 CPC, SD 34.
+- `how to convert annual salary to hourly`: 8,100 monthly searches, $3.42 CPC, SD 8.
+- Current SERPs are calculator-first, include AI Overview / People Also Ask, and contain both high-authority general calculators and lower-authority specialist pages.
+
+Decision:
+- Keep this URL as the canonical owner for annual gross salary -> hourly equivalent plus daily, weekly, two-paid-week and average-monthly gross equivalents.
+- Use `annual paid hours = hours per paid workweek × paid weeks per year` and `hourly equivalent = annual gross salary ÷ annual paid hours`.
+- Define paid weeks as the paid weeks represented by the annual gross amount. A full-year salary normally uses 52 paid weeks even when some of those weeks include paid vacation or holidays; do not subtract paid leave merely because no work was performed.
+- Permit decimal weekly hours and decimal paid weeks within validated bounds. Require workdays to be whole 1-7.
+- Reject blank, non-finite, out-of-range and browser `validity.badInput` states; malformed partial inputs must never be silently coerced or treated as blank.
+- Treat zero annual salary as valid arithmetic.
+- Average monthly equivalent is annual salary ÷ 12; do not use weekly × 4.
+- The page's biweekly equivalent means two of the entered paid workweeks; detailed paycheck-frequency logic remains on `/biweekly-pay-calculator/`.
+- Currency selection changes formatting only and performs no FX conversion.
+- Keep hourly -> annual conversion on `/hourly-wage-calculator/`, bonus compensation on `/salary-calculator-with-bonus/`, and tax/take-home, overtime eligibility, employment classification and jurisdiction-specific employment-law logic outside this URL.
+- Runtime JS changes require a fresh immutable key after intended origin bytes are ready. Salary to Hourly final key is `salary-to-hourly.js?v=20261009-remediation1`.
