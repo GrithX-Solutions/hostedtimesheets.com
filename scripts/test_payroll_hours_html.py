@@ -9,7 +9,7 @@ assert "<title>Payroll Hours Calculator — Calculate Payroll Hours & Pay</title
 assert '<link rel="canonical" href="https://hostedtimesheets.com/payroll-hours-calculator/">' in source
 assert '<meta name="robots" content="index,follow,max-image-preview:large">' in source
 assert '"dateModified":"2026-10-08"' in source
-for token in ('data-payroll-hours','id="ph-rate"','id="ph-threshold"','id="ph-multiplier"','id="ph-total-decimal"','id="ph-status"','id="ph-copy"','id="ph-csv"','id="ph-print"','payroll-hours.js?v=20261008-remediation1'):
+for token in ('data-payroll-hours','id="ph-rate"','id="ph-threshold"','id="ph-multiplier"','id="ph-total-decimal"','id="ph-status"','id="ph-copy"','id="ph-csv"','id="ph-print"','payroll-hours.js?v=20261009-badinput1'):
     assert token in source, token
 assert len(re.findall(r'data-payroll-row',source))==7
 blocks=[json.loads(x) for x in re.findall(r'<script type="application/ld\+json">(.*?)</script>',source,re.S)]

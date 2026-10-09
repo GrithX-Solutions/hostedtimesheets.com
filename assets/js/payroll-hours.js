@@ -22,6 +22,10 @@
   }
 
   function requiredWhole(input,label,min=0,max=Infinity){
+    if(input.validity?.badInput){
+      setError(input,max<Infinity?`Enter a whole number from ${min} to ${max}.`:`Enter a whole number of ${min} or more.`);
+      return {valid:false,value:null};
+    }
     const raw=input.value.trim();
     if(raw===""){setError(input);return {valid:true,value:0}}
     const value=Number(raw);
@@ -33,6 +37,10 @@
   }
 
   function optionalNumber(input,label,{min=0,max=Infinity,strictPositive=false}={}){
+    if(input.validity?.badInput){
+      setError(input,`Enter ${label} as a valid number.`);
+      return {valid:false,value:null};
+    }
     const raw=input.value.trim();
     if(raw===""){setError(input);return {valid:true,value:null}}
     const value=Number(raw);
