@@ -1,6 +1,6 @@
 # HostedTimesheets Project State
 
-Last verified: 2026-10-09T16:53:00+05:00
+Last verified: 2026-10-09T18:10:00+05:00
 
 ## Objective
 
@@ -19,7 +19,7 @@ GitHub Actions remains BLOCKED by GitHub-side infrastructure/capacity behavior. 
 
 - Repository: GrithX-Solutions/hostedtimesheets.com
 - Default branch: main
-- Current deployed production-code commit after Payroll Hours malformed-input hotfix: `ca60cfd6c3ebbeec1fb6fadf2debb3911d2dfc52`.
+- Current deployed production-code commit after Salary to Hourly remediation: `efc4f5ff5dabc0878bc35015889a8290d4aeeca5`.
 - Production: static Nginx site served by container `hostedtimesheets-preview`.
 - VERIFIED active production mount: host `/home/hostedtimesheets.com/public_html` -> container `/usr/share/nginx/html` (`ro`). `/opt/hostedtimesheets/site` is not the active public document root and must not be used to claim deployment state.
 - Preserve rollback from the true active root before production-bound changes. After merge, compare the exact tested Git blobs with `/home/hostedtimesheets.com/public_html`; deploy only exact tested files when they differ, then verify public/CDN behavior.
@@ -28,10 +28,59 @@ GitHub Actions remains BLOCKED by GitHub-side infrastructure/capacity behavior. 
 - ZT workspace is a partial bootstrap, not an authoritative Git mirror. Exact changed files must be synchronized from GitHub and parity-checked before using it as a release gate.
 - GitHub Actions: BLOCKED / infrastructure failure. Time Off PR #108 run #106 and PR #107 run #104 exposed zero executable steps; no GitHub CI PASS is claimed.
 - Public/repository sitemap: 34 canonical URLs.
-- Strict page-by-page remediation completed: 17 / 34 pages.
+- Strict page-by-page remediation completed: 18 / 34 pages.
 - Shared site-shell releases are tracked separately from the page-remediation count.
 
 ## Last completed task
+
+### Salary to Hourly Calculator `/salary-to-hourly-calculator/` — VERIFIED release
+
+PR #112 merged the remediation at `efc4f5ff5dabc0878bc35015889a8290d4aeeca5` from exact tested branch head `99d2d6ba67518d6bf72a98fbea3fe171de384a7d`.
+
+Research / ownership:
+- Ubersuggest U.S. `salary to hourly calculator`: 49,500 monthly searches, $0.88 CPC, SD 59.
+- Ubersuggest U.S. `salary to hourly`: 18,100 monthly searches, $1.435 CPC, SD 21.
+- Ubersuggest U.S. `annual salary to hourly`: 4,400 monthly searches, $0.95 CPC, SD 34.
+- Ubersuggest U.S. `how to convert annual salary to hourly`: 8,100 monthly searches, $3.42 CPC, SD 8.
+- Ubersuggest U.S. `how to convert annual salary to hourly rate`: 6,600 monthly searches, $0.65 CPC, SD 8.
+- Current SERPs are calculator-first and include AI Overview / People Also Ask plus high-authority general calculators and lower-authority specialist pages.
+- Canonical boundary: this URL owns annual gross salary -> hourly equivalent using the paid work schedule represented by that salary, with daily, weekly, two-paid-week and average-monthly gross equivalents. Hourly -> annual remains on Hourly Wage; bonus compensation remains on Salary + Bonus; detailed pay-period work remains on Biweekly Pay; tax, overtime eligibility, classification and FX remain out of scope.
+
+Calculation / product:
+- `annual paid hours = hours per paid workweek × paid weeks per year`.
+- `hourly equivalent = annual gross salary ÷ annual paid hours`.
+- `weekly equivalent = annual salary ÷ paid weeks`; `daily = weekly ÷ workdays`; `biweekly = weekly × 2`; `average monthly = annual salary ÷ 12`.
+- Paid weeks are explicitly the paid weeks represented by the entered annual salary; paid vacation/holidays are not subtracted merely because no work is performed.
+- Annual salary is required finite >=0; weekly hours required >0 and <=168; paid weeks required >0 and <=53 with decimal weeks allowed; workdays required whole 1-7.
+- Browser `validity.badInput` is rejected so malformed partial values such as `1e` cannot be treated as blank.
+- Invalid input suppresses stale result/copy state.
+- Currency changes formatting only; no FX conversion.
+- Added Copy breakdown and Print.
+- Content explicitly explains 2,080-hour limitations, 37.5-hour schedules, monthly-vs-weekly arithmetic and monthly-salary conversion.
+
+Exact-source release gates:
+- Final merged HTML blob: `e40676ec2f096d951fbeb315260a21e6d42a5838`.
+- Final merged JS blob: `3d3411359e5151a4090ef0c2bc7d9d42490468a8`.
+- Final browser-test blob: `ff8887be26d76e084109177597c54cc9c57f0816`; HTML-test blob: `e684a6a9f2b03203ad3e3fd639c619459621ce52`.
+- Exact staged HTML SHA-256: `73caa313ff8816df59c446b6eb2b9404dadf1ad93cd0a904dfc6652df6a8862b`.
+- Exact staged JS SHA-256: `85375edf9fb228b4bc90c2ea640ed20f6111bc1f3da84510e82cc5b773699374`.
+- HTML/schema/accessibility contract: PASS.
+- Exact-source Chromium calculation/UI matrix: PASS, 36 cases across 390x844 mobile and 1280x900 desktop, including defaults, 37.5-hour example, 50/50.5 paid weeks, monthly divisor, zero salary, blank/negative/range/malformed inputs, currency formatting, copy, print, reset, canonical/runtime scope, overflow and zero runtime/console errors.
+- Page-only measurable content audit: PASS, 0 failures / 0 warnings — 967 main-content words, 15 H2/H3 headings, 13.8-word average sentence, 44-word max paragraph, passive heuristic 0, 8 FAQs, Quick Answer present, methodology present, 5 example references.
+- GitHub Actions PR #112 run #115 / run id `37933574116` concluded failure with job `content-quality` but 0 executable steps. This remains a GitHub Actions infrastructure failure, not a content/calculation test failure. Exact-source ZT/direct evidence supplied the release gate.
+
+Rollback / production:
+- Pre-remediation rollback preserved at `/var/backups/hostedtimesheets/pre-salary-hourly-remediation-20261009/`.
+- Rollback HTML SHA-256: `04e9f187fd660083607375e43a7dcf7b8793aee0a3689a66e0f02e2ef76eb942`.
+- Rollback JS SHA-256: `e77d77ae7edddd082f01f45191c3ebe6faa48337ea23db83a53527e6a4b7a94c`.
+- Active-origin HTML SHA-256: `73caa313ff8816df59c446b6eb2b9404dadf1ad93cd0a904dfc6652df6a8862b`.
+- Active-origin JS SHA-256: `85375edf9fb228b4bc90c2ea640ed20f6111bc1f3da84510e82cc5b773699374`.
+- Active origin exactly matches the tested GitHub branch / merged-main runtime bytes.
+- Final runtime key: `/assets/js/salary-to-hourly.js?v=20261009-remediation1`.
+- Public page HTTP 200 and fresh-key JS HTTP 200.
+- Public fresh-key JS SHA-256 is `85375edf9fb228b4bc90c2ea640ed20f6111bc1f3da84510e82cc5b773699374`, byte-exact to active origin/tested main.
+- Public HTML contains the fresh runtime key, updated title, 8 FAQs and the monthly/biweekly methodology section. Raw public HTML differs from origin because the proxy/CDN transforms markup.
+- No new canonical URL or sitemap entry was introduced.
 
 ### Payroll Hours Calculator `/payroll-hours-calculator/` — VERIFIED release
 
@@ -1017,35 +1066,33 @@ Existing same-day research remains available for future explicitly approved sing
 - Time Duration remediation is complete and deployed.
 - The next public page must still be treated as a separate release unit and researched before implementation; do not infer a new intent owner from keyword difficulty alone.
 
-## Remaining strict remediation queue — 2026-10-07
+## Remaining strict remediation queue — 2026-10-09
 
 Queue is traffic-first, not permanent. Revalidate Ubersuggest + current SERP + cannibalization immediately before each page starts; move a page only when fresh evidence materially changes the opportunity or a production/policy defect makes it urgent.
 
-1. `/payroll-hours-calculator/` — 9,900 volume, $6.90 CPC, SD 50. Strong value but materially harder SERP.
-2. `/salary-to-hourly-calculator/` — 49,500 volume, $0.88 CPC, SD 59. Large demand but high difficulty.
-3. `/how-to-calculate-hours-worked/` — 2,400 volume, $4.18 CPC, SD 35. Supporting guide for the hours cluster.
-4. `/timesheet-calculator-with-lunch/` — 2,900 volume, $8.58 CPC, SD 50.
-5. `/biweekly-timesheet-calculator/` — 1,300 volume, $6.31 CPC, SD 33.
-6. `/biweekly-pay-calculator/` — 4,400 volume, $3.74 CPC, SD 59.
-7. `/how-to-calculate-pto-accrual/` — 320 volume, $0.23 CPC, SD 24. Supports PTO topical authority.
-8. `/weekly-timesheet-calculator/` — 260 volume, $2.42 CPC, SD 48.
-9. `/how-to-calculate-time-card/` — 210 volume, $3.17 CPC, SD 52.
-10. `/minutes-to-decimal-hours/` — 170 volume, $0 CPC, SD 43.
-11. `/timesheet-pay-calculator/` — 30 volume, $3.28 CPC, SD 52. Low direct demand; must justify distinct intent before expansion.
-12. `/pto-accrual-based-on-hours-worked/` — 10 volume, $0 CPC, SD 12. Low direct demand; cannibalization with PTO Accrual must be reviewed before remediation.
-13. `/time-card-hours-with-lunch-break/` — exact-match query currently reports 0 volume. Revalidate broader semantic cluster before investing.
-14. `/about/` — trust/methodology page; traffic is secondary.
-15. `/contact/` — trust/support page.
-16. `/privacy/` — compliance/trust page; promote earlier only if policy audit finds an issue.
-17. `/terms/` — compliance/trust page; promote earlier only if policy audit finds an issue.
-18. `/disclaimer/` — compliance/trust page; promote earlier only if policy audit finds an issue.
+1. `/how-to-calculate-hours-worked/` — prior snapshot: 2,400 volume, $4.18 CPC, SD 35. Supporting guide for the hours cluster; refresh before implementation.
+2. `/timesheet-calculator-with-lunch/` — prior snapshot: 2,900 volume, $8.58 CPC, SD 50.
+3. `/biweekly-timesheet-calculator/` — prior snapshot: 1,300 volume, $6.31 CPC, SD 33.
+4. `/biweekly-pay-calculator/` — prior snapshot: 4,400 volume, $3.74 CPC, SD 59.
+5. `/how-to-calculate-pto-accrual/` — prior snapshot: 320 volume, $0.23 CPC, SD 24.
+6. `/weekly-timesheet-calculator/` — prior snapshot: 260 volume, $2.42 CPC, SD 48.
+7. `/how-to-calculate-time-card/` — prior snapshot: 210 volume, $3.17 CPC, SD 52.
+8. `/minutes-to-decimal-hours/` — prior snapshot: 170 volume, $0 CPC, SD 43.
+9. `/timesheet-pay-calculator/` — prior snapshot: 30 volume, $3.28 CPC, SD 52. Low direct demand; distinct intent must be revalidated.
+10. `/pto-accrual-based-on-hours-worked/` — prior snapshot: 10 volume, $0 CPC, SD 12. Cannibalization with PTO Accrual must be reviewed.
+11. `/time-card-hours-with-lunch-break/` — prior exact-match query reported 0 volume. Revalidate broader semantic cluster.
+12. `/about/` — trust/methodology page; traffic is secondary.
+13. `/contact/` — trust/support page.
+14. `/privacy/` — compliance/trust page; promote earlier only if policy audit finds an issue.
+15. `/terms/` — compliance/trust page; promote earlier only if policy audit finds an issue.
+16. `/disclaimer/` — compliance/trust page; promote earlier only if policy audit finds an issue.
 
 ## Deployment / indexing status
 
 - The global header/navigation shared release, including the iPhone/Safari Tools correction, is deployed across all 34 canonical pages.
 - All 34 live canonical URLs reference the verified `ee22a3c` header CSS and search JS; public asset bytes match origin exactly.
-- Homepage, Time Card, Timesheet Template, Decimal Hours, Salary Increase, Work Hours, Overtime, Clock Out, Military Time, Time Duration, Hourly Wage, PTO Accrual, Salary Bonus, Hours & Minutes, Billable Hours, Time Off Tracker and Payroll Hours strict remediation releases are deployed and VERIFIED at the active origin/public-runtime level.
-- All seventeen completed pages use existing canonical URLs; no new canonical URL was introduced.
+- Homepage, Time Card, Timesheet Template, Decimal Hours, Salary Increase, Work Hours, Overtime, Clock Out, Military Time, Time Duration, Hourly Wage, PTO Accrual, Salary Bonus, Hours & Minutes, Billable Hours, Time Off Tracker, Payroll Hours and Salary to Hourly strict remediation releases are deployed and VERIFIED at the active origin/public-runtime level.
+- All eighteen completed pages use existing canonical URLs; no new canonical URL was introduced.
 - Sitemap remains 34 canonical URLs.
 - No indexing request should be represented as completed unless a write-capable Search Console action is actually executed and verified.
 
@@ -1069,8 +1116,8 @@ Queue is traffic-first, not permanent. Revalidate Ubersuggest + current SERP + c
 
 ## In progress
 
-None. Queue item #1, Payroll Hours Calculator, is complete.
+None. Queue item #2, Salary to Hourly Calculator, is complete.
 
 ## NEXT ACTION
 
-Wait for explicit user approval before starting queue item #2: `/salary-to-hourly-calculator/`. Keep the one-page-at-a-time rule. Before implementation, refresh current Ubersuggest/SERP/competitor/cannibalization evidence for that intent, then complete calculation/content/UI tests, rollback, merge, controlled deployment and live verification before advancing further.
+Wait for explicit user approval before starting the next queue item: `/how-to-calculate-hours-worked/`. Keep the one-page-at-a-time rule. Refresh current Ubersuggest/SERP/competitor/cannibalization evidence before implementation, then complete content/formula/source tests, rollback, merge, controlled deployment and live verification before advancing further.
