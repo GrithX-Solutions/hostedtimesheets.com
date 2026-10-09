@@ -1056,6 +1056,12 @@ Exact branch static evidence:
 - Manual research/editorial/information-gain review: PASS at implementation stage.
 
 Release blockers:
+- RESOLVED 2026-10-09: HostedTimesheets developer workspace is again registered on ZT developer server `5176cd0cb3ef4d4fa2bcebad5831ea1c`.
+- VERIFIED workspace state: branch `main`, clean working tree, head `6a8f986f654e10a9d5c73bfbc6b392dfdb0c571f`, upstream `origin/main`, ahead/behind 0/0.
+- VERIFIED locked developer sandbox executes successfully with network disabled and no host workspace mutation.
+- VERIFIED live server `c59425e31c304e608dac60224a064dbd` is online and healthy; Docker runtime reports 19/19 containers running, zero stopped/unhealthy/unstable.
+- VERIFIED `hostedtimesheets-preview` is running under the `hostedtimesheets` Compose project.
+- VERIFIED public HTTP from the live host on 2026-10-09: homepage HTTP 200; `/payroll-hours-calculator/` HTTP 200.
 - GitHub Actions PR #110 Content Quality run #108 / run id `37733603152`: FAILED with job `content-quality` but **0 executable steps**. This is recorded as GitHub Actions infrastructure BLOCKED, not a quality PASS or a test failure.
 - The previously documented ZT live server `c59425e31c304e608dac60224a064dbd` is connected but currently advertises no developer capabilities.
 - Developer-capable server `5176cd0cb3ef4d4fa2bcebad5831ea1c` has only workspace `zetopanel`; no HostedTimesheets workspace is registered.
@@ -1064,4 +1070,4 @@ Release blockers:
 
 ## NEXT ACTION
 
-Keep queue item #1 active. Restore an executable exact-source validation path for PR #110 (GitHub Actions with real steps, or an isolated HostedTimesheets ZT workspace/runner). Run the dedicated Payroll Hours HTML/browser tests plus page-content audit against the exact PR head. Only if every applicable gate passes: preserve rollback from the true active root `/home/hostedtimesheets.com/public_html`, merge PR #110, verify merged-main blobs, deploy exact tested files if origin differs, verify public/CDN runtime and mobile/desktop behavior, update PROJECT_STATE/DECISIONS to VERIFIED, then report completion. Do not start queue item #2 before that.
+Keep queue item #1 active. The ZT exact-source validation path is restored. Fetch/check out the exact PR #110 head in the HostedTimesheets workspace, run the dedicated Payroll Hours HTML/browser tests plus page-content audit against that exact source, and verify GitHub-to-ZT parity. Only if every applicable gate passes: preserve rollback from the true active root `/home/hostedtimesheets.com/public_html`, merge PR #110, verify merged-main blobs, deploy exact tested files if origin differs, verify public/CDN runtime and mobile/desktop behavior, update PROJECT_STATE/DECISIONS to VERIFIED, then report completion. Do not start queue item #2 before that.
