@@ -10,14 +10,14 @@ assert "<h1>How to Calculate Hours Worked</h1>" in source
 assert "<title>How to Calculate Hours Worked (With Breaks & Examples)</title>" in source
 assert '<link rel="canonical" href="https://hostedtimesheets.com/how-to-calculate-hours-worked/">' in source
 assert '<meta name="robots" content="index,follow,max-image-preview:large">' in source
-assert "Work hours guide · Updated October 9, 2026" in source
+assert "Work hours guide · Updated October 17, 2026" in source
 
 blocks=[json.loads(x) for x in re.findall(r'<script type="application/ld\+json">(.*?)</script>',source,re.S)]
 article=next(x for x in blocks if isinstance(x,dict) and x.get("@type")=="Article")
 webpage=next(x for x in blocks if isinstance(x,dict) and x.get("@type")=="WebPage")
 faq=next(x for x in blocks if isinstance(x,dict) and x.get("@type")=="FAQPage")
-assert article["dateModified"]=="2026-10-09"
-assert webpage["dateModified"]=="2026-10-09"
+assert article["dateModified"]=="2026-10-17"
+assert webpage["dateModified"]=="2026-10-17"
 
 def clean(x):
     return re.sub(r"<[^>]+>","",html.unescape(x)).strip()
@@ -82,3 +82,13 @@ weekly=sum([8.25,8.00,7.75,8.50,8.00])
 assert weekly==40.50
 
 print("Hours Worked guide HTML/schema/calculation contract: PASS")
+
+# SEO follow-up: validate current on-page issue fixes and canonical-source integrity.
+desc=re.search(r'<meta name="description" content="([^"]+)"',source).group(1)
+assert 70<=len(desc)<=160, len(desc)
+assert source.count("https://www.dol.gov/agencies/whd/fact-sheets/22-flsa-hours-worked")==1
+assert source.count("https://support.microsoft.com/en-us/excel/calculate-the-difference-between-two-times-in-excel")==1
+assert "These time-only formulas assume one shift shorter than 24 hours" in source
+sitemap=(ROOT/"sitemap.xml").read_text()
+entry=re.search(r'<url><loc>https://hostedtimesheets.com/how-to-calculate-hours-worked/</loc><lastmod>([^<]+)</lastmod>',sitemap)
+assert entry and entry.group(1)=="2026-10-17"

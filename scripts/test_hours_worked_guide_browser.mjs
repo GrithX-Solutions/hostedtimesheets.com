@@ -31,7 +31,7 @@ try{
   check(s.title==="How to Calculate Hours Worked (With Breaks & Examples)","1 title");
   check(s.h1==="How to Calculate Hours Worked","2 h1");
   check(s.canonical==="https://hostedtimesheets.com/how-to-calculate-hours-worked/","3 canonical");
-  check(s.updated.includes("October 9, 2026"),"4 visible update");
+  check(s.updated.includes("October 17, 2026"),"4 visible update");
   check(s.faq===8,"5 FAQ count");
   check(s.codes.includes("=MOD(B2-A2,1)*24-(C2/60)")&&s.codes.includes("=MOD(B2-A2,1)-(C2/1440)")&&s.codes.includes("=SUM(D2:D8)"),"6 spreadsheet formulas");
   check(s.bodyText.includes("A minutes-first method that is easy to audit")&&s.bodyText.includes("What to do with missing or ambiguous punches"),"7 information gain");
